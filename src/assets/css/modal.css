@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+.modal-text {
+  margin-bottom: 12px;
+}
+.modal-text > p {
+  width: 150px;
+}
+.modal-text > input,
+.modal-text > textarea {
+  width: 100%;
+  margin-top: 8px;
+}
+.modal-text > textarea {
+  height: 300px;
+}
+
+.img-zoom-lens {
+  position: absolute;
+  display: none;
+  border: 1px solid #d4d4d4;
+  /*set the size of the lens:*/
+  width: 40px;
+  height: 40px;
+}
+
+.img-zoom-result {
+  border: 1px solid #d4d4d4;
+  /*set the size of the result div:*/
+  width: 300px;
+  height: 300px;
+}
+#myresult {
+  display: none;
+  top: 0;
+  left: 100%;
+}

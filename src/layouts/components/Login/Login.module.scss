@@ -1,0 +1,20 @@
+.main {
+    width: 400px;
+    margin: 0 auto;
+  }
+  .title h5 {
+    font-size: 24px;
+  }
+  label,
+  input {
+    font-size: 15px;
+  }
+  .content {
+  }
+  .content > div {
+    flex-direction: column;
+  }
+  .btn{
+    width: 100%;
+  }
+  
