@@ -140,3 +140,32 @@ tbody td {
 .percent-circle svg {
 	height: 20px;
 }
+/* --------------------------------- */
+.side-menu {
+	position: fixed;
+	top: 73px;
+	left: 0;
+	width: 280px;
+	height: calc(100vh - 73px);
+}
+.box-item:hover {
+	background-color: var(--gray-200);
+}
+.box-image,
+.box-icon {
+	height: 30px;
+}
+.box-image img {
+	border-radius: 50%;
+}
+.box-icon svg {
+	width: 20px;
+	height: 100%;
+}
+.active {
+	background-color: var(--gray-300);
+}
+.active > .box-content,
+.active > .box-icon svg {
+	color: #5932ea;
+}

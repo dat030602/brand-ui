@@ -5,6 +5,132 @@ import styles from "./Dashboard.module.scss";
 function Dashboard({ children }) {
 	return (
 		<>
+			<nav className={`${styles["side-menu"]} bg-w border`}>
+				<div
+					className={`${styles["box-user"]} d-flex align-items-center pl-4 pt-4`}
+				>
+					<div className={`${styles["box-image"]} pr-3`}>
+						<img
+							src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg"
+							alt=""
+						/>
+					</div>
+
+					<div
+						className={`${styles["user-name"]} d-flex flex-column`}
+					>
+						<span className="text-bold-normal">Gavano</span>
+						<span className="text-gray">Admin</span>
+					</div>
+				</div>
+				<div className={`${styles["list-box"]} mt-4 mb-2`}>
+					<a
+						href="#"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center ${styles["active"]}`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/Dashboard.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Dashboard
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+					<a
+						href="/manage-products"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/product.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Products
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+					<a
+						href="/manage-customers"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/Customer.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Customers
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+					<a
+						href="/manage-orders"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/order.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Orders
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+					<a
+						href="/manage-vouchers"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/voucher.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Vouchers
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+				</div>
+				<div className="line"></div>
+				<div className={`${"list-box"} mt-2`}>
+					<a
+						href="/"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/setting.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Settings
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+				</div>
+			</nav>
 			<div className="container">
 				<div className="main pt-4 pb-4">
 					<div className="pl-3 pr-3">
@@ -69,11 +195,17 @@ function Dashboard({ children }) {
 											</span>
 										</div>
 									</div>
-									<div className={`${"box-content"} d-flex flex-column`}>
-										<span className={`${"box-content-number"} text-bold-normal`}>
+									<div
+										className={`${"box-content"} d-flex flex-column`}
+									>
+										<span
+											className={`${"box-content-number"} text-bold-normal`}
+										>
 											856
 										</span>
-										<span className={`${styles["box-content-type"]} text-gray`}>
+										<span
+											className={`${styles["box-content-type"]} text-gray`}
+										>
 											Product
 										</span>
 									</div>
@@ -101,11 +233,17 @@ function Dashboard({ children }) {
 											</span>
 										</div>
 									</div>
-									<div className={`${"box-content"} d-flex flex-column`}>
-										<span className={`${"box-content-number"} text-bold-normal`}>
+									<div
+										className={`${"box-content"} d-flex flex-column`}
+									>
+										<span
+											className={`${"box-content-number"} text-bold-normal`}
+										>
 											856
 										</span>
-										<span className={`${styles["box-content-type"]} text-gray`}>
+										<span
+											className={`${styles["box-content-type"]} text-gray`}
+										>
 											Order
 										</span>
 									</div>
@@ -133,11 +271,17 @@ function Dashboard({ children }) {
 											</span>
 										</div>
 									</div>
-									<div className={`${"box-content"} d-flex flex-column`}>
-										<span className={`${"box-content-number"} text-bold-normal`}>
+									<div
+										className={`${"box-content"} d-flex flex-column`}
+									>
+										<span
+											className={`${"box-content-number"} text-bold-normal`}
+										>
 											856
 										</span>
-										<span className={`${styles["box-content-type"]} text-gray`}>
+										<span
+											className={`${styles["box-content-type"]} text-gray`}
+										>
 											Voucher
 										</span>
 									</div>
@@ -147,17 +291,23 @@ function Dashboard({ children }) {
 						<div className={`${styles["statistic"]} mt-4`}>
 							<div className="bg-w border rounded">
 								<div className="p-3">
-									<div className={`${styles["header"]} d-flex align-items-center justify-content-between`}>
+									<div
+										className={`${styles["header"]} d-flex align-items-center justify-content-between`}
+									>
 										<div className="title">
 											<h5>Statistics</h5>
 										</div>
 										<div className="d-flex">
 											<div className="d-flex align-items-center">
-												<div className={`${styles["box-color"]} bg-gray mr-3`}></div>
+												<div
+													className={`${styles["box-color"]} bg-gray mr-3`}
+												></div>
 												<div>Order</div>
 											</div>
 											<div className="d-flex align-items-center ml-3">
-												<div className={`${styles["box-color"]} bg-primary mr-3`}></div>
+												<div
+													className={`${styles["box-color"]} bg-primary mr-3`}
+												></div>
 												<div>Revenue</div>
 											</div>
 											<div className="ml-3">
@@ -181,39 +331,53 @@ function Dashboard({ children }) {
 											</div>
 										</div>
 									</div>
-									<div className={`${styles["diagram"]} pt-4`}>
+									<div
+										className={`${styles["diagram"]} pt-4`}
+									>
 										<div className="d-flex flex-column justify-content-between">
-											<div className={`${styles["line-diagram"]} d-flex align-items-center`}>
+											<div
+												className={`${styles["line-diagram"]} d-flex align-items-center`}
+											>
 												<div className="text-gray">
 													100
 												</div>
 												<div className=""></div>
 											</div>
-											<div className={`${styles["line-diagram"]} d-flex align-items-center`}>
+											<div
+												className={`${styles["line-diagram"]} d-flex align-items-center`}
+											>
 												<div className="text-gray">
 													80
 												</div>
 												<div className=""></div>
 											</div>
-											<div className={`${styles["line-diagram"]} d-flex align-items-center`}>
+											<div
+												className={`${styles["line-diagram"]} d-flex align-items-center`}
+											>
 												<div className="text-gray">
 													60
 												</div>
 												<div className=""></div>
 											</div>
-											<div className={`${styles["line-diagram"]} d-flex align-items-center`}>
+											<div
+												className={`${styles["line-diagram"]} d-flex align-items-center`}
+											>
 												<div className="text-gray">
 													40
 												</div>
 												<div className=""></div>
 											</div>
-											<div className={`${styles["line-diagram"]} d-flex align-items-center`}>
+											<div
+												className={`${styles["line-diagram"]} d-flex align-items-center`}
+											>
 												<div className="text-gray">
 													20
 												</div>
 												<div className=""></div>
 											</div>
-											<div className={`${styles["line-diagram"]} d-flex align-items-center`}>
+											<div
+												className={`${styles["line-diagram"]} d-flex align-items-center`}
+											>
 												<div className="text-gray">
 													0
 												</div>
@@ -221,7 +385,9 @@ function Dashboard({ children }) {
 											</div>
 										</div>
 										<div className="row pl-4 pr-1 pt-2">
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "80%" }}
@@ -230,11 +396,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -243,11 +413,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -256,11 +430,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -269,11 +447,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -282,11 +464,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -295,11 +481,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -308,11 +498,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -321,11 +515,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -334,11 +532,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -347,11 +549,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "80%" }}
@@ -360,11 +566,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -373,11 +583,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -386,11 +600,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -399,11 +617,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -412,11 +634,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -425,11 +651,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -438,11 +668,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -451,11 +685,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -464,11 +702,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -477,11 +719,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "80%" }}
@@ -490,11 +736,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -503,11 +753,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -516,11 +770,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -529,11 +787,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -542,11 +804,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -555,11 +821,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -568,11 +838,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -581,11 +855,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -594,11 +872,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -607,11 +889,15 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
-											<div className={`${styles["column-statistic"]}`}>
+											<div
+												className={`${styles["column-statistic"]}`}
+											>
 												<div
 													className="bg-gray"
 													style={{ height: "90%" }}
@@ -620,7 +906,9 @@ function Dashboard({ children }) {
 													className="bg-primary"
 													style={{ height: "60%" }}
 												></div>
-												<div className={`${styles["lable"]} text-center text-gray`}>
+												<div
+													className={`${styles["lable"]} text-center text-gray`}
+												>
 													2020
 												</div>
 											</div>
@@ -633,7 +921,9 @@ function Dashboard({ children }) {
 							<div className="col-8 pr-3">
 								<div className="bg-w border rounded">
 									<div className="p-3">
-										<div className={`${styles["header"]} d-flex align-items-center justify-content-between`}>
+										<div
+											className={`${styles["header"]} d-flex align-items-center justify-content-between`}
+										>
 											<div className="title">
 												<h5>Customers Status</h5>
 											</div>
@@ -682,8 +972,12 @@ function Dashboard({ children }) {
 																		<td className="text-center">
 																			22
 																		</td>
-																		<td className={`${styles["tier"]} d-flex justify-content-center`}>
-																			<div className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["bronze-tier"]}`}>
+																		<td
+																			className={`${styles["tier"]} d-flex justify-content-center`}
+																		>
+																			<div
+																				className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["bronze-tier"]}`}
+																			>
 																				Bronze
 																			</div>
 																		</td>
@@ -699,8 +993,12 @@ function Dashboard({ children }) {
 																		<td className="text-center">
 																			22
 																		</td>
-																		<td className={`${styles["tier"]} d-flex justify-content-center`}>
-																			<div className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["gold-tier"]}`}>
+																		<td
+																			className={`${styles["tier"]} d-flex justify-content-center`}
+																		>
+																			<div
+																				className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["gold-tier"]}`}
+																			>
 																				Gold
 																			</div>
 																		</td>
@@ -716,8 +1014,12 @@ function Dashboard({ children }) {
 																		<td className="text-center">
 																			22
 																		</td>
-																		<td className={`${styles["tier"]} d-flex justify-content-center`}>
-																			<div className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["sliver-tier"]}`}>
+																		<td
+																			className={`${styles["tier"]} d-flex justify-content-center`}
+																		>
+																			<div
+																				className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["sliver-tier"]}`}
+																			>
 																				Sliver
 																			</div>
 																		</td>
@@ -733,8 +1035,12 @@ function Dashboard({ children }) {
 																		<td className="text-center">
 																			22
 																		</td>
-																		<td className={`${styles["tier"]} d-flex justify-content-center`}>
-																			<div className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["sliver-tier"]}`}>
+																		<td
+																			className={`${styles["tier"]} d-flex justify-content-center`}
+																		>
+																			<div
+																				className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["sliver-tier"]}`}
+																			>
 																				Sliver
 																			</div>
 																		</td>
@@ -750,8 +1056,12 @@ function Dashboard({ children }) {
 																		<td className="text-center">
 																			22
 																		</td>
-																		<td className={`${styles["tier"]} d-flex justify-content-center`}>
-																			<div className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["sliver-tier"]}`}>
+																		<td
+																			className={`${styles["tier"]} d-flex justify-content-center`}
+																		>
+																			<div
+																				className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${styles["sliver-tier"]}`}
+																			>
 																				Sliver
 																			</div>
 																		</td>
@@ -775,7 +1085,9 @@ function Dashboard({ children }) {
 											</div>
 										</div>
 										<div className="content-customer mt-3">
-											<div className={`${styles["circle-customer"]} d-flex justify-content-center`}>
+											<div
+												className={`${styles["circle-customer"]} d-flex justify-content-center`}
+											>
 												<div
 													style={{
 														background:
@@ -783,7 +1095,9 @@ function Dashboard({ children }) {
 													}}
 												></div>
 												<div>
-													<div className={`${"percent-circle"}`}>
+													<div
+														className={`${"percent-circle"}`}
+													>
 														<div className="bg-w rounded p-2 border d-flex align-items-center">
 															<svg
 																className="mr-2"
@@ -812,7 +1126,9 @@ function Dashboard({ children }) {
 													</div>
 												</div>
 											</div>
-											<div className={`${"box-title"} text-gray mt-3`}>
+											<div
+												className={`${"box-title"} text-gray mt-3`}
+											>
 												<div className="text-center">
 													<h5>856 customer total</h5>
 												</div>

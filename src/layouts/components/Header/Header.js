@@ -26,15 +26,21 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 						{!isPageNoSearch && !isAdmin && (
 							<div className={`${styles["search"]} col`}>
 								<div className={`${styles["search-row"]} row`}>
-									<div className={`${styles["search-col"]} col-md-auto`}>
+									<div
+										className={`${styles["search-col"]} col-md-auto`}
+									>
 										<input
 											className={`${styles["input"]}`}
 											type="text"
 											placeholder="Search"
 										/>
 									</div>
-									<div className={`${styles["search-col"]} col-md-auto`}>
-										<select className={`${styles["selection"]}`}>
+									<div
+										className={`${styles["search-col"]} col-md-auto`}
+									>
+										<select
+											className={`${styles["selection"]}`}
+										>
 											<option value="">
 												All category
 											</option>
@@ -90,7 +96,10 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 								)}
 								{isLogin && !isAdmin && (
 									<div className="col ml-2">
-										<a href="/personal/edit" className={`${styles["action-icon"]}`}>
+										<a
+											href="/personal/edit"
+											className={`${styles["action-icon"]}`}
+										>
 											<img
 												src="./assets/svg/profile.svg"
 												alt="/"
@@ -124,7 +133,11 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 												alt="/"
 											/>
 											<span>Cart</span>
-											<div className={`${styles["amount"]}`}>1</div>
+											<div
+												className={`${styles["amount"]}`}
+											>
+												1
+											</div>
 										</a>
 									</div>
 								)}
@@ -149,142 +162,6 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 					</div>
 				)}
 				{!isPageNoSearch && <div className="line"></div>}
-				{isAdmin && (
-					<nav className={`${styles["side-menu"]} bg-w border`}>
-						<div className={`${styles["box-user"]} d-flex align-items-center pl-4 pt-4`}>
-							<div className={`${styles["box-image"]} pr-3`}>
-								<img
-									src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg"
-									alt=""
-								/>
-							</div>
-
-							<div className={`${styles["user-name"]} d-flex flex-column`}>
-								<span className="text-bold-normal">Gavano</span>
-								<span className="text-gray">Admin</span>
-							</div>
-						</div>
-						<div className={`${styles["list-box"]} mt-4 mb-2`}>
-							<a
-								href="/dashboard"
-								className={
-									componentActive == "dashboard"
-										? `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center ${styles["active"]}`
-										: `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`
-								}
-							>
-								<div className={`${styles["box-icon"]} mr-3`}>
-									<svg
-										className="mr-2"
-										data-src="./assets/svg/Dashboard.svg"
-									></svg>
-								</div>
-								<div className={`${styles["box-content"]} text-bold-normal`}>
-									Dashboard
-								</div>
-								<div className="box-rectangle"></div>
-							</a>
-							<a
-								href="/manage-products"
-								className={
-									componentActive == "manage-products"
-										? `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center ${styles["active"]}`
-										: `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`
-								}
-							>
-								<div className={`${styles["box-icon"]} mr-3`}>
-									<svg
-										className="mr-2"
-										data-src="./assets/svg/product.svg"
-									></svg>
-								</div>
-								<div className={`${styles["box-content"]} text-bold-normal`}>
-									Products
-								</div>
-								<div className="box-rectangle"></div>
-							</a>
-							<a
-								href="/manage-customers"
-								className={
-									componentActive == "manage-products"
-										? `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center ${styles["active"]}`
-										: `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`
-								}
-							>
-								<div className={`${styles["box-icon"]} mr-3`}>
-									<svg
-										className="mr-2"
-										data-src="./assets/svg/Customer.svg"
-									></svg>
-								</div>
-								<div className={`${styles["box-content"]} text-bold-normal`}>
-									Customers
-								</div>
-								<div className="box-rectangle"></div>
-							</a>
-							<a
-								href="/manage-orders"
-								className={
-									componentActive == "manage-products"
-										? `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center ${styles["active"]}`
-										: `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`
-								}
-							>
-								<div className={`${styles["box-icon"]} mr-3`}>
-									<svg
-										className="mr-2"
-										data-src="./assets/svg/order.svg"
-									></svg>
-								</div>
-								<div className={`${styles["box-content"]} text-bold-normal`}>
-									Orders
-								</div>
-								<div className="box-rectangle"></div>
-							</a>
-							<a
-								href="/manage-vouchers"
-								className={
-									componentActive == "manage-products"
-										? `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center ${styles["active"]}`
-										: `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`
-								}
-							>
-								<div className={`${styles["box-icon"]} mr-3`}>
-									<svg
-										className="mr-2"
-										data-src="./assets/svg/voucher.svg"
-									></svg>
-								</div>
-								<div className={`${styles["box-content"]} text-bold-normal`}>
-									Vouchers
-								</div>
-								<div className="box-rectangle"></div>
-							</a>
-						</div>
-						<div className="line"></div>
-						<div className={`${"list-box"} mt-2`}>
-							<a
-								href="/"
-								className={
-									componentActive == "manage-products"
-										? `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center ${styles["active"]}`
-										: `${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`
-								}
-							>
-								<div className={`${styles["box-icon"]} mr-3`}>
-									<svg
-										className="mr-2"
-										data-src="./assets/svg/setting.svg"
-									></svg>
-								</div>
-								<div className={`${styles["box-content"]} text-bold-normal`}>
-									Settings
-								</div>
-								<div className="box-rectangle"></div>
-							</a>
-						</div>
-					</nav>
-				)}
 			</header>
 		</>
 	);

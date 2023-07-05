@@ -5,6 +5,132 @@ import styles from "./ManageProducts.module.scss";
 function ManageProducts({ children }) {
 	return (
 		<>
+			<nav className={`${styles["side-menu"]} bg-w border`}>
+				<div
+					className={`${styles["box-user"]} d-flex align-items-center pl-4 pt-4`}
+				>
+					<div className={`${styles["box-image"]} pr-3`}>
+						<img
+							src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg"
+							alt=""
+						/>
+					</div>
+
+					<div
+						className={`${styles["user-name"]} d-flex flex-column`}
+					>
+						<span className="text-bold-normal">Gavano</span>
+						<span className="text-gray">Admin</span>
+					</div>
+				</div>
+				<div className={`${styles["list-box"]} mt-4 mb-2`}>
+					<a
+						href="/dashboard"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/Dashboard.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Dashboard
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+					<a
+						href="#"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center ${styles["active"]}`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/product.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Products
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+					<a
+						href="/manage-customers"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/Customer.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Customers
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+					<a
+						href="/manage-orders"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/order.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Orders
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+					<a
+						href="/manage-vouchers"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/voucher.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Vouchers
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+				</div>
+				<div className="line"></div>
+				<div className={`${"list-box"} mt-2`}>
+					<a
+						href="/"
+						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
+					>
+						<div className={`${styles["box-icon"]} mr-3`}>
+							<svg
+								className="mr-2"
+								data-src="./assets/svg/setting.svg"
+							></svg>
+						</div>
+						<div
+							className={`${styles["box-content"]} text-bold-normal`}
+						>
+							Settings
+						</div>
+						<div className="box-rectangle"></div>
+					</a>
+				</div>
+			</nav>
 			<div className="container">
 				<div className="main pt-4 pb-4">
 					<div className="pl-3 pr-3">
@@ -124,7 +250,9 @@ function ManageProducts({ children }) {
 																		2
 																	</p>
 																</td>
-																<td className={`${styles["tier"]} d-flex justify-content-center`}>
+																<td
+																	className={`${styles["tier"]} d-flex justify-content-center`}
+																>
 																	<button
 																		className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-detail"
 																		data-toggle="modal"
