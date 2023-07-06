@@ -54,19 +54,6 @@ function PersonalEdit({ children }) {
 											for=""
 											className="d-flex align-items-center justify-content-end mr-4"
 										>
-											User name
-										</label>
-										<div className="d-flex align-items-center">
-											nhom123
-										</div>
-									</div>
-									<div
-										className={`${styles["item"]} d-flex mb-3`}
-									>
-										<label
-											for=""
-											className="d-flex align-items-center justify-content-end mr-4"
-										>
 											Name
 										</label>
 										<div className="d-flex align-items-center">
@@ -86,7 +73,10 @@ function PersonalEdit({ children }) {
 											Email
 										</label>
 										<div className="d-flex align-items-center">
-											nhom123
+											<input
+												type="text"
+												className="border rounded pr-1 pt-1 pb-1 pl-2"
+											/>
 										</div>
 									</div>
 									<div
@@ -99,7 +89,10 @@ function PersonalEdit({ children }) {
 											Phone number
 										</label>
 										<div className="d-flex align-items-center">
-											nhom123
+											<input
+												type="text"
+												className="border rounded pr-1 pt-1 pb-1 pl-2"
+											/>
 										</div>
 									</div>
 									<div
@@ -142,12 +135,11 @@ function PersonalEdit({ children }) {
 											Date of Birth
 										</label>
 										<div className="d-flex align-items-center">
-										<input
-											type="date"
-											className="border rounded pr-1 pt-1 pb-1 pl-2"
-										/>
+											<input
+												type="date"
+												className="border rounded pr-1 pt-1 pb-1 pl-2"
+											/>
 										</div>
-										
 									</div>
 								</div>
 								<div className="d-flex align-items-center justify-content-center mt-4">

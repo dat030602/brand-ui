@@ -237,7 +237,7 @@ function ManageOrders({ children }) {
 			<div
 				className="modal fade"
 				id="orderDetailModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="orderDetailModalTitle"
 				aria-hidden="true"
@@ -431,7 +431,7 @@ function ManageOrders({ children }) {
 			<div
 				className="modal fade"
 				id="deleteOrderModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="deleteOrderModalLabel"
 				aria-hidden="true"

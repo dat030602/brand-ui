@@ -9,7 +9,7 @@ import styles from "./Header.module.scss";
 
 function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 	var componentActive = "";
-	var isLogin = true;
+	var isLogin = false;
 	return (
 		<>
 			<header>

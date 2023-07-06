@@ -293,3 +293,6 @@ p {
 	top: 0;
 	left: 100%;
 }
+.modal-text > p {
+    width: 100%;
+}

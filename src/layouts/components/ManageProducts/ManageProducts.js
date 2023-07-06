@@ -1,8 +1,56 @@
-import React from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import styles from "./ManageProducts.module.scss";
 
 function ManageProducts({ children }) {
+	const ElementAddDetailProduct = () => {
+		return (
+			<Fragment>
+				<div className="line mt-4 mb-4"></div>
+				<div className="modal-text pl-4">
+					<div className="modal-text">
+						<p className="text-bold-normal">Name</p>
+						<input type="text" className="border p-1 pr-2 pl-2" />
+					</div>
+					<div className="modal-text">
+						<p className="text-bold-normal">Quantity in stock</p>
+						<input type="text" className="border p-1 pr-2 pl-2" />
+					</div>
+					<div className="modal-text">
+						<p className="text-bold-normal">Image</p>
+						<input type="file" className="border p-1 pr-2 pl-2" />
+					</div>
+				</div>
+			</Fragment>
+		);
+	};
+
+	const [AddDetailProduct, SetAddDetailProduct] = useState([
+		<Fragment key={0}>
+			<div className="line mt-4 mb-4"></div>
+			<div className="modal-text pl-4">
+				<div className="modal-text">
+					<p className="text-bold-normal">Name</p>
+					<input type="text" className="border p-1 pr-2 pl-2" />
+				</div>
+				<div className="modal-text">
+					<p className="text-bold-normal">Quantity in stock</p>
+					<input type="text" className="border p-1 pr-2 pl-2" />
+				</div>
+				<div className="modal-text">
+					<p className="text-bold-normal">Image</p>
+					<input type="file" className="border p-1 pr-2 pl-2" />
+				</div>
+			</div>
+		</Fragment>,
+	]);
+	const handleOnClickAddDetailProduct = () => {
+		SetAddDetailProduct(
+			AddDetailProduct.concat(
+				<ElementAddDetailProduct key={AddDetailProduct.length} />
+			)
+		);
+	};
 	return (
 		<>
 			<nav className={`${styles["side-menu"]} bg-w border`}>
@@ -292,7 +340,7 @@ function ManageProducts({ children }) {
 			<div
 				className="modal fade"
 				id="detailProductModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="detailProductModalTitle"
 				aria-hidden="true"
@@ -347,11 +395,51 @@ function ManageProducts({ children }) {
 							</div>
 							<div className="mb-3">
 								<span className="mr-2 text-bold-normal">
-									Quantity in stock:
+									Details:
 								</span>
-								<span>12</span>
+								<div className="mb-2 ml-4">
+									<div className="">
+										<span className="mr-2 text-bold-normal">
+											Iphone 14 Pro Max
+										</span>
+									</div>
+									<div className="ml-4">
+										<span className="mr-2 text-bold-normal">
+											Price:
+										</span>
+										<span>2.000$</span>
+									</div>
+									<div className="ml-4">
+										<span className="mr-2 text-bold-normal">
+											Quantity in stock:
+										</span>
+										<span>12</span>
+									</div>
+								</div>
+								<div className="mb-2 ml-4">
+									<div className="">
+										<span className="mr-2 text-bold-normal">
+											Iphone 14 Pro Max
+										</span>
+									</div>
+									<div className="ml-4">
+										<span className="mr-2 text-bold-normal">
+											Price:
+										</span>
+										<span>2.000$</span>
+									</div>
+									<div className="ml-4">
+										<span className="mr-2 text-bold-normal">
+											Quantity in stock:
+										</span>
+										<span>12</span>
+									</div>
+								</div>
 							</div>
-							<div className="row list-image">
+
+							<div
+								className={`${styles["manage"]} row list-image`}
+							>
 								<div className="col-2 border rounded overflow-hidden mr-2">
 									<img
 										src="../../../assets/image/clock.png"
@@ -400,7 +488,7 @@ function ManageProducts({ children }) {
 			<div
 				className="modal fade"
 				id="addProductModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="addProductModalLabel"
 				aria-hidden="true"
@@ -431,18 +519,30 @@ function ManageProducts({ children }) {
 								<input
 									type="text"
 									className="border p-1 pr-2 pl-2"
+									value={"312312"}
+									disabled
 								/>
-								<div className="mt-2">
-									<button className="btn btn-primary mr-2">
-										Check
+								<div className="modal-footer">
+									<button
+										type="button"
+										className="btn btn-secondary"
+										data-dismiss="modal"
+									>
+										Close
 									</button>
-									<div className="d-inline-block">
-										<svg
-											className="text-green mr-2"
-											data-src="../../../../assets/svg/check.svg"
-										></svg>
-										<span className="text-green">Done</span>
-									</div>
+									<button
+										type="button"
+										className="btn btn-warning"
+										onClick={handleOnClickAddDetailProduct}
+									>
+										Add
+									</button>
+									<button
+										type="button"
+										className="btn btn-success"
+									>
+										Finish
+									</button>
 								</div>
 							</div>
 							<div className="modal-text">
@@ -458,9 +558,9 @@ function ManageProducts({ children }) {
 									name=""
 									id=""
 									className="border p-1 pr-2 pl-2"
-								>
-									{" "}
-								</textarea>
+									value={"INPUT"}
+									onChange={() => {}}
+								></textarea>
 							</div>
 							<div className="modal-text">
 								<p className="text-bold-normal">Category</p>
@@ -469,22 +569,7 @@ function ManageProducts({ children }) {
 									<option value="Female">All</option>
 								</select>
 							</div>
-							<div className="modal-text">
-								<p className="text-bold-normal">
-									Quantity in stock
-								</p>
-								<input
-									type="text"
-									className="border p-1 pr-2 pl-2"
-								/>
-							</div>
-							<div className="modal-text">
-								<p className="text-bold-normal">Image</p>
-								<input
-									type="file"
-									className="border p-1 pr-2 pl-2"
-								/>
-							</div>
+							{AddDetailProduct}
 						</div>
 						<div className="modal-footer">
 							<button
@@ -493,6 +578,13 @@ function ManageProducts({ children }) {
 								data-dismiss="modal"
 							>
 								Close
+							</button>
+							<button
+								type="button"
+								className="btn btn-warning"
+								onClick={handleOnClickAddDetailProduct}
+							>
+								Add
 							</button>
 							<button type="button" className="btn btn-success">
 								Finish
@@ -504,7 +596,7 @@ function ManageProducts({ children }) {
 			<div
 				className="modal fade"
 				id="editProductModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="editProductModalLabel"
 				aria-hidden="true"
@@ -542,15 +634,9 @@ function ManageProducts({ children }) {
 									name=""
 									id=""
 									className="border p-1 pr-2 pl-2"
-								>
-									Apple iPhone 12 is the bigger version of the
-									regular iPhone 12 mini. The handset's
-									hardware include a 6.1-inch OLED display,
-									5nm Apple A14 Bionic processor, and a
-									dual-camera setup with a large sensor. 5G
-									and Face ID are on board, too. The Apple
-									iPhone 12 starting price is $829.
-								</textarea>
+									onChange={() => {}}
+									value={`Apple iPhone 12 is the bigger version of the regular iPhone 12 mini. The handset's hardware include a 6.1-inch OLED display, 5nm Apple A14 Bionic processor, and a dual-camera setup with a large sensor. 5G and Face ID are on board, too. The Apple iPhone 12 starting price is $829.`}
+								></textarea>
 							</div>
 							<div className="modal-text">
 								<p className="text-bold-normal">Category</p>
@@ -560,15 +646,65 @@ function ManageProducts({ children }) {
 									value="Phone"
 								/>
 							</div>
+							<div className="d-flex justify-content-end mt-2">
+								<button
+									type="button"
+									className="btn btn-success pl-3 pr-3"
+								>
+									Edit
+								</button>
+							</div>
+							<div className="line mt-3 mb-3"></div>
 							<div className="modal-text">
-								<p className="text-bold-normal">
-									Quantity in stock
-								</p>
-								<input
-									type="text"
-									className="border p-1 pr-2 pl-2"
-									value="22"
-								/>
+								<div className="modal-text">
+									<p className="text-bold-normal">
+										Detail Product Name
+									</p>
+									<input
+										type="text"
+										className="border p-1 pr-2 pl-2"
+										value="22"
+									/>
+								</div>
+								<div className="modal-text pl-4">
+									<div className="modal-text">
+										<p className="text-bold-normal">
+											Price
+										</p>
+										<input
+											type="text"
+											className="border p-1 pr-2 pl-2"
+											value="22"
+										/>
+									</div>
+									<div className="modal-text">
+										<p className="text-bold-normal">
+											Quantity in stock
+										</p>
+										<input
+											type="text"
+											className="border p-1 pr-2 pl-2"
+											value="22"
+										/>
+									</div>
+									<div className="modal-text">
+										<p className="text-bold-normal">
+											Image
+										</p>
+										<input
+											type="file"
+											className="border p-1 pr-2 pl-2"
+										/>
+									</div>
+									<div className="d-flex justify-content-end mt-2">
+										<button
+											type="button"
+											className="btn btn-success pl-3 pr-3"
+										>
+											Edit
+										</button>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div className="modal-footer">
@@ -579,9 +715,6 @@ function ManageProducts({ children }) {
 							>
 								Close
 							</button>
-							<button type="button" className="btn btn-success">
-								Finish
-							</button>
 						</div>
 					</div>
 				</div>
@@ -590,7 +723,7 @@ function ManageProducts({ children }) {
 			<div
 				className="modal fade"
 				id="deleteProductModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="deleteProductModalLabel"
 				aria-hidden="true"

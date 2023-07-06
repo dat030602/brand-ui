@@ -248,7 +248,7 @@ function ManageVouchers({ children }) {
 			<div
 				className="modal fade"
 				id="addVoucherModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="addVoucherModalLabel"
 				aria-hidden="true"
@@ -336,7 +336,7 @@ function ManageVouchers({ children }) {
 			<div
 				className="modal fade"
 				id="editVoucherModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="editVoucherModalLabel"
 				aria-hidden="true"
@@ -428,7 +428,7 @@ function ManageVouchers({ children }) {
 			<div
 				className="modal fade"
 				id="deleteVoucherModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="deleteVoucherModalLabel"
 				aria-hidden="true"

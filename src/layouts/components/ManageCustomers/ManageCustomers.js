@@ -262,7 +262,7 @@ function ManageCustomers({ children }) {
 			<div
 				className="modal fade"
 				id="addCustomerModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="addCustomerModalLabel"
 				aria-hidden="true"
@@ -360,7 +360,7 @@ function ManageCustomers({ children }) {
 			<div
 				className="modal fade"
 				id="editCustomerModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="editCustomerModalLabel"
 				aria-hidden="true"
@@ -456,7 +456,7 @@ function ManageCustomers({ children }) {
 			<div
 				className="modal fade"
 				id="deleteCustomerModal"
-				tabindex="-1"
+				tabIndex="-1"
 				role="dialog"
 				aria-labelledby="deleteCustomerModalLabel"
 				aria-hidden="true"
