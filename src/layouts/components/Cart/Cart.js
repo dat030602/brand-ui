@@ -31,6 +31,7 @@ function Cart({ children }) {
 								className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}
 								onClick={() => {
 									eraseCookie("Name");
+									eraseCookie("Username");
 									eraseCookie("Token");
 									navigate("/");
 								}}

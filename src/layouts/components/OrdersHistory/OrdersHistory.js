@@ -31,6 +31,7 @@ function OrdersHistory({ children }) {
 								onClick=
 								{() => {
 									eraseCookie("Name");
+									eraseCookie("Username");
 									eraseCookie("Token");
 									navigate("/");
 								}}

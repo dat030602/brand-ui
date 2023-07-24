@@ -87,6 +87,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 											className="btn btn-danger p-1 pr-2 pl-2"
 											onClick={() => {
 												eraseCookie("Name");
+												eraseCookie("Username");
 												eraseCookie("Token");
 												navigate("/");
 											}}

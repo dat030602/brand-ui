@@ -72,6 +72,7 @@ function Login({ children }) {
 								onClick={async (e) => {
 									if (dataInput.user === "admin") {
 										setCookie("Name", "Admin", 30);
+										setCookie("Username", "Admin", 30);
 										setCookie("Token", "asasdhjasdhjkasdhjk", 30);
 										navigate("/dashboard");
 									} else {
@@ -79,6 +80,7 @@ function Login({ children }) {
 										if (result.data.returnValue === 1) {
 											eraseCookie("Name");
 											setCookie("Name", result.data.recordset[0].HO_TEN, 30);
+											setCookie("Username", result.data.recordset[0].TEN_TK, 30);
 											setCookie("Token", result.data.recordset[0].TOKEN, 30);
 											navigate("/");
 										}
