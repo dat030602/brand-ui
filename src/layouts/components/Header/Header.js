@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 
 import styles from "./Header.module.scss";
-import { getCookie } from "~/utils/cookies";
+import { eraseCookie, getCookie } from "~/utils/cookies";
 
 import * as HeaderServices from "~/services/HeaderServices";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 	var componentActive = "";
+	const navigate = useNavigate();
+	const location = useLocation();
 
 	const [isLogin, setIsLogin] = useState(getCookie("Name"));
 	const [typeProduct, setTypeProduct] = useState();
@@ -17,13 +20,14 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 		};
 		fetchApi();
 		setTypeProduct(fetchApi());
-		const interval = setInterval(() => {
-			if (getCookie("Name") !== null) {
-				clearInterval(interval);
-				setIsLogin(getCookie("Name"));
-			}
-		}, 1000);
 	}, []);
+	useEffect(() => {
+		if (getCookie("Name") !== null) {
+			setIsLogin(getCookie("Name"));
+		} else {
+			setIsLogin(false);
+		}
+	}, [location]);
 	return (
 		<>
 			<header>
@@ -31,7 +35,14 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 					<div className={`${styles["header"]} row`}>
 						<div className={`${styles["logo"]} col-md-auto`}>
 							<a className={`${styles["logo-link"]}`} href="/">
-								<img src="./assets/image/logo-colored.png" alt="s" />
+								<img
+									src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
+										window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+									}${
+										window.location.href.split("/").length - 1 >= 2 ? "." : ""
+									}./assets/image/logo-colored.png`}
+									alt="s"
+								/>
 							</a>
 						</div>
 						{!isPageNoSearch && !isAdmin && (
@@ -55,7 +66,14 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 										href="/products"
 										className={`${styles["icon-search"]} col-md-auto ${styles["search-col"]}`}
 									>
-										<img src="./assets/svg/search.svg" alt="d" />
+										<img
+											src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
+												window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+											}${
+												window.location.href.split("/").length - 1 >= 2 ? "." : ""
+											}./assets/svg/search.svg`}
+											alt="d"
+										/>
 									</a>
 								</div>
 							</div>
@@ -64,7 +82,15 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 							<div className="row">
 								{isLogin && isAdmin && (
 									<div className="col ml-2 d-flex justify-content-end">
-										<div href="/" className="btn btn-danger p-1 pr-2 pl-2">
+										<div
+											href="/"
+											className="btn btn-danger p-1 pr-2 pl-2"
+											onClick={() => {
+												eraseCookie("Name");
+												eraseCookie("Token");
+												navigate("/");
+											}}
+										>
 											Logout
 										</div>
 									</div>
@@ -86,7 +112,14 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 								{isLogin && !isAdmin && (
 									<div className="col ml-2">
 										<a href="/personal/edit" className={`${styles["action-icon"]}`}>
-											<img src="./assets/svg/profile.svg" alt="/" />
+											<img
+												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
+													window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+												}${
+													window.location.href.split("/").length - 1 >= 2 ? "." : ""
+												}./assets/svg/profile.svg`}
+												alt="/"
+											/>
 											<span>Profile</span>
 										</a>
 									</div>
@@ -94,7 +127,14 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 								{isLogin && !isAdmin && (
 									<div className="col ml-2">
 										<a href="/favorite" className={`${styles["action-icon"]}`}>
-											<img src="./assets/svg/favourite.svg" alt="/" />
+											<img
+												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
+													window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+												}${
+													window.location.href.split("/").length - 1 >= 2 ? "." : ""
+												}./assets/svg/favourite.svg`}
+												alt="/"
+											/>
 											<span>Favorite</span>
 										</a>
 									</div>
@@ -102,7 +142,14 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 								{isLogin && !isAdmin && (
 									<div className="col ml-2">
 										<a href="/my-cart" className={`${styles["action-icon"]}`}>
-											<img src="./assets/svg/cart.svg" alt="/" />
+											<img
+												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
+													window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+												}${
+													window.location.href.split("/").length - 1 >= 2 ? "." : ""
+												}./assets/svg/cart.svg`}
+												alt="/"
+											/>
 											<span>Cart</span>
 											<div className={`${styles["amount"]}`}>1</div>
 										</a>
@@ -118,7 +165,14 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 						<div className={`${styles["menu"]}`}>
 							<div className={`${styles["menu-item"]}`}>
 								<div>
-									<img src="./assets/svg/menu.svg" alt="" />
+									<img
+										src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
+											window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+										}${
+											window.location.href.split("/").length - 1 >= 2 ? "." : ""
+										}./assets/svg/menu.svg`}
+										alt=""
+									/>
 								</div>
 								<div>All category</div>
 							</div>

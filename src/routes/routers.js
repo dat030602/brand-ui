@@ -14,7 +14,7 @@ import ManageOrdersPage from "~/pages/ManageOrders";
 import ManageProductsPage from "~/pages/ManageProducts";
 import ManageVouchersPage from "~/pages/ManageVouchers";
 import OrdersHistoryPage from "~/pages/OrdersHistory";
-import PersonalEditPage from "~/pages/PersonalEdit";
+import ProfileSettingPage from "~/pages/ProfileSetting";
 import ProductPage from "~/pages/Product";
 import ProductsPage from "~/pages/Products";
 import RegisterPage from "~/pages/Register";
@@ -29,7 +29,7 @@ const publicRoutes = [
 	{ path: config.routes.MyCart, components: CartPage },
 	{ path: config.routes.Favorite, components: FavoritePage },
 	{ path: config.routes.OrdersHistory, components: OrdersHistoryPage },
-	{ path: config.routes.PersonalEdit, components: PersonalEditPage },
+	{ path: config.routes.ProfileSetting, components: ProfileSettingPage },
 	{ path: config.routes.HotOffers, components: HotOffersPage },
 	{ path: config.routes.Dashboard, components: DashboardPage },
 	{ path: config.routes.ManageProducts, components: ManageProductsPage },

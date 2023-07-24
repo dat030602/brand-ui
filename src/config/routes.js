@@ -8,7 +8,7 @@ const routes = {
 	MyCart: "my-cart",
 	Favorite: "favorite",
 	OrdersHistory: "orders-history",
-	PersonalEdit: "personal/edit",
+	ProfileSetting: "personal/edit",
 	HotOffers: "hot-offers",
 	Dashboard: "dashboard",
 	ManageProducts: "manage-products",
