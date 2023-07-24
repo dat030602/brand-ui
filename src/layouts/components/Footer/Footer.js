@@ -15,7 +15,11 @@ function Footer({ children, isAdmin = false }) {
 										<div>
 											<a href="/">
 												<img
-													src="./assets/image/logo-colored.png"
+													src={`${
+														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
+														window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/image/logo-colored.png`}
 													alt=""
 												/>
 											</a>
@@ -23,41 +27,57 @@ function Footer({ children, isAdmin = false }) {
 
 										<div>
 											<span>
-												Best information about the
-												company gies here but now lorem
-												ipsum is
+												Best information about the company gies here but now lorem ipsum is
 											</span>
 										</div>
-										<div
-											className={`${styles["item"]} ${styles["list-icon"]}`}
-										>
+										<div className={`${styles["item"]} ${styles["list-icon"]}`}>
 											<a href="/">
 												<img
-													src="./assets/svg/facebook.svg"
+													src={`${
+														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
+														window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/svg/facebook.svg`}
 													alt=""
 												/>
 											</a>
 											<a href="/">
 												<img
-													src="./assets/svg/twitter.svg"
+													src={`${
+														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
+														window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/svg/twitter.svg`}
 													alt=""
 												/>
 											</a>
 											<a href="/">
 												<img
-													src="./assets/svg/linkedin.svg"
+													src={`${
+														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
+														window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/svg/linkedin.svg`}
 													alt=""
 												/>
 											</a>
 											<a href="/">
 												<img
-													src="./assets/svg/instagram.svg"
+													src={`${
+														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
+														window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/svg/instagram.svg`}
 													alt=""
 												/>
 											</a>
 											<a href="/">
 												<img
-													src="./assets/svg/youtube.svg"
+													src={`${
+														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
+														window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/svg/youtube.svg`}
 													alt=""
 												/>
 											</a>
@@ -100,9 +120,7 @@ function Footer({ children, isAdmin = false }) {
 							</div>
 						</div>
 					</div>
-					<div
-						className={`${styles["footer"]} ${styles["copy-right"]}`}
-					>
+					<div className={`${styles["footer"]} ${styles["copy-right"]}`}>
 						<div className="container">
 							<span>© 2023 Ecommerce. </span>
 						</div>

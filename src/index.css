@@ -264,12 +264,12 @@ p {
 .modal-text > p {
 	width: 150px;
 }
-.modal-text > input,
-.modal-text > textarea {
+.modal-text input,
+.modal-text textarea,
+.modal-text select {
 	width: 100%;
-	margin-top: 8px;
 }
-.modal-text > textarea {
+.modal-text textarea {
 	height: 300px;
 }
 
@@ -294,5 +294,10 @@ p {
 	left: 100%;
 }
 .modal-text > p {
-    width: 100%;
+	width: 100%;
+}
+
+.list-image.row img {
+	width: 100% !important;
+	height: 100% !important;
 }

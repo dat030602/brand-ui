@@ -383,7 +383,7 @@ function Product({ children }) {
 										<div
 											className={`${styles["product-qty"]}`}
 										>
-											<label for="" className="mr-3">
+											<label htmlFor="" className="mr-3">
 												Qty:
 											</label>
 											<input

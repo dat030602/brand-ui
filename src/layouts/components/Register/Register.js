@@ -14,7 +14,7 @@ function Register({ children }) {
 							<h5>Register</h5>
 						</div>
 						<div className="d-flex">
-							<label for="" className="mb-2">
+							<label htmlFor="" className="mb-2">
 								Full name
 							</label>
 							<input
@@ -24,7 +24,7 @@ function Register({ children }) {
 							/>
 						</div>
 						<div className="d-flex mt-4">
-							<label for="" className="mb-2">
+							<label htmlFor="" className="mb-2">
 								Email
 							</label>
 							<input
@@ -34,7 +34,7 @@ function Register({ children }) {
 							/>
 						</div>
 						<div className="d-flex mt-4">
-							<label for="" className="mb-2">
+							<label htmlFor="" className="mb-2">
 								Phone
 							</label>
 							<input
@@ -44,7 +44,7 @@ function Register({ children }) {
 							/>
 						</div>
 						<div className="d-flex mt-4">
-							<label for="" className="mb-2">
+							<label htmlFor="" className="mb-2">
 								Password
 							</label>
 							<input
@@ -54,7 +54,7 @@ function Register({ children }) {
 							/>
 						</div>
 						<div className="d-flex mt-4">
-							<label for="" className="mb-2">
+							<label htmlFor="" className="mb-2">
 								Confirm password
 							</label>
 							<input

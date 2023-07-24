@@ -1,43 +1,43 @@
 import React from "react";
 
 import styles from "./Favorite.module.scss";
+import { eraseCookie } from "~/utils/cookies";
+import { useNavigate } from "react-router-dom";
 
 function Favorite({ children }) {
+	const navigate = useNavigate();
 	return (
 		<>
 			<div className="container">
 				<div className="main pt-4 pb-4">
 					<div className="row">
 						<div className="col-2">
-							<div
-								className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}
-							>
+							<div className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}>
 								<a href="/">Personal info</a>
 							</div>
-							<div
-								className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}
-							>
+							<div className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}>
 								<a href="/my-cart">My cart</a>
 							</div>
-							<div
-								className={`${styles["side-item"]} rounded pl-3 p-1 mb-2 ${styles["active"]}`}
-							>
+							<div className={`${styles["side-item"]} rounded pl-3 p-1 mb-2 ${styles["active"]}`}>
 								<a href="/favorite">Favorite</a>
 							</div>
-							<div
-								className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}
-							>
+							<div className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}>
 								<a href="/orders-history">Orders history</a>
 							</div>
-							<div
-								className={`${styles["side-item"]} rounded pl-3 p-1 mb-2 active`}
-							>
+							<div className={`${styles["side-item"]} rounded pl-3 p-1 mb-2 active`}>
 								<a href="/personal/edit">Profile setting</a>
 							</div>
 							<div
 								className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}
+								onClick={() => {
+									eraseCookie("Name");
+									eraseCookie("Username");
+									eraseCookie("Token");
+									navigate("/");
+								}}
+								style={{ cursor: "pointer" }}
 							>
-								<a href="/">Log out</a>
+								<button>Log out</button>
 							</div>
 						</div>
 						<div className="col-10 pl-3">
@@ -50,10 +50,7 @@ function Favorite({ children }) {
 									<div className="box-item mb-4">
 										<div className="border rounded p-3 pt-3">
 											<div className="list-products">
-												<a
-													href="/"
-													className="product-item mb-2"
-												>
+												<a href="/" className="product-item mb-2">
 													<div className="row">
 														<div className="col-1 border rounded p-2 d-flex align-items-center justify-content-center">
 															<img
@@ -64,39 +61,19 @@ function Favorite({ children }) {
 														</div>
 														<div className="col-8 pl-3 pr-3">
 															<div className="box-title">
-																<h5>
-																	T-shirts
-																	with
-																	multiple
-																	colors, for
-																	men and lady
-																</h5>
+																<h5>T-shirts with multiple colors, for men and lady</h5>
 															</div>
 															<div className="box-description">
 																<span className="text-gray">
-																	Genuine
-																	iPhone 14
-																	Pro 128GB
-																	(VN/A) is
-																	now
-																	available at
-																	Viet Mobile
-																	- Apple's
-																	official
-																	authorized
-																	dealer in
-																	Vietnam.
-																	With trendy
-																	design
-																	and...
+																	Genuine iPhone 14 Pro 128GB (VN/A) is now available
+																	at Viet Mobile - Apple's official authorized dealer
+																	in Vietnam. With trendy design and...
 																</span>
 															</div>
 														</div>
 														<div className="col-3 d-flex align-items-center justify-content-end">
 															<div className="d-flex align-items-center">
-																<span>
-																	$98.00
-																</span>
+																<span>$98.00</span>
 																<div className="">
 																	<button className="btn btn-outline-danger p-4 pt-2 pb-2 ml-3">
 																		Delete

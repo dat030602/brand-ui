@@ -36,13 +36,9 @@
 		]
 	},
 	"devDependencies": {
-		"babel-plugin-module-resolver": "^4.1.0",
-		"sass": "^1.56.1",
-		"stream": "^0.0.2",
-		"tippy.js": "^6.3.7",
-		"util": "^0.12.4",
 		"assert": "^2.0.0",
 		"axios": "^1.2.0",
+		"babel-plugin-module-resolver": "^4.1.0",
 		"classnames": "^2.3.2",
 		"css-loader": "^6.7.1",
 		"customize-cra": "^1.0.0",
@@ -50,6 +46,10 @@
 		"path": "^0.12.7",
 		"popper.js": "^1.16.1",
 		"react-app-rewired": "^2.2.1",
-		"react-router-dom": "^6.4.1"
+		"react-router-dom": "^6.4.1",
+		"sass": "^1.56.1",
+		"stream": "^0.0.2",
+		"tippy.js": "^6.3.7",
+		"util": "^0.12.4"
 	}
 }

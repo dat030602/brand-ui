@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import styles from "./DefaultLayout.module.scss";
 
 import Header from "~/layouts/components/Header/Header";
 import Footer from "~/layouts/components/Footer/Footer";
-// import Header from '~/layouts/components/Header';
-// import Footer from '~/layouts/components/Footer';
+import { getCookie } from "~/utils/cookies";
 
-// const cx = classNames.bind(styles);
-
-function DefaultLayout({ children, white = false, register = false }) {
-	const [isAdmin] = useState(true);
-	const [isPageNoSearch] = useState(false);
-	// useEffect(() => {
-	// 	var str = window.location.href;
-	// 	componentsNoSearch.forEach((element) => {
-	// 		if (str.indexOf(element) !== -1) {
-	// 			this.isPageNoSearch = true;
-	// 			return;
-	// 		}
-	// 	});
-	// }, []);
+function DefaultLayout({ children, onLogin }) {
+	const location = useLocation();
+	const [isAdmin, setIsAdmin] = useState(getCookie("Name") === "Admin");
+	const [isPageNoSearch, setIsPageNoSearch] = useState(false);
+	const [componentsNoSearch, setComponentsNoSearch] = useState([
+		"login",
+		"register",
+		"my-cart",
+		"favorite",
+		"orders-history",
+		"personal/edit",
+		"personal",
+		"hot-offers",
+	]);
+	useEffect(() => {
+		var isRun = false;
+		for (let index = 0; index < componentsNoSearch.length; index++) {
+			const element = componentsNoSearch[index];
+			if (location.pathname.indexOf(element) !== -1) {
+				setIsPageNoSearch(true);
+				isRun = true;
+				break;
+			}
+		}
+		if (getCookie("Name") === "Admin") setIsAdmin(true);
+		else setIsAdmin(false);
+		if (!isRun) setIsPageNoSearch(false);
+	}, [location]);
 	return (
 		<>
 			<app-header>
@@ -36,7 +50,7 @@ function DefaultLayout({ children, white = false, register = false }) {
 				{children}
 			</main>
 			<app-footer>
-				<Footer isAdmin={isAdmin}/>
+				<Footer isAdmin={isAdmin} />
 			</app-footer>
 		</>
 	);
