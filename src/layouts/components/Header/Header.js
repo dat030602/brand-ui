@@ -1,15 +1,114 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"
 import styles from "./Header.module.scss";
 // import image from  "../../../assets/image";
 
 // import classNames from "classnames/bind";
 
 // const cx = classNames.bind(styles);
-
 function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 	var componentActive = "";
 	var isLogin = false;
+	const navigate = useNavigate()
+	const [data, setData] = useState();
+	const [input, setInput] = useState("");
+	const [results, setResults] = useState([]);
+	const fetchData = (value) => {
+		fetch(`http://localhost:5000/manage-products/all`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			//signal: abortController.signal,
+		})
+			.then((response) => response.json())
+			.then((json) => {
+				const results = json.filter((user) => {
+					return value && user && user.TEN_SP && user.TEN_SP.toLowerCase().includes(value);
+				});
+				setResults(results);
+			});
+	}
+	const fetchData1 = (value, category) => {
+		fetch(`http://localhost:5000/manage-products/searchcategory/${category}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			//signal: abortController.signal,
+		})
+			.then((response) => response.json())
+			.then((json) => {
+				const results = json.filter((user) => {
+					return value && user && user.TEN_SP && user.TEN_SP.toLowerCase().includes(value);
+				});
+				console.log(results);
+				setResults(results);
+			});
+	}
+	const handleChange = (value) => {
+		setInput(value)
+		var e = document.getElementById("getvalueoption");
+		var cat = e.value;
+		if (cat === "all") {
+			fetchData(value);
+		}
+		else {
+			fetchData1(value, cat);
+		}
+	}
+	const handleSearch = () => {
+		const abortController = new AbortController();
+		var e = document.getElementById("getvalueoption");
+		var cat = e.value;
+		if (cat === "all") {
+			fetch(`http://localhost:5000/manage-products/${input}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				signal: abortController.signal,
+			})
+				.then((res) => {
+					return res.json();
+				})
+				.then((data) => {
+					setData(data);
+					navigate("/products", {
+						state: {
+							message: { data }
+						}
+					});
+				});
+			return () => {
+				abortController.abort();
+			};
+		}
+		else {
+			fetch(`http://localhost:5000/manage-products/category/${cat}/${input}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				signal: abortController.signal,
+			})
+				.then((res) => {
+					return res.json();
+				})
+				.then((data) => {
+					setData(data);
+					navigate("/products", {
+						state: {
+							message: { data }
+						}
+					});
+				});
+			return () => {
+				abortController.abort();
+			};
+		}
+	}
+
 	return (
 		<>
 			<header>
@@ -32,7 +131,8 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 										<input
 											className={`${styles["input"]}`}
 											type="text"
-											placeholder="Search"
+											placeholder="Tìm kiếm..."
+											value={input} onChange={(e) => handleChange(e.target.value)}
 										/>
 									</div>
 									<div
@@ -40,18 +140,17 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 									>
 										<select
 											className={`${styles["selection"]}`}
+											id="getvalueoption"
 										>
-											<option value="">
-												All category
-											</option>
-											<option value="Phone">Phone</option>
-											<option value="Laptop">
-												Laptop
-											</option>
+											<option value="all">Tất cả</option>
+											<option value="phone">Điện thoại</option>
+											<option value="ipad">Ipad</option>
+											<option value="charge">Cục sạc</option>
+											<option value="headphone">Tai nghe</option>
 										</select>
 									</div>
 									<a
-										href="/products"
+										onClick={handleSearch}
 										className={`${styles["icon-search"]} col-md-auto ${styles["search-col"]}`}
 									>
 										<img
@@ -60,6 +159,17 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 										/>
 									</a>
 								</div>
+								{results.length !== 0 && (<div className={`${styles["dropdown"]}`}>
+									<div className={`${styles["dropdown-row"]}`}>
+										{
+											results && results.map((result, id) => {
+												return <div className={`${styles["e"]}`} key={id}>
+													<a href="/product" >{result.TEN_SP}</a>
+												</div>
+											})
+										}
+									</div>
+								</div>)}
 							</div>
 						)}
 						<div className={`${styles["action"]} col-md-auto`}>
@@ -143,7 +253,9 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 								)}
 							</div>
 						</div>
+
 					</div>
+
 				</div>
 				<div className="line"></div>
 				{!isPageNoSearch && !isAdmin && (
