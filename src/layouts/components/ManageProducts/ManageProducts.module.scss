@@ -102,9 +102,29 @@ tbody td {
 	color: #9b9800;
 	background-color: rgba(255, 217, 0, 0.637);
 }
-.manage img {
-	width: 100%;
-	height: 100%;
+
+.manage {
+	& input {
+		max-width: 200px;
+	}
+	& img {
+		width: auto;
+		height: 100%;
+		max-width: 160px;
+		max-height: 160px;
+	}
+}
+
+.manage {
+	& input {
+		max-width: 200px;
+	}
+	& img {
+		width: auto;
+		height: 100%;
+		max-width: 160px;
+		max-height: 160px;
+	}
 }
 /* -------------------------
   Circle */
@@ -141,8 +161,14 @@ tbody td {
 .percent-circle svg {
 	height: 20px;
 }
-.list-image img {
+.modal-input-text {
 	width: 100%;
+	display: flex;
+	align-items: center;
+	& input,
+	& textarea {
+		width: 100%;
+	}
 }
 /* --------------------------------- */
 .side-menu {

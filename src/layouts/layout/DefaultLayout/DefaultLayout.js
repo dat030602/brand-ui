@@ -4,14 +4,11 @@ import styles from "./DefaultLayout.module.scss";
 
 import Header from "~/layouts/components/Header/Header";
 import Footer from "~/layouts/components/Footer/Footer";
-// import Header from '~/layouts/components/Header';
-// import Footer from '~/layouts/components/Footer';
 
-// const cx = classNames.bind(styles);
-
-function DefaultLayout({ children, white = false, register = false }) {
-	const [isAdmin] = useState(true);
+function DefaultLayout({ children, onLogin }) {
+	const [isAdmin] = useState(false);
 	const [isPageNoSearch] = useState(false);
+
 	// useEffect(() => {
 	// 	var str = window.location.href;
 	// 	componentsNoSearch.forEach((element) => {
@@ -21,6 +18,9 @@ function DefaultLayout({ children, white = false, register = false }) {
 	// 		}
 	// 	});
 	// }, []);
+	// useEffect(() => {
+	// 	// console.log(Cookies.get("Name"));
+	// });
 	return (
 		<>
 			<app-header>
@@ -36,7 +36,7 @@ function DefaultLayout({ children, white = false, register = false }) {
 				{children}
 			</main>
 			<app-footer>
-				<Footer isAdmin={isAdmin}/>
+				<Footer isAdmin={isAdmin} />
 			</app-footer>
 		</>
 	);

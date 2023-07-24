@@ -57,7 +57,7 @@ function Checkout({ children }) {
 														className={`${styles["input-qty"]} d-flex align-items-center`}
 													>
 														<label
-															for=""
+															htmlFor=""
 															className="pr-2"
 														>
 															Qty:
@@ -112,7 +112,7 @@ function Checkout({ children }) {
 														className={`${styles["input-qty"]} d-flex align-items-center`}
 													>
 														<label
-															for=""
+															htmlFor=""
 															className="pr-2"
 														>
 															Qty:

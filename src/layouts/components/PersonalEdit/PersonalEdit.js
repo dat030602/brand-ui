@@ -51,7 +51,7 @@ function PersonalEdit({ children }) {
 										className={`${styles["item"]} d-flex mb-3`}
 									>
 										<label
-											for=""
+											htmlFor=""
 											className="d-flex align-items-center justify-content-end mr-4"
 										>
 											Name
@@ -67,7 +67,7 @@ function PersonalEdit({ children }) {
 										className={`${styles["item"]} d-flex mb-3`}
 									>
 										<label
-											for=""
+											htmlFor=""
 											className="d-flex align-items-center justify-content-end mr-4"
 										>
 											Email
@@ -83,7 +83,7 @@ function PersonalEdit({ children }) {
 										className={`${styles["item"]} d-flex mb-3`}
 									>
 										<label
-											for=""
+											htmlFor=""
 											className="d-flex align-items-center justify-content-end mr-4"
 										>
 											Phone number
@@ -99,26 +99,26 @@ function PersonalEdit({ children }) {
 										className={`${styles["item"]} d-flex mb-3`}
 									>
 										<label
-											for="a"
+											htmlFor="a"
 											className="d-flex align-items-center justify-content-end mr-4"
 										>
 											Sex
 										</label>
 										<div className="d-flex align-items-center">
 											<div className="mr-3">
-												<label for="a" className="mr-1">
+												<label htmlFor="a" className="mr-1">
 													Male
 												</label>
 												<input type="radio" name="a" />
 											</div>
 											<div className="mr-3">
-												<label for="a" className="mr-1">
+												<label htmlFor="a" className="mr-1">
 													Female
 												</label>
 												<input type="radio" name="a" />
 											</div>
 											<div className="mr-3">
-												<label for="a" className="mr-1">
+												<label htmlFor="a" className="mr-1">
 													Other
 												</label>
 												<input type="radio" name="a" />
@@ -129,7 +129,7 @@ function PersonalEdit({ children }) {
 										className={`${styles["item"]} d-flex mb-3`}
 									>
 										<label
-											for=""
+											htmlFor=""
 											className="d-flex align-items-center justify-content-end mr-4"
 										>
 											Date of Birth

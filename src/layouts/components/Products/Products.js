@@ -115,7 +115,7 @@ function Products({ children }) {
 												type="checkbox"
 												id="Samsung"
 											/>
-											<label for="Samsung">Samsung</label>
+											<label htmlFor="Samsung">Samsung</label>
 										</div>
 										<div
 											className={`${styles["filter-item-content-item"]}`}
@@ -125,7 +125,7 @@ function Products({ children }) {
 												type="checkbox"
 												id="Samsung1"
 												/>
-											<label for="Samsung1">Samsung1</label>
+											<label htmlFor="Samsung1">Samsung1</label>
 										</div>
 										<div
 											className={`${styles["filter-item-content-item"]}`}
@@ -135,7 +135,7 @@ function Products({ children }) {
 												type="checkbox"
 												id="Samsung2"
 												/>
-											<label for="Samsung2">Samsung2</label>
+											<label htmlFor="Samsung2">Samsung2</label>
 										</div>
 										<div
 											className={`${styles["filter-item-content-item"]}`}
@@ -145,7 +145,7 @@ function Products({ children }) {
 												type="checkbox"
 												id="Samsung3"
 												/>
-											<label for="Samsung3">Samsung3</label>
+											<label htmlFor="Samsung3">Samsung3</label>
 										</div>
 										<div
 											className={`${styles["filter-item-content-item"]}`}
@@ -213,7 +213,7 @@ function Products({ children }) {
 												type="checkbox"
 												id="Metallic"
 											/>
-											<label for="Metallic">Metallic</label>
+											<label htmlFor="Metallic">Metallic</label>
 										</div>
 										<div
 											className={`${styles["filter-item-content-item"]}`}
@@ -223,7 +223,7 @@ function Products({ children }) {
 												type="checkbox"
 												id="Metallic1"
 											/>
-											<label for="Metallic1">Metallic1</label>
+											<label htmlFor="Metallic1">Metallic1</label>
 										</div>
 										<div
 											className={`${styles["filter-item-content-item"]}`}
@@ -233,7 +233,7 @@ function Products({ children }) {
 												type="checkbox"
 												id="Metallic2"
 											/>
-											<label for="Metallic2">Metallic2</label>
+											<label htmlFor="Metallic2">Metallic2</label>
 										</div>
 										<div
 											className={`${styles["filter-item-content-item"]}`}
@@ -243,7 +243,7 @@ function Products({ children }) {
 												type="checkbox"
 												id="Metallic3"
 											/>
-											<label for="Metallic3">Metallic3</label>
+											<label htmlFor="Metallic3">Metallic3</label>
 										</div>
 										<div
 											className={`${styles["filter-item-content-item"]}`}
@@ -271,7 +271,7 @@ function Products({ children }) {
 													type="checkbox"
 													id="5-star"
 												/>
-												<label for="5-star">
+												<label htmlFor="5-star">
 													<svg
 														className="star"
 														data-src="../../../../assets/svg/star.svg"
@@ -302,7 +302,7 @@ function Products({ children }) {
 													type="checkbox"
 													id="4-star"
 												/>
-												<label for="4-star">
+												<label htmlFor="4-star">
 													<svg
 														className="star"
 														data-src="../../../../assets/svg/star.svg"
@@ -333,7 +333,7 @@ function Products({ children }) {
 													type="checkbox"
 													id="3-star"
 												/>
-												<label for="3-star">
+												<label htmlFor="3-star">
 													<svg
 														className="star"
 														data-src="../../../../assets/svg/star.svg"
@@ -364,7 +364,7 @@ function Products({ children }) {
 													type="checkbox"
 													id="2-star"
 												/>
-												<label for="2-star">
+												<label htmlFor="2-star">
 													<svg
 														className="star"
 														data-src="../../../../assets/svg/star.svg"
@@ -395,7 +395,7 @@ function Products({ children }) {
 													type="checkbox"
 													id="1-star"
 												/>
-												<label for="1-star">
+												<label htmlFor="1-star">
 													<svg
 														className="star"
 														data-src="../../../../assets/svg/star.svg"
