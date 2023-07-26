@@ -37,7 +37,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 	const [input, setInput] = useState("");
 	const [results, setResults] = useState([]);
 	const fetchData = (value) => {
-		fetch(`http://localhost:5000/manage-products/all`, {
+		fetch(`http://localhost:5000/search/all`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 			});
 	}
 	const fetchData1 = (value, category) => {
-		fetch(`http://localhost:5000/manage-products/searchcategory/${category}`, {
+		fetch(`http://localhost:5000/search/searchcategory/${category}`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 		setInput(value)
 		var e = document.getElementById("getvalueoption");
 		var cat = e.value;
-		if (cat === "all") {
+		if (cat === "") {
 			fetchData(value);
 		}
 		else {
@@ -84,8 +84,8 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 		const abortController = new AbortController();
 		var e = document.getElementById("getvalueoption");
 		var cat = e.value;
-		if (cat === "all") {
-			fetch(`http://localhost:5000/manage-products/${input}`, {
+		if (cat === "") {
+			fetch(`http://localhost:5000/search/${input}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 			};
 		}
 		else {
-			fetch(`http://localhost:5000/manage-products/category/${cat}/${input}`, {
+			fetch(`http://localhost:5000/search/category/${cat}/${input}`, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -141,11 +141,9 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 						<div className={`${styles["logo"]} col-md-auto`}>
 							<a className={`${styles["logo-link"]}`} href="/">
 								<img
-									src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
-										window.location.href.split("/").length - 1 >= 3 ? "../" : ""
-									}${
-										window.location.href.split("/").length - 1 >= 2 ? "." : ""
-									}./assets/image/logo-colored.png`}
+									src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+										}${window.location.href.split("/").length - 1 >= 2 ? "." : ""
+										}./assets/image/logo-colored.png`}
 									alt="s"
 								/>
 							</a>
@@ -157,14 +155,15 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 										className={`${styles["search-col"]} col-md-auto`}
 									>
 										<input
+											name="selectop"
 											className={`${styles["input"]}`}
 											type="text"
-											placeholder="Tìm kiếm..."
+											placeholder="Search..."
 											value={input} onChange={(e) => handleChange(e.target.value)}
 										/>
 									</div>
 									<div className={`${styles["search-col"]} col-md-auto`}>
-										<select className={`${styles["selection"]}`}>
+										<select className={`${styles["selection"]}`} id = "getvalueoption">
 											<option value="">All category</option>
 											{typeProduct !== undefined &&
 												Object.keys(typeProduct).map((index) => (
@@ -179,11 +178,9 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 										className={`${styles["icon-search"]} col-md-auto ${styles["search-col"]}`}
 									>
 										<img
-											src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
-												window.location.href.split("/").length - 1 >= 3 ? "../" : ""
-											}${
-												window.location.href.split("/").length - 1 >= 2 ? "." : ""
-											}./assets/svg/search.svg`}
+											src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+												}${window.location.href.split("/").length - 1 >= 2 ? "." : ""
+												}./assets/svg/search.svg`}
 											alt="d"
 										/>
 									</a>
@@ -237,11 +234,9 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 									<div className="col ml-2">
 										<a href="/personal/edit" className={`${styles["action-icon"]}`}>
 											<img
-												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
-													window.location.href.split("/").length - 1 >= 3 ? "../" : ""
-												}${
-													window.location.href.split("/").length - 1 >= 2 ? "." : ""
-												}./assets/svg/profile.svg`}
+												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/svg/profile.svg`}
 												alt="/"
 											/>
 											<span>Profile</span>
@@ -252,11 +247,9 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 									<div className="col ml-2">
 										<a href="/favorite" className={`${styles["action-icon"]}`}>
 											<img
-												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
-													window.location.href.split("/").length - 1 >= 3 ? "../" : ""
-												}${
-													window.location.href.split("/").length - 1 >= 2 ? "." : ""
-												}./assets/svg/favourite.svg`}
+												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/svg/favourite.svg`}
 												alt="/"
 											/>
 											<span>Favorite</span>
@@ -267,11 +260,9 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 									<div className="col ml-2">
 										<a href="/my-cart" className={`${styles["action-icon"]}`}>
 											<img
-												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
-													window.location.href.split("/").length - 1 >= 3 ? "../" : ""
-												}${
-													window.location.href.split("/").length - 1 >= 2 ? "." : ""
-												}./assets/svg/cart.svg`}
+												src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+													}${window.location.href.split("/").length - 1 >= 2 ? "." : ""
+													}./assets/svg/cart.svg`}
 												alt="/"
 											/>
 											<span>Cart</span>
@@ -292,11 +283,9 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 							<div className={`${styles["menu-item"]}`}>
 								<div>
 									<img
-										src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${
-											window.location.href.split("/").length - 1 >= 3 ? "../" : ""
-										}${
-											window.location.href.split("/").length - 1 >= 2 ? "." : ""
-										}./assets/svg/menu.svg`}
+										src={`${window.location.href.split("/").length - 1 >= 4 ? "../" : ""}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""
+											}${window.location.href.split("/").length - 1 >= 2 ? "." : ""
+											}./assets/svg/menu.svg`}
 										alt=""
 									/>
 								</div>
