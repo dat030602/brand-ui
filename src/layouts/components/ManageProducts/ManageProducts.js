@@ -7,8 +7,265 @@ function ManageProducts({ children }) {
 	const [data, setData] = useState();
 	const [typeProduct, setTypeProduct] = useState();
 	const [indexDetail, setIndexDetail] = useState(0);
+	var indexDetail_clone = 0;
 	const [deleteItem, setDeleteItem] = useState({ title: "", id: { masp: "", stt: 0 } });
 	const [dataEditing, setDataEditing] = useState();
+
+	const [elementModalEdit, setElementModalEdit] = useState();
+
+	const ElementEditProduct = (newData, indexDetail) => {
+		const typeProduct_clone = filterTypeProduct(indexDetail);
+		return (
+			<div className="modal-body">
+				<div className="modal-text">
+					<p className="text-bold-normal">Product Name</p>
+					<div className={styles["modal-input-text"]}>
+						<input
+							name="Product Name"
+							type="text"
+							className="border p-1 pr-2 pl-2"
+							defaultValue={newData.product.TEN_SP}
+						/>
+						<div className="d-flex justify-content-end pl-2 align-items-center">
+							<button
+								type="button"
+								className="btn btn-success pl-3 pr-3"
+								onClick={(e) => HandleOnClickEdit(e)}
+							>
+								Edit
+							</button>
+						</div>
+					</div>
+				</div>
+				<div className="modal-text">
+					<p className="text-bold-normal">Description</p>
+					<div className={styles["modal-input-text"]}>
+						<textarea
+							name="Description"
+							id=""
+							className="border p-1 pr-2 pl-2"
+							defaultValue={newData.product.MO_TA}
+						></textarea>
+						<div className="d-flex justify-content-end pl-2 align-items-center">
+							<button
+								type="button"
+								className="btn btn-success pl-3 pr-3"
+								onClick={(e) => HandleOnClickEdit(e)}
+							>
+								Edit
+							</button>
+						</div>
+					</div>
+				</div>
+				<div className="modal-text">
+					<p className="text-bold-normal">Category</p>
+					<div className={styles["modal-input-text"]}>
+						<select className="border text-primary p-1" name="Category">
+							{Object.entries(typeProduct_clone).map((el, index) => {
+								return (
+									<option value={el[1].TEN_LOAI_SP} key={el[0]}>
+										{el[1].TEN_LOAI_SP}
+									</option>
+								);
+							})}
+						</select>
+						<div className="d-flex justify-content-end pl-2 align-items-center">
+							<button
+								type="button"
+								className="btn btn-success pl-3 pr-3"
+								onClick={(e) => HandleOnClickEdit(e)}
+							>
+								Edit
+							</button>
+						</div>
+					</div>
+				</div>
+				<div className="modal-text">
+					<p className="text-bold-normal">Brand</p>
+					<div className={styles["modal-input-text"]}>
+						<input
+							type="text"
+							name="Brand"
+							className="border p-1 pr-2 pl-2"
+							defaultValue={newData.product.BRAND}
+						/>
+						<div className="d-flex justify-content-end pl-2 align-items-center">
+							<button
+								type="button"
+								className="btn btn-success pl-3 pr-3"
+								onClick={(e) => HandleOnClickEdit(e)}
+							>
+								Edit
+							</button>
+						</div>
+					</div>
+				</div>
+				<div className="line mt-3 mb-3"></div>
+				{Object.keys(newData.detail).map((index) => (
+					<div className="modal-text" key={index}>
+						<div className="modal-text">
+							<div className="d-flex justify-content-between align-items-center mb-2">
+								<p className="text-bold-normal">Detail Product Name</p>
+								<button
+									className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
+									data-toggle="modal"
+									data-target="#deleteProductModal"
+									onClick={() => {
+										setDeleteItem({
+											title: newData.detail[index].TEN_CTSP,
+											id: {
+												masp: newData.detail[index].MA_SP,
+												stt: newData.detail[index].STT,
+											},
+										});
+									}}
+								>
+									Delete
+								</button>
+							</div>
+							<div className={styles["modal-input-text"]}>
+								<input
+									name="Detail Product Name"
+									type="text"
+									className="border p-1 pr-2 pl-2"
+									defaultValue={newData.detail[index].TEN_CTSP}
+								/>
+								<div className="d-flex justify-content-end pl-2 align-items-center">
+									<button
+										type="button"
+										className="btn btn-success pl-3 pr-3"
+										onClick={(e) => HandleOnClickEdit(e, index)}
+									>
+										Edit
+									</button>
+								</div>
+							</div>
+						</div>
+						<div className="modal-text pl-4">
+							<div className="modal-text">
+								<p className="text-bold-normal">Price</p>
+								<div className={styles["modal-input-text"]}>
+									<input
+										name="Price"
+										type="text"
+										className="border p-1 pr-2 pl-2"
+										defaultValue={newData.detail[index].GIA_BAN}
+									/>
+									<div className="d-flex justify-content-end pl-2 align-items-center">
+										<button
+											type="button"
+											className="btn btn-success pl-3 pr-3"
+											onClick={(e) => HandleOnClickEdit(e, index)}
+										>
+											Edit
+										</button>
+									</div>
+								</div>
+							</div>
+							<div className="modal-text">
+								<p className="text-bold-normal">Import Price</p>
+								<div className={styles["modal-input-text"]}>
+									<input
+										name="Import Price"
+										type="text"
+										className="border p-1 pr-2 pl-2"
+										defaultValue={newData.detail[index].GIA_NHAP}
+									/>
+									<div className="d-flex justify-content-end pl-2 align-items-center">
+										<button
+											type="button"
+											className="btn btn-success pl-3 pr-3"
+											onClick={(e) => HandleOnClickEdit(e, index)}
+										>
+											Edit
+										</button>
+									</div>
+								</div>
+							</div>
+							<div className="modal-text">
+								<p className="text-bold-normal">Quantity in stock</p>
+								<div className={styles["modal-input-text"]}>
+									<input
+										name="Quantity in stock"
+										type="text"
+										className="border p-1 pr-2 pl-2"
+										defaultValue={newData.detail[index].SL_KHO}
+									/>
+									<div className="d-flex justify-content-end pl-2 align-items-center">
+										<button
+											type="button"
+											className="btn btn-success pl-3 pr-3"
+											onClick={(e) => HandleOnClickEdit(e, index)}
+										>
+											Edit
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className={`${styles["manage"]} list-image`}>
+							<div
+								className="border rounded overflow-hidden d-flex align-items-center justify-content-between mb-2 pl-2 pr-2"
+								key={index}
+							>
+								<img
+									className="p-2"
+									src={
+										newData.image[index].HINHANH !== null
+											? newData.image[index].HINHANH
+											: "./assets/image/fallback.jpg"
+									}
+									alt=""
+								/>
+								<input
+									type="file"
+									className="border p-1 pr-2 pl-2"
+									onChange={async (e) => {
+										const file = e.target.files[0];
+										const getSizeImage = file.size;
+										if (getSizeImage > 1024 * 1024 * 3)
+											alert("Chỉ cho phép tải tệp tin nhỏ hơn 3MB");
+										else {
+											var imgUpdate = e.target.parentElement;
+											imgUpdate = imgUpdate.childNodes[0];
+											imgUpdate.src = URL.createObjectURL(file);
+										}
+									}}
+								/>
+								<div className="d-flex justify-content-end pl-2 align-items-center">
+									<button
+										type="button"
+										className="btn btn-success pl-3 pr-3"
+										onClick={async (e) => {
+											var content = e.target.parentElement;
+											content = content.parentElement;
+											content = content.childNodes[1];
+
+											var formData = new FormData();
+
+											formData.append("image", content.files[0]);
+											const result = await ManageProductsServices.AddImage(
+												content.files[0],
+												newData.image[index].MA_SP,
+												newData.image[index].STT
+											);
+											if (result.data.message === "File uploaded to firebase storage") {
+												let result = await ManageProductsServices.GetAllProducts();
+												setData(result);
+												alert("Editing is successful");
+											} else alert("Error!!! They can't edit");
+										}}
+									>
+										Edit
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				))}
+			</div>
+		);
+	};
 
 	const ElementAddDetailProduct = () => {
 		return (
@@ -71,23 +328,23 @@ function ManageProducts({ children }) {
 		SetAddDetailProduct(AddDetailProduct.concat(<ElementAddDetailProduct key={AddDetailProduct.length} />));
 	};
 
+	const filterTypeProduct = (index) => {
+		if (typeProduct !== undefined) {
+			var arr1 = typeProduct.filter((e) => e.MA_LOAI_SP === data[index].product.MA_LOAI_SP);
+			var arr2 = typeProduct.filter((e) => e.MA_LOAI_SP !== data[index].product.MA_LOAI_SP);
+			return [...arr1, ...arr2];
+		}
+	};
+
 	useEffect(() => {
 		const fetchApi = async () => {
-			let result = await ManageProductsServices.GetAllProducts();
-			setData(result);
-			result = await ManageProductsServices.GetAllTypeProduct();
+			let result = await ManageProductsServices.GetAllTypeProduct();
 			setTypeProduct(result);
+			result = await ManageProductsServices.GetAllProducts();
+			setData(result);
 		};
 		fetchApi();
 	}, []);
-
-	useEffect(() => {
-		if (typeProduct !== undefined) {
-			var arr1 = typeProduct.filter((e) => e.MA_LOAI_SP === data[indexDetail].product.MA_LOAI_SP);
-			var arr2 = typeProduct.filter((e) => e.MA_LOAI_SP !== data[indexDetail].product.MA_LOAI_SP);
-			setTypeProduct([...arr1, ...arr2]);
-		}
-	}, [indexDetail]);
 
 	const HandleOnClickEdit = async (e, index = -1) => {
 		var content = e.target.parentElement;
@@ -96,7 +353,10 @@ function ManageProducts({ children }) {
 
 		const { name, value } = content;
 		if (name === "Product Name") {
-			const result = await ManageProductsServices.EditProduct_TEN_SP(dataEditing.product.MA_SP, value);
+			const result = await ManageProductsServices.EditProduct_TEN_SP(
+				data[indexDetail_clone].product.MA_SP,
+				value
+			);
 			if (result !== undefined)
 				if (result.returnValue === 0) alert("Error!!! They can't edit");
 				else {
@@ -105,7 +365,7 @@ function ManageProducts({ children }) {
 					alert("Editing is successful");
 				}
 		} else if (name === "Description") {
-			const result = await ManageProductsServices.EditProduct_MO_TA(dataEditing.product.MA_SP, value);
+			const result = await ManageProductsServices.EditProduct_MO_TA(data[indexDetail_clone].product.MA_SP, value);
 			if (result !== undefined)
 				if (result.returnValue === 0) alert("Error!!! They can't edit");
 				else {
@@ -114,7 +374,10 @@ function ManageProducts({ children }) {
 					alert("Editing is successful");
 				}
 		} else if (name === "Category") {
-			const result = await ManageProductsServices.EditProduct_TEN_LOAI_SP(dataEditing.product.MA_SP, value);
+			const result = await ManageProductsServices.EditProduct_TEN_LOAI_SP(
+				data[indexDetail_clone].product.MA_SP,
+				value
+			);
 			if (result !== undefined)
 				if (result.returnValue === 0) alert("Error!!! They can't edit");
 				else {
@@ -123,7 +386,7 @@ function ManageProducts({ children }) {
 					alert("Editing is successful");
 				}
 		} else if (name === "Brand") {
-			const result = await ManageProductsServices.EditProduct_BRAND(dataEditing.product.MA_SP, value);
+			const result = await ManageProductsServices.EditProduct_BRAND(data[indexDetail_clone].product.MA_SP, value);
 			if (result !== undefined)
 				if (result.returnValue === 0) alert("Error!!! They can't edit");
 				else {
@@ -133,8 +396,8 @@ function ManageProducts({ children }) {
 				}
 		} else if (name === "Detail Product Name") {
 			const result = await ManageProductsServices.EditDetailProduct_TEN_CTSP(
-				dataEditing.detail[index].MA_SP,
-				dataEditing.detail[index].STT,
+				data[indexDetail_clone].detail[index].MA_SP,
+				data[indexDetail_clone].detail[index].STT,
 				value
 			);
 			if (result !== undefined)
@@ -146,8 +409,8 @@ function ManageProducts({ children }) {
 				}
 		} else if (name === "Price") {
 			const result = await ManageProductsServices.EditDetailProduct_GIA_BAN(
-				dataEditing.detail[index].MA_SP,
-				dataEditing.detail[index].STT,
+				data[indexDetail_clone].detail[index].MA_SP,
+				data[indexDetail_clone].detail[index].STT,
 				value
 			);
 			if (result !== undefined)
@@ -159,8 +422,8 @@ function ManageProducts({ children }) {
 				}
 		} else if (name === "Import Price") {
 			const result = await ManageProductsServices.EditDetailProduct_GIA_NHAP(
-				dataEditing.detail[index].MA_SP,
-				dataEditing.detail[index].STT,
+				data[indexDetail_clone].detail[index].MA_SP,
+				data[indexDetail_clone].detail[index].STT,
 				value
 			);
 			if (result !== undefined)
@@ -172,8 +435,8 @@ function ManageProducts({ children }) {
 				}
 		} else if (name === "Quantity in stock") {
 			const result = await ManageProductsServices.EditDetailProduct_SL_KHO(
-				dataEditing.detail[index].MA_SP,
-				dataEditing.detail[index].STT,
+				data[indexDetail_clone].detail[index].MA_SP,
+				data[indexDetail_clone].detail[index].STT,
 				value
 			);
 			if (result !== undefined)
@@ -188,25 +451,56 @@ function ManageProducts({ children }) {
 
 	const HandleOnChangeEdit = async (e, index) => {
 		const { name, value } = e.target;
-		var newData = { ...dataEditing };
 		if (name === "Product Name") {
-			newData.product.TEN_SP = value;
+			console.log(dataEditing);
+			setDataEditing(() => {
+				var newData = { ...dataEditing };
+				newData.product.TEN_SP = value;
+				return newData;
+			});
 		} else if (name === "Description") {
-			newData.product.MO_TA = value;
+			setDataEditing(() => {
+				var newData = { ...dataEditing };
+				newData.product.MO_TA = value;
+				return newData;
+			});
 		} else if (name === "Category") {
-			newData.product.TEN_LOAI_SP = value;
+			setDataEditing(() => {
+				var newData = { ...dataEditing };
+				newData.product.TEN_LOAI_SP = value;
+				return newData;
+			});
 		} else if (name === "Brand") {
-			newData.product.BRAND = value;
+			setDataEditing(() => {
+				var newData = { ...dataEditing };
+				newData.product.BRAND = value;
+				return newData;
+			});
 		} else if (name === "Detail Product Name") {
-			newData.detail[index].TEN_CTSP = value;
+			setDataEditing(() => {
+				var newData = { ...dataEditing };
+				newData.detail[index].TEN_CTSP = value;
+				return newData;
+			});
 		} else if (name === "Price") {
-			newData.detail[index].GIA_BAN = value;
+			setDataEditing(() => {
+				var newData = { ...dataEditing };
+				newData.detail[index].GIA_BAN = value;
+				return newData;
+			});
 		} else if (name === "Import Price") {
-			newData.detail[index].GIA_NHAP = value;
+			setDataEditing(() => {
+				var newData = { ...dataEditing };
+				newData.detail[index].GIA_NHAP = value;
+				return newData;
+			});
 		} else if (name === "Quantity in stock") {
-			newData.detail[index].SL_KHO = value;
+			setDataEditing(() => {
+				var newData = { ...dataEditing };
+				newData.detail[index].SL_KHO = value;
+				return newData;
+			});
 		}
-		setDataEditing(newData);
 	};
 
 	return (
@@ -297,7 +591,7 @@ function ManageProducts({ children }) {
 									className={`${styles["header"]} d-flex align-items-center justify-content-between`}
 								>
 									<div className="title">
-										<h5>Products ({data !== undefined && data.length})</h5>
+										<h5>Products {data !== undefined && `(${data.length})`}</h5>
 									</div>
 									<button
 										className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal sliver-tier btn-add"
@@ -371,7 +665,8 @@ function ManageProducts({ children }) {
 																				data-target="#detailProductModal"
 																				onClick={() => {
 																					setIndexDetail(index);
-																					setDataEditing(data[index]);
+																					const newData = data[index];
+																					setDataEditing(newData);
 																				}}
 																			>
 																				Detail
@@ -382,7 +677,15 @@ function ManageProducts({ children }) {
 																				data-target="#editProductModal"
 																				onClick={() => {
 																					setIndexDetail(index);
-																					setDataEditing(data[index]);
+																					indexDetail_clone = index;
+																					const newData = data[index];
+																					setElementModalEdit(
+																						ElementEditProduct(
+																							newData,
+																							indexDetail_clone
+																						)
+																					);
+																					setDataEditing(newData);
 																				}}
 																			>
 																				Edit
@@ -578,6 +881,12 @@ function ManageProducts({ children }) {
 						role="dialog"
 						aria-labelledby="editProductModalLabel"
 						aria-hidden="true"
+						onClick={(e) => {
+							if (e.target.className === "modal fade")
+								setTimeout(() => {
+									setElementModalEdit(undefined);
+								}, 100);
+						}}
 					>
 						<div className="modal-dialog" role="document">
 							<div className="modal-content">
@@ -585,273 +894,34 @@ function ManageProducts({ children }) {
 									<h5 className="modal-title" id="editProductModalLabel">
 										Edit product: {dataEditing !== undefined && dataEditing.product.TEN_SP}
 									</h5>
-									<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+									<button
+										type="button"
+										className="close"
+										data-dismiss="modal"
+										aria-label="Close"
+										onClick={(e) => {
+											if (e.target.className === "modal fade")
+												setTimeout(() => {
+													setElementModalEdit(undefined);
+												}, 100);
+										}}
+									>
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<div className="modal-body">
-									<div className="modal-text">
-										<p className="text-bold-normal">Product Name</p>
-										<div className={styles["modal-input-text"]}>
-											<input
-												name="Product Name"
-												type="text"
-												className="border p-1 pr-2 pl-2"
-												value={dataEditing !== undefined && dataEditing.product.TEN_SP}
-												onChange={(e) => HandleOnChangeEdit(e)}
-											/>
-											<div className="d-flex justify-content-end pl-2 align-items-center">
-												<button
-													type="button"
-													className="btn btn-success pl-3 pr-3"
-													onClick={(e) => HandleOnClickEdit(e)}
-												>
-													Edit
-												</button>
-											</div>
-										</div>
-									</div>
-									<div className="modal-text">
-										<p className="text-bold-normal">Description</p>
-										<div className={styles["modal-input-text"]}>
-											<textarea
-												name="Description"
-												id=""
-												className="border p-1 pr-2 pl-2"
-												value={dataEditing !== undefined && dataEditing.product.MO_TA}
-												onChange={(e) => HandleOnChangeEdit(e)}
-											></textarea>
-											<div className="d-flex justify-content-end pl-2 align-items-center">
-												<button
-													type="button"
-													className="btn btn-success pl-3 pr-3"
-													onClick={(e) => HandleOnClickEdit(e)}
-												>
-													Edit
-												</button>
-											</div>
-										</div>
-									</div>
-									<div className="modal-text">
-										<p className="text-bold-normal">Category</p>
-										<div className={styles["modal-input-text"]}>
-											<select
-												className="border text-primary p-1"
-												name="Category"
-												onChange={(e) => HandleOnChangeEdit(e)}
-											>
-												{typeProduct !== undefined &&
-													Object.entries(typeProduct).map((el, index) => {
-														return (
-															<option value={el[1].MA_LOAI_SP} key={el[0]}>
-																{el[1].TEN_LOAI_SP}
-															</option>
-														);
-													})}
-											</select>
-											<div className="d-flex justify-content-end pl-2 align-items-center">
-												<button
-													type="button"
-													className="btn btn-success pl-3 pr-3"
-													onClick={(e) => HandleOnClickEdit(e)}
-												>
-													Edit
-												</button>
-											</div>
-										</div>
-									</div>
-									<div className="modal-text">
-										<p className="text-bold-normal">Brand</p>
-										<div className={styles["modal-input-text"]}>
-											<input
-												type="text"
-												name="Brand"
-												className="border p-1 pr-2 pl-2"
-												value={dataEditing !== undefined && dataEditing.product.BRAND}
-												onChange={(e) => HandleOnChangeEdit(e)}
-											/>
-											<div className="d-flex justify-content-end pl-2 align-items-center">
-												<button
-													type="button"
-													className="btn btn-success pl-3 pr-3"
-													onClick={(e) => HandleOnClickEdit(e)}
-												>
-													Edit
-												</button>
-											</div>
-										</div>
-									</div>
-									<div className="line mt-3 mb-3"></div>
-									{dataEditing !== undefined &&
-										Object.keys(dataEditing.detail).map((index) => (
-											<div className="modal-text" key={index}>
-												<div className="modal-text">
-													<div className="d-flex justify-content-between align-items-center mb-2">
-														<p className="text-bold-normal">Detail Product Name</p>
-														<button
-															className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
-															data-toggle="modal"
-															data-target="#deleteProductModal"
-															onClick={() => {
-																setDeleteItem({
-																	title: dataEditing.detail[index].TEN_CTSP,
-																	id: {
-																		masp: dataEditing.detail[index].MA_SP,
-																		stt: dataEditing.detail[index].STT,
-																	},
-																});
-															}}
-														>
-															Delete
-														</button>
-													</div>
-													<div className={styles["modal-input-text"]}>
-														<input
-															name="Detail Product Name"
-															type="text"
-															className="border p-1 pr-2 pl-2"
-															value={dataEditing.detail[index].TEN_CTSP}
-															onChange={(e) => HandleOnChangeEdit(e, index)}
-														/>
-														<div className="d-flex justify-content-end pl-2 align-items-center">
-															<button
-																type="button"
-																className="btn btn-success pl-3 pr-3"
-																onClick={(e) => HandleOnClickEdit(e, index)}
-															>
-																Edit
-															</button>
-														</div>
-													</div>
-												</div>
-												<div className="modal-text pl-4">
-													<div className="modal-text">
-														<p className="text-bold-normal">Price</p>
-														<div className={styles["modal-input-text"]}>
-															<input
-																name="Price"
-																type="text"
-																className="border p-1 pr-2 pl-2"
-																value={dataEditing.detail[index].GIA_BAN}
-																onChange={(e) => HandleOnChangeEdit(e, index)}
-															/>
-															<div className="d-flex justify-content-end pl-2 align-items-center">
-																<button
-																	type="button"
-																	className="btn btn-success pl-3 pr-3"
-																	onClick={(e) => HandleOnClickEdit(e, index)}
-																>
-																	Edit
-																</button>
-															</div>
-														</div>
-													</div>
-													<div className="modal-text">
-														<p className="text-bold-normal">Import Price</p>
-														<div className={styles["modal-input-text"]}>
-															<input
-																name="Import Price"
-																type="text"
-																className="border p-1 pr-2 pl-2"
-																value={dataEditing.detail[index].GIA_NHAP}
-																onChange={(e) => HandleOnChangeEdit(e, index)}
-															/>
-															<div className="d-flex justify-content-end pl-2 align-items-center">
-																<button
-																	type="button"
-																	className="btn btn-success pl-3 pr-3"
-																	onClick={(e) => HandleOnClickEdit(e, index)}
-																>
-																	Edit
-																</button>
-															</div>
-														</div>
-													</div>
-													<div className="modal-text">
-														<p className="text-bold-normal">Quantity in stock</p>
-														<div className={styles["modal-input-text"]}>
-															<input
-																name="Quantity in stock"
-																type="text"
-																className="border p-1 pr-2 pl-2"
-																value={dataEditing.detail[index].SL_KHO}
-																onChange={(e) => HandleOnChangeEdit(e, index)}
-															/>
-															<div className="d-flex justify-content-end pl-2 align-items-center">
-																<button
-																	type="button"
-																	className="btn btn-success pl-3 pr-3"
-																	onClick={(e) => HandleOnClickEdit(e, index)}
-																>
-																	Edit
-																</button>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div className={`${styles["manage"]} list-image`}>
-													{Object.keys(dataEditing.image).map((index) => (
-														<div
-															className="border rounded overflow-hidden d-flex align-items-center justify-content-between mb-2 pl-2 pr-2"
-															key={index}
-														>
-															<img
-																className="p-2"
-																src={
-																	dataEditing.image[index].HINHANH !== null
-																		? dataEditing.image[index].HINHANH
-																		: "./assets/image/fallback.jpg"
-																}
-																alt=""
-															/>
-															<input
-																type="file"
-																className="border p-1 pr-2 pl-2"
-																onChange={async (e) => {
-																	const file = e.target.files[0];
-																	const getSizeImage = file.size;
-																	if (getSizeImage > 1024 * 1024 * 3)
-																		alert("Chỉ cho phép tải tệp tin nhỏ hơn 3MB");
-																	else {
-																		var imgUpdate = e.target.parentElement;
-																		imgUpdate = imgUpdate.childNodes[0];
-																		imgUpdate.src = URL.createObjectURL(file);
-																	}
-																}}
-															/>
-															<div className="d-flex justify-content-end pl-2 align-items-center">
-																<button
-																	type="button"
-																	className="btn btn-success pl-3 pr-3"
-																	onClick={async (e) => {
-																		var content = e.target.parentElement;
-																		content = content.parentElement;
-																		content = content.childNodes[1];
-
-																		var formData = new FormData();
-
-																		formData.append("image", content.files[0]);
-
-																		const result =
-																			await ManageProductsServices.AddImage(
-																				content.files[0]
-																			);
-																		console.log(result);
-																		// if (result.returnValue === 0)
-																		// 	alert("Error!!! They can't edit");
-																	}}
-																>
-																	Edit
-																</button>
-															</div>
-														</div>
-													))}
-												</div>
-											</div>
-										))}
-								</div>
+								{elementModalEdit !== undefined && elementModalEdit}
 								<div className="modal-footer">
-									<button type="button" className="btn btn-secondary" data-dismiss="modal">
+									<button
+										type="button"
+										className="btn btn-secondary"
+										data-dismiss="modal"
+										onClick={(e) => {
+											if (e.target.className === "modal fade")
+												setTimeout(() => {
+													setElementModalEdit(undefined);
+												}, 100);
+										}}
+									>
 										Close
 									</button>
 								</div>

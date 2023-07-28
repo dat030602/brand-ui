@@ -35,12 +35,13 @@ export const EditProduct_TEN_SP = async (masp, tensp) => {
 		console.log("error");
 	}
 };
-export const EditProduct_TEN_LOAI_SP = async (masp, tensp) => {
+export const EditProduct_TEN_LOAI_SP = async (masp, tenloaisp) => {
 	try {
+		console.log(masp, tenloaisp);
 		const res = await httpRequest.Put(`/manage-products/edit/ten-loai-san-pham`, {
-			data: { masp, tensp },
+			data: { masp, tenloaisp },
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
@@ -50,7 +51,7 @@ export const EditProduct_MO_TA = async (masp, mota) => {
 		const res = await httpRequest.Put(`/manage-products/edit/mo-ta`, {
 			data: { masp, mota },
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
@@ -60,7 +61,7 @@ export const EditProduct_BRAND = async (masp, brand) => {
 		const res = await httpRequest.Put(`/manage-products/edit/brand`, {
 			data: { masp, brand },
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
@@ -70,7 +71,7 @@ export const EditDetailProduct_TEN_CTSP = async (masp, stt, tenctsp) => {
 		const res = await httpRequest.Put(`/manage-products/edit/ten-chi-tiet-san-pham`, {
 			data: { masp, stt, tenctsp },
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
@@ -80,7 +81,7 @@ export const EditDetailProduct_GIA_BAN = async (masp, stt, giaban) => {
 		const res = await httpRequest.Put(`/manage-products/edit/gia-ban`, {
 			data: { masp, stt, giaban },
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
@@ -90,7 +91,7 @@ export const EditDetailProduct_GIA_NHAP = async (masp, stt, gianhap) => {
 		const res = await httpRequest.Put(`/manage-products/edit/gia-nhap`, {
 			data: { masp, stt, gianhap },
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
@@ -100,27 +101,27 @@ export const EditDetailProduct_SL_KHO = async (masp, stt, slkho) => {
 		const res = await httpRequest.Put(`/manage-products/edit/so-luong-kho`, {
 			data: { masp, stt, slkho },
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
 };
-export const EditDetailProduct_HINHANHSP = async (masp, stt, hinhanh) => {
-	try {
-		const res = await httpRequest.Put(`/manage-products/edit/hinh-anh`, {
-			data: { masp, stt, hinhanh },
-		});
-		return res;
-	} catch (error) {
-		console.log("error");
-	}
-};
+// export const EditDetailProduct_HINHANHSP = async (masp, stt, hinhanh) => {
+// 	try {
+// 		const res = await httpRequest.Put(`/manage-products/edit/hinh-anh`, {
+// 			data: { masp, stt, hinhanh },
+// 		});
+// 		return res.data
+// 	} catch (error) {
+// 		console.log("error");
+// 	}
+// };
 export const DeleteProduct = async (id = "") => {
 	try {
 		const res = await httpRequest.Delete(`/manage-products/`, {
 			id: id,
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
@@ -131,17 +132,18 @@ export const DeleteDetailProduct = async (masp = "", stt = -1) => {
 			masp: masp,
 			stt: stt,
 		});
-		return res;
+		return res.data;
 	} catch (error) {
 		console.log("error");
 	}
 };
 
-export const AddImage = async (data) => {
+export const AddImage = async (data, masp, stt) => {
 	try {
-		const formData = new FormData()
-		console.log("It works")
-		formData.append("imageUpload", data)
+		const formData = new FormData();
+		formData.append("imageUpload", data);
+		formData.append("masp", masp);
+		formData.append("stt", stt);
 		const res = await httpRequest.Post(
 			`/file/upload-image`,
 			formData,
@@ -151,6 +153,20 @@ export const AddImage = async (data) => {
 				},
 			}
 		);
+		return res;
+	} catch (error) {
+		console.log("error");
+	}
+};
+export const EditImage = async (data) => {
+	try {
+		const formData = new FormData();
+		formData.append("imageUpload", data);
+		const res = await httpRequest.Post(`/file/edit-image`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
 		return res;
 	} catch (error) {
 		console.log("error");
