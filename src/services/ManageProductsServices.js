@@ -17,8 +17,31 @@ export const GetAllTypeProduct = async (id = "") => {
 };
 export const AddProduct = async (data = {}) => {
 	try {
-		const res = await httpRequest.Post(`/manage-products/`, {
-			data: data,
+		const formData = new FormData();
+		for (let index = 0; index < data.detail.length; index++) {
+			const element = data.detail[index];
+			formData.append("imageUpload", element.image);
+		}
+		formData.append("data", JSON.stringify(data));
+		const res = await httpRequest.Post(`/manage-products`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
+		return res;
+	} catch (error) {
+		console.log("error");
+	}
+};
+export const AddDetailProduct = async (data = {}) => {
+	try {
+		const formData = new FormData();
+		formData.append("imageUpload", data.image);
+		formData.append("data", JSON.stringify(data));
+		const res = await httpRequest.Post(`/manage-products/detail`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
 		});
 		return res;
 	} catch (error) {
@@ -116,10 +139,10 @@ export const EditDetailProduct_SL_KHO = async (masp, stt, slkho) => {
 // 		console.log("error");
 // 	}
 // };
-export const DeleteProduct = async (id = "") => {
+export const DeleteProduct = async (masp = "") => {
 	try {
 		const res = await httpRequest.Delete(`/manage-products/`, {
-			id: id,
+			data: { masp },
 		});
 		return res.data;
 	} catch (error) {
@@ -129,8 +152,7 @@ export const DeleteProduct = async (id = "") => {
 export const DeleteDetailProduct = async (masp = "", stt = -1) => {
 	try {
 		const res = await httpRequest.Delete(`/manage-products/delete-detail`, {
-			masp: masp,
-			stt: stt,
+			data: { masp, stt },
 		});
 		return res.data;
 	} catch (error) {
@@ -144,25 +166,24 @@ export const AddImage = async (data, masp, stt) => {
 		formData.append("imageUpload", data);
 		formData.append("masp", masp);
 		formData.append("stt", stt);
-		const res = await httpRequest.Post(
-			`/file/upload-image`,
-			formData,
-			{
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			}
-		);
+		const res = await httpRequest.Post(`/file/upload-image`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+		});
 		return res;
 	} catch (error) {
 		console.log("error");
 	}
 };
-export const EditImage = async (data) => {
+export const EditImage = async (data, masp, stt, fileNameDelete) => {
 	try {
 		const formData = new FormData();
 		formData.append("imageUpload", data);
-		const res = await httpRequest.Post(`/file/edit-image`, formData, {
+		formData.append("masp", masp);
+		formData.append("stt", stt);
+		formData.append("fileNameDelete", fileNameDelete);
+		const res = await httpRequest.Put(`/file/edit-image`, formData, {
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
