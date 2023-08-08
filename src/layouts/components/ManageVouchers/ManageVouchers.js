@@ -11,29 +11,355 @@ function ManageVouchers({ children }) {
   const [data, setData] = useState();
   const [indexDetail, setIndexDetail] = useState(0);
   var indexDetail_clone = 0;
-  const [deleteItem, setDeleteItem] = useState({ title: '', id: { masp: '', stt: 0 } });
-  const [dataEditing, setDataEditing] = useState();
+  const [dataInput, setDataInput] = useState({
+    voucher_id: '',
+    name_voucher: '',
+    discount: '',
+    min_price: '',
+    max_price: '',
+    start_date: '',
+    end_date: '',
+  });
 
   const [elementModalEdit, setElementModalEdit] = useState();
-  const [elementAddModalEdit, setElementAddModalEdit] = useState(false);
+  const [elementModalAdd, setElementModalAdd] = useState();
   const [valueModalAdd, setValueModalAdd] = useState();
-  const [valueModalAddDetail, setValueModalAddDetail] = useState({
-    masp: '',
-    stt: 0,
-    name: '',
-    price: '',
-    importPrice: '',
-    stock: 0,
-    image: undefined,
-  });
+  const [valueModalAddDetail, setValueModalAddDetail] = useState({});
   useEffect(() => {
     const fetchApi = async () => {
       let result = await ManageVouchersServices.GetAllVouchers();
       setData(result);
-      console.log(result)
     };
     fetchApi();
   }, []);
+
+  const ElementModalEdit = ({ initData }) => (
+    <Fragment>
+      <div className="modal-text">
+        <p className="text-bold-normal">Voucher Name</p>
+        <input
+          name="Voucher Name"
+          type="text"
+          className="border p-1 pr-2 pl-2"
+          defaultValue={initData.name_voucher}
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">Discount</p>
+        <input
+          name="Discount"
+          type="text"
+          className="border p-1 pr-2 pl-2"
+          defaultValue={initData.discount}
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">Min price cart</p>
+        <input
+          name="Min price cart"
+          type="text"
+          className="border p-1 pr-2 pl-2"
+          defaultValue={initData.min_price}
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">Max discount</p>
+        <input
+          name="Max discount"
+          type="text"
+          className="border p-1 pr-2 pl-2"
+          defaultValue={initData.max_price}
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">Start Date</p>
+        <input
+          name="Start Date"
+          type="datetime-local"
+          className="border p-1 pr-2 pl-2"
+          defaultValue={FormatDate(initData.start_date, true, true)}
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">End Date</p>
+        <input
+          name="End Date"
+          type="datetime-local"
+          className="border p-1 pr-2 pl-2"
+          defaultValue={FormatDate(initData.end_date, true, true)}
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+    </Fragment>
+  );
+
+  const ElementModalAdd = () => (
+    <Fragment>
+      <div className="modal-text">
+        <p className="text-bold-normal">Voucher Name</p>
+        <input
+          defaultValue=""
+          name="Voucher Name"
+          type="text"
+          className="border p-1 pr-2 pl-2"
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">Discount</p>
+        <input
+          defaultValue=""
+          name="Discount"
+          type="text"
+          className="border p-1 pr-2 pl-2"
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">Min price cart</p>
+        <input
+          defaultValue=""
+          name="Min price cart"
+          type="text"
+          className="border p-1 pr-2 pl-2"
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">Max discount</p>
+        <input
+          defaultValue=""
+          name="Max discount"
+          type="text"
+          className="border p-1 pr-2 pl-2"
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">Start Date</p>
+        <input
+          defaultValue=""
+          name="Start Date"
+          type="datetime-local"
+          className="border p-1 pr-2 pl-2"
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+      <div className="modal-text">
+        <p className="text-bold-normal">End Date</p>
+        <input
+          defaultValue=""
+          name="End Date"
+          type="datetime-local"
+          className="border p-1 pr-2 pl-2"
+          onChange={(e) => handleOnChangeEdit(e)}
+        />
+      </div>
+    </Fragment>
+  );
+
+  const handleOnClickChangeIndex = (index, edit = false) => {
+    setIndexDetail(index);
+    if (edit) {
+      setElementModalEdit(<ElementModalEdit initData={data[index].voucher} />);
+      setDataInput((pre) => {
+        var newData = { ...pre };
+        newData.voucher_id = data[index].voucher.voucher_id;
+        newData.name_voucher = data[index].voucher.name_voucher;
+        newData.discount = data[index].voucher.discount;
+        newData.min_price = data[index].voucher.min_price;
+        newData.max_price = data[index].voucher.max_price;
+        newData.start_date = data[index].voucher.start_date;
+        newData.end_date = data[index].voucher.end_date;
+        return newData;
+      });
+    }
+    indexDetail_clone = index;
+  };
+  const handleOnClickDelete = async (index, submit) => {
+    if (!submit) {
+      setIndexDetail(index);
+      indexDetail_clone = index;
+    } else {
+      var result = await ManageVouchersServices.DeleteVoucher(data[indexDetail_clone].voucher.voucher_id);
+      if (result !== undefined) {
+        if (result.returnValue === 1) {
+          let result = await ManageVouchersServices.GetAllVouchers();
+          setData(result);
+          toast.success('Delete successfully', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        } else
+          toast.error("We can't delete", {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+      } else
+        toast.error("We can't delete", {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+    }
+  };
+  const handleOnClickEdit = async () => {
+    var newData = { ...dataInput };
+    newData.start_date = FormatDate(newData.start_date, true);
+    newData.end_date = FormatDate(newData.end_date, true);
+
+    var result = await ManageVouchersServices.EditVoucher(newData);
+    if (result !== undefined) {
+      if (result.returnValue === 1) {
+        let result = await ManageVouchersServices.GetAllVouchers();
+        setData(result);
+        toast.success('Edit successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      } else
+        toast.error("We can't delete", {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+    } else
+      toast.error("We can't delete", {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+  };
+  const handleOnClickAdd = async () => {
+    var newData = { ...dataInput };
+    newData.start_date = FormatDate(newData.start_date, true);
+    newData.end_date = FormatDate(newData.end_date, true);
+
+    var result = await ManageVouchersServices.AddVoucher(newData);
+    if (result !== undefined) {
+      if (result.returnValue === 1) {
+        let result = await ManageVouchersServices.GetAllVouchers();
+        setData(result);
+        toast.success('Add successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      } else
+        toast.error("We can't add", {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+    } else
+      toast.error("We can't add", {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+  };
+
+  const handleOnChangeEdit = (e) => {
+    // setIndexDetail(index);
+    // if (edit) setElementModalEdit(<ElementModalEdit initData={data[index].voucher} />);
+    // indexDetail_clone = index;
+    const { value, name } = e.target;
+    if (name === 'Voucher Name') {
+      setDataInput((pre) => {
+        var newData = { ...pre };
+        newData.name_voucher = value;
+        return newData;
+      });
+    } else if (name === 'Discount') {
+      setDataInput((pre) => {
+        var newData = { ...pre };
+        newData.discount = value;
+        return newData;
+      });
+    } else if (name === 'Min price cart') {
+      setDataInput((pre) => {
+        var newData = { ...pre };
+        newData.min_price = value;
+        return newData;
+      });
+    } else if (name === 'Max discount') {
+      setDataInput((pre) => {
+        var newData = { ...pre };
+        newData.max_price = value;
+        return newData;
+      });
+    } else if (name === 'Start Date') {
+      setDataInput((pre) => {
+        var newData = { ...pre };
+        newData.start_date = value;
+        return newData;
+      });
+    } else if (name === 'End Date') {
+      setDataInput((pre) => {
+        var newData = { ...pre };
+        newData.end_date = value;
+        return newData;
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log(dataInput);
+  }, [dataInput]);
+
   return (
     <>
       <nav className={`${styles['side-menu']} bg-w border`}>
@@ -122,6 +448,20 @@ function ManageVouchers({ children }) {
                         className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal sliver-tier btn-add"
                         data-toggle="modal"
                         data-target="#addVoucherModal"
+                        onClick={() => {
+                          setElementModalAdd(<ElementModalAdd />);
+                          setDataInput((pre) => {
+                            var newData = { ...pre };
+                            newData.voucher_id = '';
+                            newData.name_voucher = '';
+                            newData.discount = '';
+                            newData.min_price = '';
+                            newData.max_price = '';
+                            newData.start_date = '';
+                            newData.end_date = '';
+                            return newData;
+                          });
+                        }}
                       >
                         Add
                       </button>
@@ -148,33 +488,38 @@ function ManageVouchers({ children }) {
                                   {Object.keys(data).map((index) => (
                                     <tr key={index}>
                                       <td className="">
-                                        <p className="par-line-1">{data[index].name_voucher}</p>
+                                        <p className="par-line-1">{data[index].voucher.name_voucher}</p>
                                       </td>
                                       <td className="text-center">
                                         <div className="overflow-hidden">
-                                          <p className="par-line-1 text-center">{data[index].discount}%</p>
+                                          <p className="par-line-1 text-center">{data[index].voucher.discount}%</p>
                                         </div>
                                       </td>
                                       <td className="text-center">
-                                        <p className="par-line-1 text-center">{data[index].min_price}đ</p>
+                                        <p className="par-line-1 text-center">{data[index].voucher.min_price}đ</p>
                                       </td>
                                       <td className="text-center">
-                                        <p className="par-line-1 text-center">{data[index].max_price}đ</p>
+                                        <p className="par-line-1 text-center">{data[index].voucher.max_price}đ</p>
                                       </td>
                                       <td className="text-center">
-                                        <p className="par-line-1 text-center">{FormatDate(data[index].start_date)}</p>
+                                        <p className="par-line-1 text-center">
+                                          {FormatDate(data[index].voucher.start_date)}
+                                        </p>
                                       </td>
                                       <td className="text-center">
-                                        <p className="par-line-1 text-center">{FormatDate(data[index].end_date)}</p>
+                                        <p className="par-line-1 text-center">
+                                          {FormatDate(data[index].voucher.end_date)}
+                                        </p>
                                       </td>
                                       <td className="text-center">
-                                        <p className="par-line-1 text-center">{data[index].used}</p>
+                                        <p className="par-line-1 text-center">{data[index].voucher.used}</p>
                                       </td>
                                       <td className="tier d-flex justify-content-center">
                                         <button
                                           className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
                                           data-toggle="modal"
                                           data-target="#historyVoucherModal"
+                                          onClick={() => handleOnClickChangeIndex(index)}
                                         >
                                           History
                                         </button>
@@ -182,6 +527,7 @@ function ManageVouchers({ children }) {
                                           className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
                                           data-toggle="modal"
                                           data-target="#editVoucherModal"
+                                          onClick={() => handleOnClickChangeIndex(index, true)}
                                         >
                                           Edit
                                         </button>
@@ -189,6 +535,7 @@ function ManageVouchers({ children }) {
                                           className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
                                           data-toggle="modal"
                                           data-target="#deleteVoucherModal"
+                                          onClick={() => handleOnClickDelete(index)}
                                         >
                                           Delete
                                         </button>
@@ -208,6 +555,7 @@ function ManageVouchers({ children }) {
             </div>
           </div>
           {/* <!-- Modal --> */}
+          {/* Add */}
           <div
             className="modal fade"
             id="addVoucherModal"
@@ -226,43 +574,24 @@ function ManageVouchers({ children }) {
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div className="modal-body">
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Voucher Name</p>
-                    <input type="text" className="border p-1 pr-2 pl-2" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Discount</p>
-                    <input type="text" className="border p-1 pr-2 pl-2" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Min price cart</p>
-                    <input type="text" className="border p-1 pr-2 pl-2" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Max discount</p>
-                    <input type="text" className="border p-1 pr-2 pl-2" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Start Date</p>
-                    <input type="date" className="border p-1 pr-2 pl-2" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">End Date</p>
-                    <input type="date" className="border p-1 pr-2 pl-2" />
-                  </div>
-                </div>
+                <div className="modal-body">{elementModalAdd !== undefined && elementModalAdd}</div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">
                     Close
                   </button>
-                  <button type="button" className="btn btn-success">
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    data-dismiss="modal"
+                    onClick={() => handleOnClickAdd()}
+                  >
                     Finish
                   </button>
                 </div>
               </div>
             </div>
           </div>
+          {/* History */}
           <div
             className="modal fade"
             id="historyVoucherModal"
@@ -275,17 +604,21 @@ function ManageVouchers({ children }) {
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="historyVoucherModalLabel">
-                    Voucher: Free ship
+                    Voucher: {data[indexDetail].voucher.name_voucher}
                   </h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
                 <div className="modal-body">
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Voucher Name</p>
-                    <p className="">Nguyen Van A used at 20:00:00 April 30, 2023</p>
-                  </div>
+                  {Object.keys(data[indexDetail].history).map((index) => (
+                    <div className="modal-text" key={index}>
+                      <p className="">
+                        {data[indexDetail].history[index].HO_TEN} used at{' '}
+                        {FormatDate(data[indexDetail].history[index].timeUsed, true)}
+                      </p>
+                    </div>
+                  ))}
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">
@@ -295,6 +628,7 @@ function ManageVouchers({ children }) {
               </div>
             </div>
           </div>
+          {/* Edit */}
           <div
             className="modal fade"
             id="editVoucherModal"
@@ -307,49 +641,30 @@ function ManageVouchers({ children }) {
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="editVoucherModalLabel">
-                    Edit voucher: Free ship
+                    Edit voucher: {data[indexDetail].voucher.name_voucher}
                   </h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div className="modal-body">
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Voucher Name</p>
-                    <input type="text" className="border p-1 pr-2 pl-2" value="iPhone 12" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Discount</p>
-                    <input type="text" className="border p-1 pr-2 pl-2" value="iPhone 12" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Min price cart</p>
-                    <input type="text" className="border p-1 pr-2 pl-2" value="iPhone 12" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Max discount</p>
-                    <input type="text" className="border p-1 pr-2 pl-2" value="iPhone 12" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">Start Date</p>
-                    <input type="date" className="border p-1 pr-2 pl-2" />
-                  </div>
-                  <div className="modal-text">
-                    <p className="text-bold-normal">End Date</p>
-                    <input type="date" className="border p-1 pr-2 pl-2" />
-                  </div>
-                </div>
+                <div className="modal-body">{elementModalEdit !== undefined && elementModalEdit}</div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">
                     Close
                   </button>
-                  <button type="button" className="btn btn-success">
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    data-dismiss="modal"
+                    onClick={() => handleOnClickEdit()}
+                  >
                     Finish
                   </button>
                 </div>
               </div>
             </div>
           </div>
+          {/* Delete */}
           <div
             className="modal fade"
             id="deleteVoucherModal"
@@ -362,7 +677,7 @@ function ManageVouchers({ children }) {
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title" id="deleteVoucherModalLabel">
-                    Delete voucher: Free ship
+                    Delete voucher: {data[indexDetail].voucher.name_voucher}
                   </h5>
                   <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -370,7 +685,12 @@ function ManageVouchers({ children }) {
                 </div>
                 <div className="modal-body">Are you sure about that?</div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-danger">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    data-dismiss="modal"
+                    onClick={() => handleOnClickDelete(indexDetail_clone, true)}
+                  >
                     Delete
                   </button>
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">
@@ -380,6 +700,18 @@ function ManageVouchers({ children }) {
               </div>
             </div>
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </>
       )}
       {data === undefined && <LoadingPage />}
