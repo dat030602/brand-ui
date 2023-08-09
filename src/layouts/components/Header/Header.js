@@ -1,137 +1,136 @@
-import React, { useEffect, useState } from "react";
-import { eraseCookie, getCookie } from "~/utils/cookies";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { eraseCookie, getCookie } from '~/utils/cookies';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import styles from "./Header.module.scss";
-import * as HeaderServices from "~/services/HeaderServices";
-
-// import classNames from "classnames/bind";
-
-// const cx = classNames.bind(styles);
+import styles from './Header.module.scss';
+import * as HeaderServices from '~/services/HeaderServices';
+import { GetCartTotal } from '~/services/CartServices';
 
 function Header({ children, isPageNoSearch = false, isAdmin = false }) {
-	var componentActive = "";
+  var componentActive = '';
 
-	const navigate = useNavigate();
-	const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-	const [isLogin, setIsLogin] = useState(getCookie("Name"));
-	const [typeProduct, setTypeProduct] = useState();
-	useEffect(() => {
-		const fetchApi = async () => {
-			let result = await HeaderServices.GetAllTypeProduct();
-			setTypeProduct(result);
-		};
-		fetchApi();
-		setTypeProduct(fetchApi());
-	}, []);
-	useEffect(() => {
-		if (getCookie("Name") !== null) {
-			setIsLogin(getCookie("Name"));
-		} else {
-			setIsLogin(false);
-		}
-	}, [location]);
+  const [isLogin, setIsLogin] = useState(getCookie('Name'));
+  const [typeProduct, setTypeProduct] = useState();
+  const [cartAmount, setcartAmount] = useState(0);
 
-	const [data, setData] = useState();
-	const [input, setInput] = useState("");
-	const [results, setResults] = useState([]);
-	const fetchData = (value) => {
-		fetch(`http://localhost:5000/search/all`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			//signal: abortController.signal,
-		})
-			.then((response) => response.json())
-			.then((json) => {
-				const results = json.filter((user) => {
-					return value && user && user.TEN_SP && user.TEN_SP.toLowerCase().includes(value);
-				});
-				setResults(results);
-			});
-	}
-	const fetchData1 = (value, category) => {
-		fetch(`http://localhost:5000/search/searchcategory/${category}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			//signal: abortController.signal,
-		})
-			.then((response) => response.json())
-			.then((json) => {
-				const results = json.filter((user) => {
-					return value && user && user.TEN_SP && user.TEN_SP.toLowerCase().includes(value);
-				});
-				console.log(results);
-				setResults(results);
-			});
-	}
-	const handleChange = (value) => {
-		setInput(value)
-		var e = document.getElementById("getvalueoption");
-		var cat = e.value;
-		if (cat === "") {
-			fetchData(value);
-		}
-		else {
-			fetchData1(value, cat);
-		}
-	}
-	const handleSearch = () => {
-		const abortController = new AbortController();
-		var e = document.getElementById("getvalueoption");
-		var cat = e.value;
-		if (cat === "") {
-			fetch(`http://localhost:5000/search/${input}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				signal: abortController.signal,
-			})
-				.then((res) => {
-					return res.json();
-				})
-				.then((data) => {
-					setData(data);
-					navigate("/products", {
-						state: {
-							message: { data }
-						}
-					});
-				});
-			return () => {
-				abortController.abort();
-			};
-		}
-		else {
-			fetch(`http://localhost:5000/search/category/${cat}/${input}`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				signal: abortController.signal,
-			})
-				.then((res) => {
-					return res.json();
-				})
-				.then((data) => {
-					setData(data);
-					navigate("/products", {
-						state: {
-							message: { data }
-						}
-					});
-				});
-			return () => {
-				abortController.abort();
-			};
-		}
-	}
+  useEffect(() => {
+    const fetchApi = async () => {
+      let result = await HeaderServices.GetAllTypeProduct();
+      setTypeProduct(result);
 
+      let result2 = await GetCartTotal(getCookie('Username'));
+      setcartAmount(result2);
+    };
+    fetchApi();
+    setTypeProduct(fetchApi());
+  }, []);
+  useEffect(() => {
+    if (getCookie('Name') !== null) {
+      setIsLogin(getCookie('Name'));
+    } else {
+      setIsLogin(false);
+    }
+  }, [location]);
+
+  const [data, setData] = useState();
+  const [input, setInput] = useState('');
+  const [results, setResults] = useState([]);
+  const fetchData = (value) => {
+    fetch(`http://localhost:5000/search/all`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      //signal: abortController.signal,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        const results = json.filter((user) => {
+          return value && user && user.TEN_SP && user.TEN_SP.toLowerCase().includes(value);
+        });
+        setResults(results);
+      });
+  };
+  const fetchData1 = (value, category) => {
+    fetch(`http://localhost:5000/search/searchcategory/${category}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      //signal: abortController.signal,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        const results = json.filter((user) => {
+          return value && user && user.TEN_SP && user.TEN_SP.toLowerCase().includes(value);
+        });
+        console.log(results);
+        setResults(results);
+      });
+  };
+  const handleChange = (value) => {
+    setInput(value);
+    var e = document.getElementById('getvalueoption');
+    var cat = e.value;
+    if (cat === '') {
+      fetchData(value);
+    } else {
+      fetchData1(value, cat);
+    }
+  };
+  const handleSearch = () => {
+    const abortController = new AbortController();
+    var e = document.getElementById('getvalueoption');
+    var cat = e.value;
+    if (cat === '') {
+      fetch(`http://localhost:5000/search/${input}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal: abortController.signal,
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setData(data);
+          navigate('/products', {
+            state: {
+              message: { data },
+            },
+          });
+        });
+      return () => {
+        abortController.abort();
+      };
+    } else {
+      fetch(`http://localhost:5000/search/category/${cat}/${input}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        signal: abortController.signal,
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          setData(data);
+          navigate('/products', {
+            state: {
+              message: { data },
+            },
+          });
+        });
+      return () => {
+        abortController.abort();
+      };
+    }
+  };
 
 	return (
 		<>
@@ -292,7 +291,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 								<div>All category</div>
 							</div>
 							<div className={`${styles["menu-item"]}`}>
-								<a href="/hot-offers/1">Hot offers</a>
+								<a href="/hot-offers">Hot offers</a>
 							</div>
 						</div>
 					</div>
