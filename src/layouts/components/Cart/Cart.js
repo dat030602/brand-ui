@@ -1,22 +1,163 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import styles from "./Cart.module.scss";
-import { eraseCookie } from "~/utils/cookies";
-import { useNavigate } from "react-router-dom";
-import * as CartServices from "~/services/CartServices";
+import styles from './Cart.module.scss';
+import { eraseCookie, getCookie } from '~/utils/cookies';
+import { useNavigate } from 'react-router-dom';
+import * as CartServices from '~/services/CartServices';
+import LoadingPage from '../LoadingPage/LoadingPage';
 
 function Cart({ children }) {
-  // console.log("test", CartServices);
-  const [data, setData] = useState();
+  const [cartTotal, setCartTotal] = useState(0);
+  const [cartDetail, setData] = useState();
+  // const [indexDetail, setIndexDetail] = useState(0);
+  // var indexDetail_clone = 0;
 
   useEffect(() => {
     const fetchApi = async () => {
-      let result = await CartServices.GetAllCart();
+      let result = await CartServices.GetAllCart(getCookie('Username'));
       setData(result);
-      console.log(result);
+
+      let result2 = await CartServices.GetCartTotal(getCookie('Username'));
+      setCartTotal(result2);
+      console.log('giohang', result2);
     };
     fetchApi();
   }, []);
+
+  const increaseQuantity = async (index) => {
+    if (cartDetail[index].SO_LUONG < cartDetail[index].SL_KHO) {
+      var result = await CartServices.UpdateQuantity(
+        getCookie('Username'),
+        cartDetail[index].MA_SP,
+        cartDetail[index].STT,
+        1,
+      );
+      if (result.returnValue === 0)
+        toast.error("We can't update the quantity", {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      else {
+        let result = await CartServices.GetAllCart(getCookie('Username'));
+        setData(result);
+        let result2 = await CartServices.GetCartTotal(getCookie('Username'));
+        setCartTotal(result2);
+
+        toast.success('Quantity updated successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      }
+    } else {
+      toast.error('Exceeded max inventory number', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  };
+
+  const decreaseQuantity = async (index) => {
+    if (cartDetail[index].SO_LUONG > 1) {
+      var result = await CartServices.UpdateQuantity(
+        getCookie('Username'),
+        cartDetail[index].MA_SP,
+        cartDetail[index].STT,
+        -1,
+      );
+      if (result.returnValue === 0)
+        toast.error("We can't update", {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      else {
+        let result = await CartServices.GetAllCart(getCookie('Username'));
+        setData(result);
+
+        let result2 = await CartServices.GetCartTotal(getCookie('Username'));
+        setCartTotal(result2);
+        toast.success('Upadte successfully', {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      }
+    } else {
+      toast.warning('Are you sure you want to delete this from cart?', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  };
+
+  const handleOnClickRemoveFromCart = async (index, submit) => {
+    var result = await CartServices.RemoveFromCart(
+      getCookie('Username'),
+      cartDetail[index].MA_SP,
+      cartDetail[index].STT,
+    );
+    if (result.returnValue === 0)
+      toast.error("We can't remove", {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    else {
+      let result = await CartServices.GetAllCart(getCookie('Username'));
+      setData(result);
+      toast.success('Remove successfully', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    }
+  };
 
   const navigate = useNavigate();
   return (
@@ -25,170 +166,154 @@ function Cart({ children }) {
         <div className="main pt-4 pb-4">
           <div className="row">
             <div className="col-2">
-              <div className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                 <a href="/">Personal info</a>
               </div>
-              <div
-                className={`${styles["side-item"]} rounded pl-3 p-1 mb-2 ${styles["active"]}`}
-              >
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
                 <a href="/my-cart">My cart</a>
               </div>
-              <div className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                 <a href="/favorite">Favorite</a>
               </div>
-              <div className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                 <a href="/orders-history">Orders history</a>
               </div>
-              <div
-                className={`${styles["side-item"]} rounded pl-3 p-1 mb-2 active`}
-              >
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 active`}>
                 <a href="/personal/edit">Profile setting</a>
               </div>
               <div
-                className={`${styles["side-item"]} rounded pl-3 p-1 mb-2`}
+                className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}
                 onClick={() => {
-                  eraseCookie("Name");
-                  eraseCookie("Username");
-                  eraseCookie("Token");
-                  navigate("/");
+                  eraseCookie('Name');
+                  eraseCookie('Username');
+                  eraseCookie('Token');
+                  navigate('/');
                 }}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
               >
                 <button>Log out</button>
               </div>
             </div>
-            <div className="col-10 pl-3">
-              <div className="bg-w rounded border p-4">
-                <div className="title pb-3">
-                  <h3>My Cart</h3>
-                </div>
-                <div className="line"></div>
-                <div className="list-box mt-4">
-                  <div className="box-item mb-4">
-                    <div className="border rounded p-3 pt-3">
-                      <div className="d-flex align-items-center justify-content-between">
-                        <div>
-                          <div>
-                            <span>Order ID:</span>
-                            <span className="ml-1">8924</span>
-                            <span className="ml-1 mr-1">•</span>
-                            <span className="text-green text-bold-normal">
-                              Confirm
-                            </span>
-                          </div>
-                          <div className="d-flex">
-                            <span className="text-gray">Date:</span>
-                            <span className="ml-1 text-bold-normal">
-                              16 December 2018
-                            </span>
-                          </div>
-                        </div>
-                        <div className="">
-                          <button className="btn btn-outline-danger p-4 pt-2 pb-2 ml-2">
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
-                      <div className="line mt-3 mb-3"></div>
-                      <div>
-                        <div className="d-flex">
-                          <span className="text-gray">Shipping address:</span>
-                          <span className="text-bold-normal ml-1">
-                            3601 Old Capitol Trail, Unit A-7, Suite 170777,
-                            Wilmington, DE 19808
-                          </span>
-                        </div>
-                        <div className="d-flex">
-                          <span className="text-gray">Payment:</span>
-                          <span className="text-green pl-1 text-bold-normal">
-                            Visa **** 4216
-                          </span>
-                        </div>
-                        <div className="d-flex">
-                          <span className="text-gray">Shipping fee:</span>
-                          <span className="text-green pl-1 text-bold-normal">
-                            $56
-                          </span>
-                        </div>
-                        <div className="d-flex">
-                          <span className="text-gray">Total paid:</span>
-                          <span className="text-green pl-1 text-bold-normal">
-                            $456
-                          </span>
-                        </div>
-                      </div>
-                      <div className="line mt-3 mb-3"></div>
+            {cartDetail !== undefined && (
+              <div className="col-10 pl-3">
+                <div className="bg-w rounded border p-4">
+                  <div className="title pb-3">
+                    <h3>My Cart</h3>
+                  </div>
+                  <div className="line"></div>
+                  <div className="list-box mt-4">
+                    <div className="box-item mb-4">
+                      {/* show product list */}
                       <div className="list-products">
-                        <a href="/" className="product-item mb-2">
-                          <div className="row">
-                            <div className="col-1 border rounded p-2 d-flex align-items-center justify-content-center">
-                              <img
-                                src="../../../../assets/image/clock.png"
-                                alt=""
-                                className="img-fluid max-width"
-                              />
-                            </div>
-                            <div className="col-9 pl-3 pr-3">
-                              <div className="box-title">
-                                <h5>
-                                  T-shirts with multiple colors, for men and
-                                  lady
-                                </h5>
+                        {Object.keys(cartDetail).map((index) => (
+                          <div className="product-item mb-4">
+                            <div className="d-flex justify-content-between">
+                              <div className="pr-4">
+                                <div className="row">
+                                  <a
+                                    href="/product"
+                                    className="col-1 border rounded p-2 d-flex align-items-center justify-content-center"
+                                  >
+                                    <img src={cartDetail[index].HINHANH} alt="" className="img-fluid max-width" />
+                                  </a>
+                                  <div className="col-9 pl-3 pr-3">
+                                    <div className="box-title">
+                                      <a href="/product">
+                                        <h5>{cartDetail[index].TEN_SP}</h5>
+                                      </a>
+                                    </div>
+                                    <div className="box-description">
+                                      <span className="text-gray">Category: {cartDetail[index].TEN_CTSP}</span>
+                                      <div className="box-description">
+                                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                          <button
+                                            type="button"
+                                            onClick={() => decreaseQuantity(index)}
+                                            class={`btn ${
+                                              cartDetail[index].SO_LUONG <= 1 ? 'btn-white' : 'btn-outline-primary'
+                                            }`}
+                                            disabled={cartDetail[index].SO_LUONG <= 1}
+                                          >
+                                            -
+                                          </button>
+                                          <span class="btn btn-outline-primary">{cartDetail[index].SO_LUONG}</span>
+                                          <button
+                                            type="button"
+                                            onClick={() => increaseQuantity(index)}
+                                            class={`btn ${
+                                              cartDetail[index].SO_LUONG === cartDetail[index].SL_KHO
+                                                ? 'btn-white'
+                                                : 'btn-outline-primary'
+                                            }`}
+                                            disabled={cartDetail[index].SO_LUONG === cartDetail[index].SL_KHO}
+                                          >
+                                            +
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-2">
+                                    <div className="d-flex flex-column align-items-end">
+                                      <span>{cartDetail[index].GIA_BAN}</span>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                              <div className="box-description">
-                                <span className="text-gray">
-                                  Size: medium, Color: blue, Material: Plastic
-                                </span>
-                              </div>
-                              <div className="box-description">
-                                <span className="text-gray">x2</span>
-                              </div>
-                            </div>
-                            <div className="col-2">
-                              <div className="d-flex flex-column align-items-end">
-                                <span>$98.00</span>
+                              <div className="">
+                                <div className="btn p-1 pr-3 pl-3 rounded text-bold-normal btn-outline-danger">
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOnClickRemoveFromCart(index)}
+                                    className="fa fa-trash text-danger"
+                                    aria-label="Remove from Cart"
+                                  ></button>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </a>
-                        <a href="/" className="product-item mb-2">
-                          <div className="row">
-                            <div className="col-1 border rounded p-2 d-flex align-items-center justify-content-center">
-                              <img
-                                src="../../../../assets/image/clock.png"
-                                alt=""
-                                className="img-fluid max-width"
-                              />
-                            </div>
-                            <div className="col-9 pl-3 pr-3">
-                              <div className="box-title">
-                                <h5>
-                                  T-shirts with multiple colors, for men and
-                                  lady
-                                </h5>
-                              </div>
-                              <div className="box-description">
-                                <span className="text-gray">
-                                  Size: medium, Color: blue, Material: Plastic
-                                </span>
-                              </div>
-                              <div className="box-description">
-                                <span className="text-gray">x2</span>
-                              </div>
-                            </div>
-                            <div className="col-2">
-                              <div className="d-flex flex-column align-items-end">
-                                <span>$98.00</span>
-                              </div>
+                        ))}
+                      </div>
+                      <div className="line mt-3 mb-3"></div>
+                      <div className="">
+                        <div className="d-flex justify-content-end align-items-center ">
+                          <div>
+                            <div className="d-flex justify-content-end align-items-center">
+                              <span className="text-gray mr-2">Sub Total: </span>
+                              <span className="text-primary font-weight-bold mr-8">
+                                {cartTotal.length > 0 ? cartTotal[0].TONGTIEN : 0}
+                              </span>
+                              <button
+                                type="button"
+                                className="btn btn-primary ml-3"
+                                data-toggle="button"
+                                aria-pressed="false"
+                                autoComplete="off"
+                              >
+                                Check Out
+                              </button>
                             </div>
                           </div>
-                        </a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="light"
+                />
               </div>
-            </div>
+            )}
+            {cartDetail === undefined && <LoadingPage />}
           </div>
         </div>
       </div>
