@@ -9,7 +9,7 @@ const routes = {
 	Favorite: "favorite",
 	OrdersHistory: "orders-history",
 	ProfileSetting: "personal/edit",
-	HotOffers: "hot-offers",
+	HotOffers: "hot-offers/:id",
 	Dashboard: "dashboard",
 	ManageProducts: "manage-products",
 	ManageCustomers: "manage-customers",

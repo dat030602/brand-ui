@@ -292,7 +292,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 								<div>All category</div>
 							</div>
 							<div className={`${styles["menu-item"]}`}>
-								<a href="/hot-offers">Hot offers</a>
+								<a href="/hot-offers/1">Hot offers</a>
 							</div>
 						</div>
 					</div>
