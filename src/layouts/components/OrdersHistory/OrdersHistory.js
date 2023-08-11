@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./OrdersHistory.module.scss";
 import { eraseCookie } from "~/utils/cookies";
 import { useNavigate } from "react-router-dom";
+import { Image } from "~/components/Image";
 
 function OrdersHistory({ children }) {
 	const navigate = useNavigate();
@@ -96,7 +97,7 @@ function OrdersHistory({ children }) {
 												<a href="/" className="product-item mb-2">
 													<div className="row">
 														<div className="col-1 border rounded p-2 d-flex align-items-center justify-content-center">
-															<img
+															<Image
 																src="../../../../assets/image/clock.png"
 																alt=""
 																className="img-fluid max-width"
@@ -125,7 +126,7 @@ function OrdersHistory({ children }) {
 												<a href="/" className="product-item mb-2">
 													<div className="row">
 														<div className="col-1 border rounded p-2 d-flex align-items-center  justify-content-center">
-															<img
+															<Image
 																src="../../../../assets/image/clock.png"
 																alt=""
 																className="img-fluid max-width"

@@ -7,6 +7,7 @@ import { eraseCookie, getCookie } from '~/utils/cookies';
 import { useNavigate } from 'react-router-dom';
 import * as CartServices from '~/services/CartServices';
 import LoadingPage from '../LoadingPage/LoadingPage';
+import { Image } from '~/components/Image';
 
 function Cart({ children }) {
   const [cartTotal, setCartTotal] = useState(0);
@@ -214,7 +215,7 @@ function Cart({ children }) {
                                     href="/product"
                                     className="col-1 border rounded p-2 d-flex align-items-center justify-content-center"
                                   >
-                                    <img src={cartDetail[index].HINHANH} alt="" className="img-fluid max-width" />
+                                    <Image className={"img-fluid max-width"} src={cartDetail[index].HINHANH} />
                                   </a>
                                   <div className="col-9 pl-3 pr-3">
                                     <div className="box-title">

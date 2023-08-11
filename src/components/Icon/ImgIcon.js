@@ -1,6 +1,7 @@
 import React from "react";
+import Image from "../Image";
 
-function ImgIcon({ children, src = "", alt = "", classNames = "" }) {
-	return <img classNames={classNames} src={src} alt={alt} />;
+function ImgIcon({ children, src = "", alt = "", className = "" }) {
+	return <Image className={className} src={src} alt={alt} />;
 }
 export default ImgIcon;

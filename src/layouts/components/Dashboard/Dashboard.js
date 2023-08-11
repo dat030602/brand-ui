@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "./Dashboard.module.scss";
+import { Image } from "~/components/Image";
 
 function Dashboard({ children }) {
 	return (
@@ -10,7 +11,7 @@ function Dashboard({ children }) {
 					className={`${styles["box-user"]} d-flex align-items-center pl-4 pt-4`}
 				>
 					<div className={`${styles["box-image"]} pr-3`}>
-						<img
+						<Image
 							src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg"
 							alt=""
 						/>
@@ -146,7 +147,7 @@ function Dashboard({ children }) {
 										<div
 											className={`${styles["box-img"]} d-flex align-items-center`}
 										>
-											<img
+											<Image
 												src="../../../assets/svg/stock-up.svg"
 												alt=""
 											/>
@@ -184,7 +185,7 @@ function Dashboard({ children }) {
 										<div
 											className={`${styles["box-img"]}  d-flex align-items-center`}
 										>
-											<img
+											<Image
 												src="../../../assets/svg/stock-up.svg"
 												alt=""
 											/>
@@ -222,7 +223,7 @@ function Dashboard({ children }) {
 										<div
 											className={`${styles["box-img"]}  d-flex align-items-center`}
 										>
-											<img
+											<Image
 												src="../../../assets/svg/stock-up.svg"
 												alt=""
 											/>
@@ -260,7 +261,7 @@ function Dashboard({ children }) {
 										<div
 											className={`${styles["box-img"]}  d-flex align-items-center`}
 										>
-											<img
+											<Image
 												src="../../../assets/svg/stock-down.svg"
 												alt=""
 											/>

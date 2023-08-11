@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "./ManageCustomers.module.scss";
+import { Image } from "~/components/Image";
 
 function ManageCustomers({ children }) {
 	return (
@@ -10,7 +11,7 @@ function ManageCustomers({ children }) {
 					className={`${styles["box-user"]} d-flex align-items-center pl-4 pt-4`}
 				>
 					<div className={`${styles["box-image"]} pr-3`}>
-						<img
+						<Image
 							src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg"
 							alt=""
 						/>

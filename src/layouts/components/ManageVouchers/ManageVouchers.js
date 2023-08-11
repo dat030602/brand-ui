@@ -6,6 +6,7 @@ import styles from './ManageVouchers.module.scss';
 import * as ManageVouchersServices from '~/services/ManageVouchersServices';
 import LoadingPage from '../LoadingPage/LoadingPage';
 import { FormatDate } from '~/utils/FormatDate';
+import { Image } from '~/components/Image';
 
 function ManageVouchers({ children }) {
   const [data, setData] = useState();
@@ -356,16 +357,12 @@ function ManageVouchers({ children }) {
     }
   };
 
-  useEffect(() => {
-    console.log(dataInput);
-  }, [dataInput]);
-
   return (
     <>
       <nav className={`${styles['side-menu']} bg-w border`}>
         <div className={`${styles['box-user']} d-flex align-items-center pl-4 pt-4`}>
           <div className={`${styles['box-image']} pr-3`}>
-            <img src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg" alt="" />
+            <Image src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg" alt="" />
           </div>
 
           <div className={`${styles['user-name']} d-flex flex-column`}>

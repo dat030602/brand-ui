@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import styles from './ManageProducts.module.scss';
 import * as ManageProductsServices from '~/services/ManageProductsServices';
 import LoadingPage from '../LoadingPage/LoadingPage';
+import { Image } from '~/components/Image';
 
 function ManageProducts({ children }) {
   const [data, setData] = useState();
@@ -201,7 +202,7 @@ function ManageProducts({ children }) {
                 className="border rounded overflow-hidden d-flex align-items-center justify-content-between mb-2 pl-2 pr-2"
                 key={index}
               >
-                <img
+                <Image
                   className="p-2"
                   src={
                     newData.image[index].HINHANH !== null ? newData.image[index].HINHANH : './assets/image/fallback.jpg'
@@ -334,7 +335,7 @@ function ManageProducts({ children }) {
             <p className="text-bold-normal">Image</p>
             <div className={`${styles['manage']} list-image`}>
               <div className="border rounded overflow-hidden d-flex align-items-center justify-content-between mb-2 pl-2 pr-2">
-                <img className="p-2" src={'./assets/image/fallback.jpg'} alt="" />
+                <Image className="p-2" src={'./assets/image/fallback.jpg'} alt="" />
                 <input
                   name="Image"
                   type="file"
@@ -664,7 +665,7 @@ function ManageProducts({ children }) {
       <nav className={`${styles['side-menu']} bg-w border`}>
         <div className={`${styles['box-user']} d-flex align-items-center pl-4 pt-4`}>
           {/* <div className={`${styles["box-image"]} pr-3`}>
-						<img src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg" alt="" />
+						<Image src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg" alt="" />
 					</div> */}
 
           <div className={`${styles['user-name']} d-flex flex-column`}>
@@ -927,7 +928,7 @@ function ManageProducts({ children }) {
                     {Object.keys(data[indexDetail].image).map((index) => (
                       <div className="col-6 overflow-hidden p-2" key={index}>
                         <div className="border rounded p-2 d-flex justify-content-center">
-                          <img
+                          <Image
                             src={
                               data[indexDetail].image[index].HINHANH !== null
                                 ? data[indexDetail].image[index].HINHANH
@@ -1151,7 +1152,7 @@ function ManageProducts({ children }) {
                         <p className="text-bold-normal">Image</p>
                         <div className={`${styles['manage']} list-image`}>
                           <div className="border rounded overflow-hidden d-flex align-items-center justify-content-between mb-2 pl-2 pr-2">
-                            <img className="p-2" src={'./assets/image/fallback.jpg'} alt="" />
+                            <Image className="p-2" src={'./assets/image/fallback.jpg'} alt="" />
                             <input
                               name="Image"
                               type="file"

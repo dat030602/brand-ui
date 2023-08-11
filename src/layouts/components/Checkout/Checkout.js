@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "./Checkout.module.scss";
+import { Image } from "~/components/Image";
 
 function Checkout({ children }) {
 	return (
@@ -18,7 +19,7 @@ function Checkout({ children }) {
 										<div className={`${styles["box-item"]} p-3`}>
 											<div className="row">
 												<div className="col-2">
-													<img
+													<Image
 														src="../../../../assets/image/clock.png"
 														alt=""
 													/>
@@ -73,7 +74,7 @@ function Checkout({ children }) {
 										</div><div className={`${styles["box-item"]} p-3`}>
 											<div className="row">
 												<div className="col-2">
-													<img
+													<Image
 														src="../../../../assets/image/clock.png"
 														alt=""
 													/>
@@ -262,13 +263,13 @@ function Checkout({ children }) {
 											<div
 												className={`${styles["active"]} border rounded p-1 `}
 											>
-												<img
+												<Image
 													src="https://play-lh.googleusercontent.com/bDCkDV64ZPT38q44KBEWgicFt2gDHdYPgCHbA3knlieeYpNqbliEqBI90Wr6Tu8YOw"
 													alt=""
 												/>
 											</div>
 											<div className="border rounded p-1 ml-3">
-												<img
+												<Image
 													src="https://play-lh.googleusercontent.com/NfFBz1Rxk0nQ7RsOk0kXbi1AEp1ZJ3rzJHbwRlmheZEDPPHh7dscqyxyX-ehxTl7tw"
 													alt=""
 												/>

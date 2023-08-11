@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import styles from "./Products.module.scss";
 import { useLocation } from "react-router-dom";
 import Item from "./Item";
+import { Image } from "~/components/Image";
 
 function Products({ children }) {
 	const location = useLocation();
@@ -13,36 +14,36 @@ function Products({ children }) {
 		<>
 			<div className="container">
 				<div className={`${styles["main"]} pt-4 pb-4`}>
-					<div className={`${styles["direction"]}`}>
-						<div className={`${styles["direction-item"]}`}>
+					<div className={`d-flex`}>
+						<div className={`${styles["direction-item"]} mr-2`}>
 							<a href="/" className="">
 								Home
 							</a>
 						</div>
-						<div className="arrow">
-							<img
+						<div className="arrow mr-2">
+							<Image
 								src="../../../../assets/svg/arrow.svg"
 								alt=""
 							/>
 						</div>
-						<div className={`${styles["direction-item"]}`}>
+						<div className={`${styles["direction-item"]} mr-2`}>
 							<a href="/" className="">
 								Clothings
 							</a>
 						</div>
-						<div className="arrow">
-							<img
+						<div className="arrow mr-2">
+							<Image
 								src="../../../../assets/svg/arrow.svg"
 								alt=""
 							/>
 						</div>
-						<div className={`${styles["direction-item"]}`}>
+						<div className={`${styles["direction-item"]} mr-2`}>
 							<a href="/" className="">
 								Men’s wear
 							</a>
 						</div>
-						<div className="arrow">
-							<img
+						<div className="arrow mr-2">
+							<Image
 								src="../../../../assets/svg/arrow.svg"
 								alt=""
 							/>
@@ -64,7 +65,7 @@ function Products({ children }) {
 										className={`${styles["filter-item-title"]} pt-3`}
 									>
 										<span>Category</span>
-										<img
+										<Image
 											className="down"
 											src="../../../../assets/svg/arrow.svg"
 											alt=""
@@ -106,7 +107,7 @@ function Products({ children }) {
 										className={`${styles["filter-item-title"]} pt-3`}
 									>
 										<span>Brands</span>
-										<img
+										<Image
 											className="down"
 											src="../../../../assets/svg/arrow.svg"
 											alt=""
@@ -168,7 +169,7 @@ function Products({ children }) {
 										className={`${styles["filter-item-title"]} pt-3`}
 									>
 										<span>Features</span>
-										<img
+										<Image
 											className="down"
 											src="../../../../assets/svg/arrow.svg"
 											alt=""
@@ -439,13 +440,13 @@ function Products({ children }) {
 								</div>}
 								<div className={`${styles["grid-products"]} d-flex border rounded`}>
 									<div className={`${styles["grid-products-item"]} ${styles["active"]}`}>
-										<img
+										<Image
 											src="../../../../assets/svg/mul-grid.svg"
 											alt=""
 										/>
 									</div>
 									<div className={`${styles["grid-products-item"]}`}>
-										<img
+										<Image
 											src="../../../../assets/svg/line1.svg"
 											alt=""
 										/>
