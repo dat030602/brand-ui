@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
-import styles from "./Checkout.module.scss";
-import axios from "axios";
+import styles from './Checkout.module.scss';
+import axios from 'axios';
 
-import { CheckOutItem } from "./components/CheckOutItem";
-import { FavoriteCheckOut } from "./components/Favorite";
-import { NavCheckOut } from "./components/NavCheckOut";
-import { getCookie } from "~/utils/cookies";
-import { GetCartItem, GetAddress, Payment } from "~/services/CheckoutServices";
-import { GetAllProducts } from "~/services/ManageProductsServices";
+import { CheckOutItem } from './components/CheckOutItem';
+import { FavoriteCheckOut } from './components/Favorite';
+import { NavCheckOut } from './components/NavCheckOut';
+import { getCookie } from '~/utils/cookies';
+import { GetCartItem, GetAddress, Payment } from '~/services/CheckoutServices';
+import { GetAllProducts } from '~/services/ManageProductsServices';
 function Checkout({ setDataModal, handleCloseModal }) {
   //   const navigate = useNavigate();
   //   const linkTo = useNavigate();
 
-  const username = getCookie("Username");
+  const username = getCookie('Username');
   const [dataCart, setDataCart] = useState(null);
   const [dataProduct, setDataProduct] = useState(null);
   const [data, setData] = useState([]);
@@ -28,12 +28,12 @@ function Checkout({ setDataModal, handleCloseModal }) {
   const [discount, setDiscount] = useState(0);
   const [addressShip, setAddressShip] = useState({
     id: -1,
-    full_info: "",
+    full_info: '',
   });
   useEffect(() => {
     const fetchApi = async () => {
       await GetCartItem(username).then((result) => {
-        if (result.message === "success") setDataCart(result.data);
+        if (result.message === 'success') setDataCart(result.data);
       });
       await GetAllProducts().then((result) => {
         setDataProduct(result);
@@ -56,16 +56,12 @@ function Checkout({ setDataModal, handleCloseModal }) {
           const detail = product.detail;
           const image = product.image;
           const choose = {
-            detail: detail.find(
-              (x) => x.MA_SP === item.MA_SP && x.STT == item.STT
-            ),
+            detail: detail.find((x) => x.MA_SP === item.MA_SP && x.STT == item.STT),
             amount: item.SO_LUONG,
           };
           if (choose.detail != undefined) {
             choose.detail.TEN_SP = product.product.TEN_SP;
-            choose.image = image.find(
-              (x) => x.MA_SP === item.MA_SP && x.STT == item.STT
-            );
+            choose.image = image.find((x) => x.MA_SP === item.MA_SP && x.STT == item.STT);
             choose.price = choose.detail.GIA_BAN;
             setData((oldData) => [...oldData, choose]);
             setTotal((oldData) => oldData + choose.price * item.SO_LUONG);
@@ -79,7 +75,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
   useEffect(() => {
     if (data.length === 0) {
       setEmpty(true);
-      console.log("empty");
+      console.log('empty');
     } else {
       setEmpty(false);
     }
@@ -92,9 +88,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
   useEffect(() => {
     if (removeId != -1) {
       console.log(removeId);
-      const newData = data.filter(
-        (product) => product.detail.MA_SP !== removeId
-      );
+      const newData = data.filter((product) => product.detail.MA_SP !== removeId);
       setData(newData);
       setRemoveId(-1);
     }
@@ -115,7 +109,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
       shipping_discount_id: null,
       payment_method: typePayment,
     };
-    if (typePayment === "paypal") {
+    if (typePayment === 'paypal') {
       const list_Item_Order = [];
       data.map((product) => {
         const product_Detail = {
@@ -140,12 +134,12 @@ function Checkout({ setDataModal, handleCloseModal }) {
   return (
     <>
       <div className="container">
-        <div className="main pb-4" style={{ width: "1350px" }}>
+        <div className="main pb-4" style={{ width: '1350px' }}>
           <div className="pt-4 pb-4">
             {load === false ? (
               <div className="row">
                 <div className="col-9 pr-3">
-                  <div className={`${styles["title"]} mb-3`}>
+                  <div className={`${styles['title']} mb-3`}>
                     <h3>Product Order</h3>
                   </div>
                   <div className="bg-w border rounded">
@@ -153,9 +147,9 @@ function Checkout({ setDataModal, handleCloseModal }) {
                       {data.length === 0 ? (
                         <p
                           style={{
-                            textAlign: "center",
-                            fontSize: "30px",
-                            marginBottom: "20px",
+                            textAlign: 'center',
+                            fontSize: '30px',
+                            marginBottom: '20px',
                           }}
                         >
                           No Item Order
@@ -182,16 +176,11 @@ function Checkout({ setDataModal, handleCloseModal }) {
                     </div>
                     <div className="d-flex justify-content-between pr-3 pl-3 pb-3">
                       <button className="btn btn-outline-primary p-3 pl-2 pt-1 pb-1 d-flex align-items-center">
-                        <svg
-                          className="left mr-2"
-                          data-src="../../../../assets/svg/arrow1.svg"
-                        ></svg>
+                        <svg className="left mr-2" data-src="../../../../assets/svg/arrow1.svg"></svg>
                         Back to Home
                       </button>
                       {data.length !== 0 && (
-                        <button className="btn btn-outline-primary p-2 d-flex align-items-center">
-                          Remove all
-                        </button>
+                        <button className="btn btn-outline-primary p-2 d-flex align-items-center">Remove all</button>
                       )}
                     </div>
                   </div>

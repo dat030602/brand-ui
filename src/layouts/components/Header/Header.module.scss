@@ -19,6 +19,7 @@ header {
 .search {
 	max-width: 50%;
 	display: flex;
+	position: relative;
 }
 .search-row {
 	width: 100%;
@@ -75,6 +76,33 @@ header {
 .search-col {
 	border: 2px solid var(--primary);
 	overflow: hidden;
+}
+
+.dropdown {
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	border-radius: 10px;
+}
+.dropdown:emty {
+	border: none;
+}
+.dropdown-row {
+	cursor: pointer;
+	text-align: start;
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	border-radius: 10px;
+	gap: 10px;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.e:hover {
+	background-color: rgb(232, 230, 230);
 }
 .action-icon {
 	position: relative;
@@ -148,3 +176,5 @@ header {
 .active > .box-icon svg {
 	color: #5932ea;
 }
+
+

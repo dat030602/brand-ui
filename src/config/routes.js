@@ -1,7 +1,7 @@
 const routes = {
 	home: "/",
 	Products: "products",
-	Product: "product",
+	Product: "product/:id",
 	Checkout: "checkout",
 	Login: "login",
 	Register: "register",
@@ -9,7 +9,7 @@ const routes = {
 	Favorite: "favorite",
 	OrdersHistory: "orders-history",
 	ProfileSetting: "personal/edit",
-	HotOffers: "hot-offers",
+	HotOffers: "hot-offers/:id",
 	Dashboard: "dashboard",
 	ManageProducts: "manage-products",
 	ManageCustomers: "manage-customers",

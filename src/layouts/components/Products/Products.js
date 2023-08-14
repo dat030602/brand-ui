@@ -1,42 +1,49 @@
 import React from "react";
-
+import { useEffect, useState } from "react";
 import styles from "./Products.module.scss";
+import { useLocation } from "react-router-dom";
+import Item from "./Item";
+import { Image } from "~/components/Image";
 
 function Products({ children }) {
+	const location = useLocation();
+	const data = location.state.message.data;
+	//console.log(data1);
+
 	return (
 		<>
 			<div className="container">
 				<div className={`${styles["main"]} pt-4 pb-4`}>
-					<div className={`${styles["direction"]}`}>
-						<div className={`${styles["direction-item"]}`}>
+					<div className={`d-flex`}>
+						<div className={`${styles["direction-item"]} mr-2`}>
 							<a href="/" className="">
 								Home
 							</a>
 						</div>
-						<div className="arrow">
-							<img
+						<div className="arrow mr-2">
+							<Image
 								src="../../../../assets/svg/arrow.svg"
 								alt=""
 							/>
 						</div>
-						<div className={`${styles["direction-item"]}`}>
+						<div className={`${styles["direction-item"]} mr-2`}>
 							<a href="/" className="">
 								Clothings
 							</a>
 						</div>
-						<div className="arrow">
-							<img
+						<div className="arrow mr-2">
+							<Image
 								src="../../../../assets/svg/arrow.svg"
 								alt=""
 							/>
 						</div>
-						<div className={`${styles["direction-item"]}`}>
+						<div className={`${styles["direction-item"]} mr-2`}>
 							<a href="/" className="">
 								Men’s wear
 							</a>
 						</div>
-						<div className="arrow">
-							<img
+						<div className="arrow mr-2">
+							<Image
 								src="../../../../assets/svg/arrow.svg"
 								alt=""
 							/>
@@ -58,7 +65,7 @@ function Products({ children }) {
 										className={`${styles["filter-item-title"]} pt-3`}
 									>
 										<span>Category</span>
-										<img
+										<Image
 											className="down"
 											src="../../../../assets/svg/arrow.svg"
 											alt=""
@@ -100,7 +107,7 @@ function Products({ children }) {
 										className={`${styles["filter-item-title"]} pt-3`}
 									>
 										<span>Brands</span>
-										<img
+										<Image
 											className="down"
 											src="../../../../assets/svg/arrow.svg"
 											alt=""
@@ -162,7 +169,7 @@ function Products({ children }) {
 										className={`${styles["filter-item-title"]} pt-3`}
 									>
 										<span>Features</span>
-										<img
+										<Image
 											className="down"
 											src="../../../../assets/svg/arrow.svg"
 											alt=""
@@ -425,19 +432,21 @@ function Products({ children }) {
 						</div>
 						<div className="col pl-3">
 							<div className={`${styles["header-products"]} bg-w d-flex pt-2 pb-2 pl-3 pr-3 mb-3 rounded border`}>
-								<div className={`${styles["about"]}`}>
+								{data.length > 0 ? <div className={`${styles["about"]}`}>
 									12,911 items in {" "}
 									<strong>Mobile accessory</strong>
-								</div>
+								</div> : <div className={`${styles["about"]}`}>
+									Không tìm thấy sản phẩm
+								</div>}
 								<div className={`${styles["grid-products"]} d-flex border rounded`}>
 									<div className={`${styles["grid-products-item"]} ${styles["active"]}`}>
-										<img
+										<Image
 											src="../../../../assets/svg/mul-grid.svg"
 											alt=""
 										/>
 									</div>
 									<div className={`${styles["grid-products-item"]}`}>
-										<img
+										<Image
 											src="../../../../assets/svg/line1.svg"
 											alt=""
 										/>
@@ -446,92 +455,10 @@ function Products({ children }) {
 							</div>
 							{/* <!-- <div className="products"> --> */}
 							<div className={`${styles["products"]} grid-3`}>
-								<div className={`${styles["products-item"]}`}>
-									<div className={`${styles["product"]} row rounded overflow-hidden bg-w pr-3 pl-3 border mb-3`}>
-										<a
-											href="/product"
-											className={`${styles["product-image"]}`}
-										>
-											<div
-												className="background-img pt-100p"
-												style={{
-													backgroundImage:
-														"url('../../../../assets/image/clock.png')",
-												}}
-											></div>
-										</a>
-										<div className={`${styles["product-content"]} p-3 d-flex`}>
-											<a
-												href="/product"
-												className={`${styles["product-content-cover"]} pb-2`}
-											>
-												<div className={`${styles["product-name"]} par-line-2`}>
-													Canon Cmera EOS 2000, Black
-													10x zoom
-												</div>
-												<div className={`${styles["product-about"]}`}>
-													<div className={`${styles["price"]}`}>
-														<span>$998.00</span>
-														<span>$1128.00</span>
-													</div>
-													<div className={`${styles["product-about"]} d-flex`}>
-														<div className={`${styles["product-star"]} d-flex`}>
-															<div className="svg-star d-flex">
-																<svg
-																	className="star"
-																	data-src="../../../../assets/svg/star.svg"
-																></svg>
-																<svg
-																	className="star"
-																	data-src="../../../../assets/svg/star.svg"
-																></svg>
-																<svg
-																	className="star"
-																	data-src="../../../../assets/svg/star.svg"
-																></svg>
-																<svg
-																	className="star"
-																	data-src="../../../../assets/svg/star.svg"
-																></svg>
-																<svg
-																	className="star"
-																	data-src="../../../../assets/svg/star.svg"
-																></svg>
-															</div>
-															<div className={`${styles["product-point"]}`}>
-																7.5
-															</div>
-														</div>
-														<div className={`${styles["product-sale"]}`}>
-															<span>•</span>
-															<span>
-																154 orders
-															</span>
-														</div>
-													</div>
-												</div>
-												<div className={`${styles["product-description"]} mt-2 mb-2 overflow-hidden`}>
-													<span className="par-line-2">
-														Lorem ipsum dolor sit
-														amet, consectetur
-														adipisicing elit, sed do
-														eiusmod tempor
-														incididunt ut labore et
-														dolore magna aliqua
-													</span>
-												</div>
-											</a>
-											<div className={`${styles["product-favorite"]} ${styles["active"]}`}>
-												<button>
-													<svg
-														className="star btn"
-														data-src="../../../../assets/svg/heart.svg"
-													></svg>
-												</button>
-											</div>
-										</div>
-									</div>
-								</div>
+								{data &&
+									Object.keys(data).map(function(key) {
+										return <Item key={key} data={data[key]} />;
+									})}
 							</div>
 						</div>
 					</div>

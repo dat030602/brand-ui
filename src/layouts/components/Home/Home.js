@@ -2,9 +2,9 @@ import React from "react";
 
 import styles from "./Home.module.scss";
 
-// import classNames from "classnames/bind";
+// import className from "className/bind";
 
-// const cx = classNames.bind(styles);
+// const cx = className.bind(styles);
 
 function Home({ children }) {
 	return (

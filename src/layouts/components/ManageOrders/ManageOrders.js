@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "./ManageOrders.module.scss";
+import { Image } from "~/components/Image";
 
 function ManageOrders({ children }) {
 	return (
@@ -10,7 +11,7 @@ function ManageOrders({ children }) {
 					className={`${styles["box-user"]} d-flex align-items-center pl-4 pt-4`}
 				>
 					<div className={`${styles["box-image"]} pr-3`}>
-						<img
+						<Image
 							src="https://imglarger.com/Images/before-after/ai-image-enlarger-1-after-2.jpg"
 							alt=""
 						/>
@@ -335,7 +336,7 @@ function ManageOrders({ children }) {
 										>
 											<div className="row">
 												<div className="col-3 border rounded p-2 d-flex align-items-center">
-													<img
+													<Image
 														src="../../../../assets/image/clock.png"
 														alt=""
 														className="img-fluid max-width"
@@ -375,7 +376,7 @@ function ManageOrders({ children }) {
 										>
 											<div className="row">
 												<div className="col-3 border rounded p-2 d-flex align-items-center">
-													<img
+													<Image
 														src="../../../../assets/image/clock.png"
 														alt=""
 														className="img-fluid max-width"

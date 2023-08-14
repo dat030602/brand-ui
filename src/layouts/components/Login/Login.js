@@ -8,6 +8,10 @@ import { eraseCookie, setCookie } from "~/utils/cookies";
 
 function Login({ children }) {
 	const [dataInput, setDataInput] = useState({ user: "", password: "" });
+	const [textError, setTextError] = useState({
+		fill: { username: false, password: false },
+		cantRequest: false,
+	});
 
 	const navigate = useNavigate();
 
@@ -29,6 +33,60 @@ function Login({ children }) {
 				});
 		}
 	};
+	const HandleSubmit = async () => {
+		if (dataInput.user === "admin") {
+			setCookie("Name", "Admin", 30);
+			setCookie("Username", "Admin", 30);
+			setCookie("Token", "asasdhjasdhjkasdhjk", 30);
+			navigate("/dashboard");
+		} else {
+			if (dataInput.user !== "" && dataInput.password !== "") {
+				console.log(dataInput);
+				const result = await AuthenticationServices.Login(dataInput);
+				if (result.data.returnValue === 1) {
+					eraseCookie("Name");
+					setCookie("Name", result.data.recordset[0].HO_TEN, 30);
+					setCookie("Username", result.data.recordset[0].TEN_TK, 30);
+					setCookie("Token", result.data.recordset[0].TOKEN, 30);
+					navigate("/");
+				} else {
+					setTextError((pre) => {
+						var newData = { ...pre };
+						newData.fill.username = false;
+						newData.fill.password = false;
+						newData.cantRequest = true;
+						return newData;
+					});
+				}
+			} else {
+				if (dataInput.user !== "") {
+					setTextError((pre) => {
+						var newData = { ...pre };
+						newData.fill.username = true;
+						newData.fill.password = false;
+						newData.cantRequest = false;
+						return newData;
+					});
+				} else if (dataInput.password !== "") {
+					setTextError((pre) => {
+						var newData = { ...pre };
+						newData.fill.username = false;
+						newData.fill.password = true;
+						newData.cantRequest = false;
+						return newData;
+					});
+				} else {
+					setTextError((pre) => {
+						var newData = { ...pre };
+						newData.fill.username = true;
+						newData.fill.password = true;
+						newData.cantRequest = false;
+						return newData;
+					});
+				}
+			}
+		}
+	};
 	return (
 		<>
 			<div className="container">
@@ -46,10 +104,22 @@ function Login({ children }) {
 								name="Username"
 								className="border rounded p-3 pt-2 pb-2"
 								placeholder="Enter your Username"
+								onKeyDown={(e) => {
+									if (e.key === "Enter") {
+										HandleSubmit();
+									}
+								}}
 								onChange={(e) => HandleOnChange(e)}
 								value={dataInput.user}
 							/>
 						</div>
+						{!textError.fill.username && textError.fill.password && (
+							<div className="d-flex mt-2">
+								<p className="text-danger" style={{ fontSize: "14px" }}>
+									Please enter your username
+								</p>
+							</div>
+						)}
 						<div className="d-flex mt-4">
 							<label htmlFor="" className="mb-2">
 								Password
@@ -60,33 +130,39 @@ function Login({ children }) {
 								className="border rounded p-3 pt-2 pb-2"
 								placeholder="Enter your password"
 								onChange={(e) => HandleOnChange(e)}
-								value={dataInput.password}
-							/>
-						</div>
-						<div className="d-flex mt-4">
-							<p></p>
-						</div>
-						<div className="mt-4 d-flex">
-							<button
-								className="btn btn-primary p-5 pt-2 pb-2"
-								onClick={async (e) => {
-									if (dataInput.user === "admin") {
-										setCookie("Name", "Admin", 30);
-										setCookie("Username", "Admin", 30);
-										setCookie("Token", "asasdhjasdhjkasdhjk", 30);
-										navigate("/dashboard");
-									} else {
-										const result = await AuthenticationServices.Login(dataInput);
-										if (result.data.returnValue === 1) {
-											eraseCookie("Name");
-											setCookie("Name", result.data.recordset[0].HO_TEN, 30);
-											setCookie("Username", result.data.recordset[0].TEN_TK, 30);
-											setCookie("Token", result.data.recordset[0].TOKEN, 30);
-											navigate("/");
-										}
+								onKeyDown={(e) => {
+									if (e.key === "Enter") {
+										HandleSubmit();
 									}
 								}}
-							>
+								value={dataInput.password}
+								required
+							/>
+						</div>
+						{textError.fill.username && !textError.fill.password && (
+							<div className="d-flex mt-2">
+								<p className="text-danger" style={{ fontSize: "14px" }}>
+									Please enter your password
+								</p>
+							</div>
+						)}
+
+						{textError.fill.username && textError.fill.password && (
+							<div className="d-flex mt-2">
+								<p className="text-danger" style={{ fontSize: "14px" }}>
+									Please enter your username and password
+								</p>
+							</div>
+						)}
+						{textError.cantRequest && (
+							<div className="d-flex mt-2">
+								<p className="text-danger" style={{ fontSize: "14px" }}>
+									We cannot find an account with that email username and password
+								</p>
+							</div>
+						)}
+						<div className="mt-4 d-flex">
+							<button className="btn btn-primary p-5 pt-2 pb-2" onClick={() => HandleSubmit()}>
 								Sign in
 							</button>
 						</div>

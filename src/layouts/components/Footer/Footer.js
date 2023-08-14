@@ -1,6 +1,7 @@
 import React from "react";
 
 import styles from "./Footer.module.scss";
+import { Image } from "~/components/Image";
 
 function Footer({ children, isAdmin = false }) {
 	return (
@@ -14,7 +15,7 @@ function Footer({ children, isAdmin = false }) {
 									<div className={`${styles["footer-col"]}`}>
 										<div>
 											<a href="/">
-												<img
+												<Image
 													src={`${
 														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
 													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
@@ -32,7 +33,7 @@ function Footer({ children, isAdmin = false }) {
 										</div>
 										<div className={`${styles["item"]} ${styles["list-icon"]}`}>
 											<a href="/">
-												<img
+												<Image
 													src={`${
 														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
 													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
@@ -42,7 +43,7 @@ function Footer({ children, isAdmin = false }) {
 												/>
 											</a>
 											<a href="/">
-												<img
+												<Image
 													src={`${
 														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
 													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
@@ -52,7 +53,7 @@ function Footer({ children, isAdmin = false }) {
 												/>
 											</a>
 											<a href="/">
-												<img
+												<Image
 													src={`${
 														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
 													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
@@ -62,7 +63,7 @@ function Footer({ children, isAdmin = false }) {
 												/>
 											</a>
 											<a href="/">
-												<img
+												<Image
 													src={`${
 														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
 													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
@@ -72,7 +73,7 @@ function Footer({ children, isAdmin = false }) {
 												/>
 											</a>
 											<a href="/">
-												<img
+												<Image
 													src={`${
 														window.location.href.split("/").length - 1 >= 4 ? "../" : ""
 													}${window.location.href.split("/").length - 1 >= 3 ? "../" : ""}${
