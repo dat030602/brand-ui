@@ -24,4 +24,22 @@ function FormatDate(dateString, time = false, timeInput = false) {
 
   return `${year}-${month}-${day}`;
 }
-export { FormatDate };
+
+function FormatDateAndTime(dateString) {
+  const date = new Date(dateString);
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  const seconds = date.getUTCSeconds();
+  const day = date.getUTCDate();
+  const month = date.getUTCMonth() + 1;
+  const year = date.getFullYear();
+
+  const formattedTime = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${
+    seconds < 10 ? '0' : ''
+  }${seconds}`;
+  const formattedDate = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+
+  return `${formattedTime} ${formattedDate}`;
+}
+
+export { FormatDate, FormatDateAndTime };

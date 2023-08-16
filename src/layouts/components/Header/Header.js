@@ -265,7 +265,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
                         alt="/"
                       />
                       <span>Cart</span>
-                      <div className={`${styles['amount']}`}>1</div>
+                      <div className={`${styles['amount']}`}>{cartAmount.length > 0 ? cartAmount[0].SOLUONG : 0}</div>
                     </a>
                   </div>
                 )}
