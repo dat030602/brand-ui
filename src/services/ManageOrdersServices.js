@@ -8,15 +8,6 @@ export const GetAllOrders = async (id = '') => {
   }
 };
 
-export const GetOrderCount = async (id = '') => {
-  try {
-    const res = await httpRequest.Get(`/manage-orders/total`);
-    return res;
-  } catch (error) {
-    console.log('error');
-  }
-};
-
 export const GetSelectedOrderInfo = async (id = '') => {
   try {
     const res = await httpRequest.Get(`/manage-orders/${id}`);

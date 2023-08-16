@@ -11,17 +11,14 @@ import { Image } from '~/components/Image';
 
 function ManageOrders({ children }) {
   const [orderdata, setOrderData] = useState();
-  const [ordercount, setOrderCount] = useState(0);
-  const [orderdetail, setOrderDetail] = useState(null);
+  const [orderdetail, setOrderDetail] = useState();
   const [selectedorder, setSelectedOrder] = useState(0);
+  const [cancelledorder, setCancelledOrder] = useState(0);
 
   useEffect(() => {
     const fetchApi = async () => {
       let result = await ManageOrdersServices.GetAllOrders();
       setOrderData(result);
-
-      let result2 = await ManageOrdersServices.GetOrderCount();
-      setOrderCount(result2);
     };
     fetchApi();
   }, []);
@@ -29,7 +26,6 @@ function ManageOrders({ children }) {
   const handleDetailClick = async (slug) => {
     let result = await ManageOrdersServices.GetSelectedOrderInfo(slug);
     setSelectedOrder(result);
-    console.log('RESSUTL', result);
 
     let result2 = await ManageOrdersServices.GetOrderDetail(slug);
     setOrderDetail(result2);
@@ -139,118 +135,6 @@ function ManageOrders({ children }) {
           </a>
         </div>
       </nav>
-      {/* <div className="container">
-        <div className="main pt-4 pb-4">
-          <div className="pl-3 pr-3">
-            <div className="bg-w border rounded">
-              <div className="p-3">
-                <div className="header d-flex align-items-center justify-content-between">
-                  <div className="title">
-                    <h5>Orders ({ordercount.length > 0 ? ordercount[0].SL_DONHANG : 0})</h5>
-                  </div>
-                </div>
-                <section className="ftco-section">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="table-wrap">
-                          <table className="table">
-                            <thead className="thead-primary">
-                              <tr>
-                                <th className="text-center">Order ID</th>
-                                <th className="text-center">Date</th>
-                                <th className="text-center">Shipping address</th>
-                                <th className="text-center">Status</th>
-                                <th className="text-center">Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {orderdata !== undefined &&
-                                Object.keys(orderdata).map((index) => (
-                                  <tr>
-                                    <td className="">
-                                      <p className="par-line-1 text-center">{orderdata[index].MA_DONHANG}</p>
-                                    </td>
-                                    <td className="text-center">
-                                      <div className="overflow-hidden">
-                                        <p className="text-center">{FormatDate(orderdata[index].NGAYTAO)}</p>
-                                      </div>
-                                    </td>
-                                    <td className="text-center">
-                                      <div className="overflow-hidden">
-                                        <p className="text-center">{orderdata[index].DIACHI}</p>
-                                      </div>
-                                    </td>
-                                    <td className="text-center">
-                                      <p className="par-line-1 text-center">{orderdata[index].TRANGTHAI}</p>
-                                    </td>
-                                    <td className="tier d-flex justify-content-center">
-                                      <button
-                                        className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-detail"
-                                        data-toggle="modal"
-                                        data-target="#orderDetailModal"
-                                        onClick={() => handleDetailClick(orderdata[index].MA_DONHANG)}
-                                      >
-                                        Detail
-                                      </button>
-                                      {orderdata[index].TRANGTHAI === 'Received' ? (
-                                        <button
-                                          className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-info"
-                                          onClick={() =>
-                                            handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Processing')
-                                          }
-                                        >
-                                          Processing
-                                        </button>
-                                      ) : null}
-
-                                      {
-                                        // orderdata[index].TRANGTHAI === 'Received' ||
-                                        orderdata[index].TRANGTHAI === 'Pending' ? (
-                                          <button
-                                            className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
-                                            data-toggle="modal"
-                                            data-target="#deleteOrderModal"
-                                          >
-                                            Cancel
-                                          </button>
-                                        ) : null
-                                      }
-                                      {orderdata[index].TRANGTHAI === 'Processing' ? (
-                                        <button
-                                          className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn btn-primary"
-                                          onClick={() =>
-                                            handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Shipped')
-                                          }
-                                        >
-                                          In Delivery
-                                        </button>
-                                      ) : null}
-                                      {orderdata[index].TRANGTHAI === 'Shipped' ? (
-                                        <button
-                                          className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-success"
-                                          onClick={() =>
-                                            handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Delivered')
-                                          }
-                                        >
-                                          Delivered
-                                        </button>
-                                      ) : null}
-                                    </td>
-                                  </tr>
-                                ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
       {orderdata === undefined ? (
         <LoadingPage />
       ) : (
@@ -327,6 +211,7 @@ function ManageOrders({ children }) {
                                                 className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
                                                 data-toggle="modal"
                                                 data-target="#deleteOrderModal"
+                                                onClick={() => setCancelledOrder(orderdata[index])} // data-order-id={orderdata[index].MA_DONHANG}
                                               >
                                                 Cancel
                                               </button>
@@ -401,7 +286,7 @@ function ManageOrders({ children }) {
                           <span className="text-gray">Order ID:</span>
                           <span className="ml-1">{selectedorder[0].MA_DONHANG}</span>
                           <span className="ml-1 mr-1">•</span>
-                          <span className="text-green text-bold-normal">{selectedorder[0].TRANGTHAI}</span>
+                          <span className="text-primary text-bold-normal">{selectedorder[0].TRANGTHAI}</span>
                         </div>
                         <div className="d-flex">
                           <span className="text-gray">Order DateTime:</span>
@@ -417,15 +302,15 @@ function ManageOrders({ children }) {
                       </div>
                       <div className="d-flex">
                         <span className="text-gray">Payment:</span>
-                        <span className="text-green pl-1 text-bold-normal">Visa **** 4216</span>
+                        <span className="text-primary pl-1 text-bold-normal">Visa **** 4216</span>
                       </div>
                       <div className="d-flex">
                         <span className="text-gray">Shipping fee:</span>
-                        <span className="text-green pl-1 text-bold-normal">{selectedorder[0].PHI_GIAO_HANG}</span>
+                        <span className="text-primary pl-1 text-bold-normal">{selectedorder[0].PHI_GIAO_HANG}</span>
                       </div>
                       <div className="d-flex">
                         <span className="text-gray">Total paid:</span>
-                        <span className="text-green pl-1 text-bold-normal">{selectedorder[0].TONGTIEN}</span>
+                        <span className="text-primary pl-1 text-bold-normal">{selectedorder[0].TONGTIEN}</span>
                       </div>
                     </div>
                     <div className="line mt-3 mb-3"></div>
@@ -469,11 +354,6 @@ function ManageOrders({ children }) {
               <button type="button" className="btn btn-secondary" data-dismiss="modal">
                 Close
               </button>
-              {selectedorder && selectedorder[0].TRANGTHAI === 'Processing' && (
-                <button type="button" className="btn btn-primary">
-                  Out For Delivery
-                </button>
-              )}
             </div>
           </div>
         </div>
@@ -490,7 +370,7 @@ function ManageOrders({ children }) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="deleteOrderModalLabel">
-                Cancel order: ID010101
+                Cancel order: {cancelledorder.MA_DONHANG}
               </h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -498,7 +378,12 @@ function ManageOrders({ children }) {
             </div>
             <div className="modal-body">Are you sure about that?</div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-danger">
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-dismiss="modal"
+                onClick={() => handleUpdateOrderStatus(cancelledorder.MA_DONHANG, 'Cancelled')}
+              >
                 Cancel
               </button>
               <button type="button" className="btn btn-secondary" data-dismiss="modal">
