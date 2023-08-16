@@ -7,9 +7,6 @@ import { getCookie } from './utils/cookies';
 import PageNotFoundPage from './pages/PageNotFound';
 
 function App() {
-  useEffect(() => {
-    console.log(getCookie('Username'));
-  }, []);
   return (
     <Router>
       <div className="App">
