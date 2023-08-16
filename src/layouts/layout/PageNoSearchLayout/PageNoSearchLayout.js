@@ -1,15 +1,15 @@
 import React from 'react';
 
-import styles from './DefaultLayout.module.scss';
+import styles from './PageNoSearchLayout.module.scss';
 
-import Header from '~/layouts/components/Header/Header';
 import Footer from '~/layouts/components/Footer/Footer';
+import HeaderNoSearch from '~/layouts/components/HeaderNoSearch';
 
-function DefaultLayout({ children, onLogin }) {
+function PageNoSearchLayout({ children, onLogin }) {
   return (
     <>
       <app-header>
-        <Header />
+        <HeaderNoSearch />
       </app-header>
       <main className={styles['main']}>{children}</main>
       <app-footer>
@@ -18,4 +18,4 @@ function DefaultLayout({ children, onLogin }) {
     </>
   );
 }
-export default DefaultLayout;
+export default PageNoSearchLayout;

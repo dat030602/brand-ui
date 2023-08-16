@@ -10,7 +10,7 @@ const routes = {
 	OrdersHistory: "orders-history",
 	ProfileSetting: "personal/edit",
 	HotOffers: "hot-offers/:id",
-	Dashboard: "dashboard",
+	Dashboard: "/",
 	ManageProducts: "manage-products",
 	ManageCustomers: "manage-customers",
 	ManageOrders: "manage-orders",

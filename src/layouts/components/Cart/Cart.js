@@ -163,39 +163,39 @@ function Cart({ children }) {
   const navigate = useNavigate();
   return (
     <>
-      <div className="container">
-        <div className="main pt-4 pb-4">
-          <div className="row">
-            <div className="col-2">
-              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                <a href="/">Personal info</a>
+      {cartDetail !== undefined && (
+        <div className="container">
+          <div className="main pt-4 pb-4">
+            <div className="row">
+              <div className="col-2">
+                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                  <a href="/">Personal info</a>
+                </div>
+                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
+                  <a href="/my-cart">My cart</a>
+                </div>
+                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                  <a href="/favorite">Favorite</a>
+                </div>
+                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                  <a href="/orders-history">Orders history</a>
+                </div>
+                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 active`}>
+                  <a href="/personal/edit">Profile setting</a>
+                </div>
+                <div
+                  className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}
+                  onClick={() => {
+                    eraseCookie('Name');
+                    eraseCookie('Username');
+                    eraseCookie('Token');
+                    navigate('/');
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <button>Log out</button>
+                </div>
               </div>
-              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
-                <a href="/my-cart">My cart</a>
-              </div>
-              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                <a href="/favorite">Favorite</a>
-              </div>
-              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                <a href="/orders-history">Orders history</a>
-              </div>
-              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 active`}>
-                <a href="/personal/edit">Profile setting</a>
-              </div>
-              <div
-                className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}
-                onClick={() => {
-                  eraseCookie('Name');
-                  eraseCookie('Username');
-                  eraseCookie('Token');
-                  navigate('/');
-                }}
-                style={{ cursor: 'pointer' }}
-              >
-                <button>Log out</button>
-              </div>
-            </div>
-            {cartDetail !== undefined && (
               <div className="col-10 pl-3">
                 <div className="bg-w rounded border p-4">
                   <div className="title pb-3">
@@ -215,7 +215,7 @@ function Cart({ children }) {
                                     href="/product"
                                     className="col-1 border rounded p-2 d-flex align-items-center justify-content-center"
                                   >
-                                    <Image className={"img-fluid max-width"} src={cartDetail[index].HINHANH} />
+                                    <Image className={'img-fluid max-width'} src={cartDetail[index].HINHANH} />
                                   </a>
                                   <div className="col-9 pl-3 pr-3">
                                     <div className="box-title">
@@ -313,11 +313,11 @@ function Cart({ children }) {
                   theme="light"
                 />
               </div>
-            )}
-            {cartDetail === undefined && <LoadingPage />}
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {cartDetail === undefined && <LoadingPage />}
     </>
   );
 }

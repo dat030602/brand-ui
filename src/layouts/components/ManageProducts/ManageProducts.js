@@ -674,7 +674,7 @@ function ManageProducts({ children }) {
           </div>
         </div>
         <div className={`${styles['list-box']} mt-4 mb-2`}>
-          <a href="/dashboard" className={`${styles['box-item']} position-relative p-2 pl-4 d-flex align-items-center`}>
+          <a href="/" className={`${styles['box-item']} position-relative p-2 pl-4 d-flex align-items-center`}>
             <div className={`${styles['box-icon']} mr-3`}>
               <svg className="mr-2" data-src="./assets/svg/Dashboard.svg"></svg>
             </div>

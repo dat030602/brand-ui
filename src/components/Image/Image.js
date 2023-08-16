@@ -7,11 +7,11 @@ function Image({ children, className = '', src = '', alt = '' }) {
       src={src}
       alt={alt}
       onError={(e) => {
-        e.target.src = `${window.location.href.split('/').length - 3 >= 4 ? '../' : ''}${
-          window.location.href.split('/').length - 3 >= 3 ? '../' : ''
-        }${window.location.href.split('/').length - 3 >= 2 ? '.' : ''}./assets/image/fallback.jpg`;
+        const size = window.location.href.split('/').length;
+        e.target.src = `${size - 3 >= 4 ? '../' : ''}${size - 3 >= 3 ? '../' : ''}${
+          size - 3 >= 2 ? '.' : ''
+        }./assets/image/fallback.jpg`;
       }}
-      
     />
   );
 }
