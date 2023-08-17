@@ -4,7 +4,7 @@ import styles from './Home.module.scss';
 
 import * as HomeServices from '~/services/HomeServices';
 import LoadingPage from '../LoadingPage/LoadingPage';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { FormatDate, TimeRemaining } from '~/utils/FormatDate';
 
 // import className from "className/bind";
 
@@ -16,13 +16,45 @@ function Home({ children }) {
   const fetchApi = async () => {
     let result = await HomeServices.GetData();
     setData(result);
-    console.log(result);
   };
   useEffect(() => {
     fetchApi();
   }, []);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (data !== undefined) {
+      var result = TimeRemaining(data.deal.time);
+      setTimeDeal((pre) => {
+        return { ...pre, day: result.day, hour: result.hour, min: result.min, sec: result.sec };
+      });
+    }
+  }, [data]);
+
+  const [timeDeal, setTimeDeal] = useState({
+    day: '',
+    hour: '',
+    min: '',
+    sec: '',
+  });
+
+  const calculatorTimeDeal = () => {
+    var result = TimeRemaining(data.deal.time);
+    setTimeDeal((pre) => {
+      return { ...pre, day: result.day, hour: result.hour, min: result.min, sec: result.sec };
+    });
+  };
+
+  const Timer = () => {
+    useEffect(() => {
+      const intervalId = setInterval(function () {
+        calculatorTimeDeal();
+      }, 1000);
+      return () => {
+        clearInterval(intervalId);
+      };
+    }, [timeDeal]);
+    return <></>;
+  };
 
   return (
     <>
@@ -93,21 +125,22 @@ function Home({ children }) {
                   </div>
                   <div className={`${styles['deals-offers-item-timeout']} mt-2`}>
                     <div>
-                      <span>04</span>
+                      <span>{timeDeal.day < 10 ? `0${timeDeal.day}` : timeDeal.day}</span>
                       <span>Days</span>
                     </div>
                     <div>
-                      <span>04</span>
+                      <span>{timeDeal.hour < 10 ? `0${timeDeal.hour}` : timeDeal.hour}</span>
                       <span>Hour</span>
                     </div>
                     <div>
-                      <span>04</span>
+                      <span>{timeDeal.min < 10 ? `0${timeDeal.min}` : timeDeal.min}</span>
                       <span>Min</span>
                     </div>
                     <div>
-                      <span>04</span>
+                      <span>{timeDeal.sec < 10 ? `0${timeDeal.sec}` : timeDeal.sec}</span>
                       <span>Sec</span>
                     </div>
+                    <Timer/>
                   </div>
                 </div>
                 {Object.entries(data.deal.product).map((el, index) => (
@@ -163,7 +196,7 @@ function Home({ children }) {
                         </div>
                       </a>
                     </div>
-                    {index % 4 === 0 && index !== 0 && <div className="w-100"></div>}
+                    {(index + 1) % 5 === 0 && index !== 0 && <div className="w-100"></div>}
                   </Fragment>
                 ))}
               </div>

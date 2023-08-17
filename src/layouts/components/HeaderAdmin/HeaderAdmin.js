@@ -44,7 +44,7 @@ function HeaderAdmin({ children }) {
                         eraseCookie('Name');
                         eraseCookie('Username');
                         eraseCookie('Token');
-                        window.location.reload(true);
+                        window.location.href = '/';
                       }}
                     >
                       Logout

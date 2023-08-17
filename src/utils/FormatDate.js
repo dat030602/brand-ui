@@ -42,4 +42,35 @@ function FormatDateAndTime(dateString) {
   return `${formattedTime} ${formattedDate}`;
 }
 
-export { FormatDate, FormatDateAndTime };
+function msToTime(ms) {
+  var hours = ms / (1000 * 60 * 60);
+  var absoluteHours = Math.floor(hours);
+  var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+  var day = parseInt((h / 24).toFixed(0));
+  h -= day * 24;
+
+  //Get remainder from hours and convert to minutes
+  var minutes = (hours - absoluteHours) * 60;
+  var absoluteMinutes = Math.floor(minutes);
+  var m = absoluteMinutes > 9 ? absoluteMinutes : '0' + absoluteMinutes;
+
+  //Get remainder from minutes and convert to seconds
+  var seconds = (minutes - absoluteMinutes) * 60;
+  var absoluteSeconds = Math.floor(seconds);
+  var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+
+  return {
+    day,
+    hour: h,
+    min: m,
+    sec: s,
+  };
+}
+
+function TimeRemaining(dateString) {
+  var date = new Date(dateString).getTime();
+  var currentTime = new Date().getTime();
+  return msToTime(date - currentTime);
+}
+
+export { FormatDate, FormatDateAndTime, TimeRemaining };
