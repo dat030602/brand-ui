@@ -1,16 +1,7 @@
 import * as httpRequest from '~/utils/httpRequest';
-export const GetAllOrders = async (id = '') => {
+export const GetAllOrders = async () => {
   try {
     const res = await httpRequest.Get(`/manage-orders/`);
-    return res;
-  } catch (error) {
-    console.log('error');
-  }
-};
-
-export const GetSelectedOrderInfo = async (id = '') => {
-  try {
-    const res = await httpRequest.Get(`/manage-orders/${id}`);
     return res;
   } catch (error) {
     console.log('error');
