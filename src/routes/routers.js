@@ -17,6 +17,7 @@ import ProfileSettingPage from '~/pages/ProfileSetting';
 import ProductPage from '~/pages/Product';
 import ProductsPage from '~/pages/Products';
 import RegisterPage from '~/pages/Register';
+import LoyaltyPage from '~/pages/Loyalty';
 
 //Layouts
 import { AdminLayout, PageNoSearchLayout } from '~/layouts/layout';
@@ -41,6 +42,7 @@ const routes = {
       { path: config.routes.Favorite, components: FavoritePage, layout: PageNoSearchLayout },
       { path: config.routes.OrdersHistory, components: OrdersHistoryPage, layout: PageNoSearchLayout },
       { path: config.routes.ProfileSetting, components: ProfileSettingPage, layout: PageNoSearchLayout },
+      { path: config.routes.Loyalty, components: LoyaltyPage, layout: PageNoSearchLayout },
     ],
   },
   privateRoutes: [

@@ -141,6 +141,9 @@ function PersonalEdit({ children }) {
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                   <a href="/orders-history">Orders history</a>
                 </div>
+                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                  <a href="/loyalty">Loyalty Program</a>
+                </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
                   <a href="/personal/edit">Profile setting</a>
                 </div>

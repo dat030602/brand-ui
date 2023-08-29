@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { eraseCookie, getCookie } from '~/utils/cookies';
 import { FormatDateAndTime, FormatDate } from '~/utils/FormatDate';
 
 import LoadingPage from '../LoadingPage/LoadingPage';
@@ -23,12 +22,16 @@ function ManageOrders({ children }) {
     fetchApi();
   }, []);
 
-  const handleDetailClick = async (slug) => {
-    let result = await ManageOrdersServices.GetSelectedOrderInfo(slug);
-    setSelectedOrder(result);
+  const handleDetailClick = async (orderId) => {
+    const order = orderdata.find((order) => order.MA_DONHANG === orderId);
+    if (order) {
+      setSelectedOrder([order]);
 
-    let result2 = await ManageOrdersServices.GetOrderDetail(slug);
-    setOrderDetail(result2);
+      let result2 = await ManageOrdersServices.GetOrderDetail(order.MA_DONHANG);
+      setOrderDetail(result2);
+    } else {
+      console.log('Order not found');
+    }
   };
 
   const handleUpdateOrderStatus = async (slug, slug1) => {
@@ -393,6 +396,18 @@ function ManageOrders({ children }) {
           </div>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       {orderdata === undefined && <LoadingPage />}
     </>
   );
