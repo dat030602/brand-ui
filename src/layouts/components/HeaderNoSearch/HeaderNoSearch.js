@@ -36,18 +36,17 @@ function HeaderNoSearch({ children }) {
               <div className="row">
                 {isLogin && (
                   <div className="col ml-2">
-                  <a href="/personal/edit" className={`${styles['action-icon']}`}>
-                    <Image
-                      src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
-                        window.location.href.split('/').length - 1 >= 3 ? '../' : ''
-                      }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/profile.svg`}
-                      alt="/"
-                    />
-                    <span>Profile</span>
-                  </a>
-                </div>
+                    <a href="/personal/edit" className={`${styles['action-icon']}`}>
+                      <Image
+                        src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                          window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                        }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/profile.svg`}
+                        alt="/"
+                      />
+                      <span>Profile</span>
+                    </a>
+                  </div>
                 )}
-
                 {isLogin && (
                   <div className="col ml-2">
                     <a href="/favorite" className={`${styles['action-icon']}`}>
@@ -72,6 +71,20 @@ function HeaderNoSearch({ children }) {
                       />
                       <span>Cart</span>
                       <div className={`${styles['amount']}`}>1</div>
+                    </a>
+                  </div>
+                )}
+                {!isLogin && (
+                  <div className="col ml-2">
+                    <a href="/login" className="btn btn-outline-primary p-1 pr-2 pl-2">
+                      Sign in
+                    </a>
+                  </div>
+                )}
+                {!isLogin && (
+                  <div className="col ml-2">
+                    <a href="/register" className="btn btn-primary p-1 pr-2 pl-2">
+                      Register
                     </a>
                   </div>
                 )}

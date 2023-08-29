@@ -1,171 +1,183 @@
 .box-title h5 {
-	font-size: 16px;
-	line-height: 24px;
-	margin: 0;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
 }
 .box-content-type {
-	font-size: 14px;
+  font-size: 14px;
 }
 .col-3 + .col-3 {
-	padding-left: 16px;
+  padding-left: 16px;
 }
 .box-img {
-	height: 12px;
+  height: 12px;
 }
 .box-img img {
-	height: 100%;
-	width: auto;
+  height: 100%;
+  width: auto;
 }
 .box-content-number {
-	font-size: 28px;
+  font-size: 28px;
 }
 .stock-up {
-	color: #0b8a00;
+  color: #0b8a00;
 }
 .stock-down {
-	color: #c71026;
+  color: #c71026;
 }
 .box-color {
-	height: 20px;
-	width: 20px;
+  height: 20px;
+  width: 20px;
 }
 select {
-	min-width: 120px;
+  min-width: 120px;
 }
 .diagram {
-	position: relative;
-	height: 300px;
+  position: relative;
+  height: 300px;
 }
 .diagram > div {
-	height: 100%;
+  height: 100%;
 }
 .diagram > div:last-child {
-	position: absolute;
-	width: 100%;
-	left: 0;
-	bottom: 0;
-	height: calc(100% - 28px);
-	padding-bottom: 12px;
+  position: absolute;
+  width: calc(100% - 46px);
+  left: 0;
+  bottom: 0;
+  height: calc(100% - 28px);
+  padding-bottom: 12px;
 }
 .column-statistic {
-	position: relative;
-	width: max-content;
-	height: 100%;
-	padding: 0 4px;
-	margin: 0 auto;
+  position: relative;
+  width: max-content;
+  height: 100%;
+  padding: 0 4px;
+  margin: 0 auto;
 }
 .column-statistic > div {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	min-width: 20px;
-	max-width: 40px;
-	border-radius: 6px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  min-width: 20px;
+  max-width: 40px;
+  border-radius: 6px;
 }
 .column-statistic > div:nth-child(2) {
-	z-index: 3;
+  z-index: 3;
 }
 .column-statistic .lable {
-	font-size: 12px;
-	bottom: -24px;
+  font-size: 12px;
+  bottom: -24px;
 }
 .line-diagram {
-	width: 100%;
+  position: relative;
+  width: 100%;
+  & > .right-sta {
+    position: absolute;
+    left: calc(100% - 26px);
+  }
+  & > div {
+    &:first-child {
+      width: calc(100% - 32px);
+      & > div:last-child {
+        width: 95%;
+        height: 1px;
+        border: 1px dashed var(--gray-300);
+      }
+    }
+    & > div {
+      display: inline-block;
+      &:first-child {
+        width: 5%;
+      }
+    }
+  }
 }
-.line-diagram > div {
-	display: inline-block;
-}
-.line-diagram > div:first-child {
-	width: 5%;
-}
-.line-diagram > div:last-child {
-	width: 95%;
-	border: 1px dashed var(--gray-300);
-}
+
 .header a:hover {
-	text-decoration: underline;
+  text-decoration: underline;
 }
 tbody > tr,
 tbody th,
 tbody td {
-	border: none;
+  border: none;
 }
 .tier > div {
-	width: fit-content;
+  width: fit-content;
 }
 .tier > .sliver-tier {
-	color: #5c5c5c;
-	background-color: rgba(175, 175, 175, 0.2);
+  color: #5c5c5c;
+  background-color: rgba(175, 175, 175, 0.2);
 }
 .tier > .bronze-tier {
-	color: #c05d16;
-	background-color: rgba(192, 93, 22, 0.2);
+  color: #c05d16;
+  background-color: rgba(192, 93, 22, 0.2);
 }
 .tier > .gold-tier {
-	color: #9b9800;
-	background-color: rgba(255, 217, 0, 0.637);
+  color: #9b9800;
+  background-color: rgba(255, 217, 0, 0.637);
 }
 /* -------------------------
   Circle */
 
 .circle-customer {
-	position: relative;
+  position: relative;
 }
 .circle-customer > div {
-	width: 150px;
-	height: 150px;
-	border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
 }
 .circle-customer > div:last-child {
-	position: absolute;
-	width: 150px;
-	height: 150px;
+  position: absolute;
+  width: 150px;
+  height: 150px;
 }
 .percent-circle {
-	position: relative;
-	width: 100%;
-	height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 .percent-circle > div {
-	position: absolute;
+  position: absolute;
 }
 .percent-circle > div:first-child {
-	top: 45%;
-	left: 90px;
+  top: 45%;
+  left: 90px;
 }
 .percent-circle > div:last-child {
-	top: 25%;
-	right: 90px;
+  top: 25%;
+  right: 90px;
 }
 .percent-circle svg {
-	height: 20px;
+  height: 20px;
 }
 /* --------------------------------- */
 .side-menu {
-	position: fixed;
-	top: 73px;
-	left: 0;
-	width: 280px;
-	height: calc(100vh - 73px);
+  position: fixed;
+  top: 73px;
+  left: 0;
+  width: 280px;
+  height: calc(100vh - 73px);
 }
 .box-item:hover {
-	background-color: var(--gray-200);
+  background-color: var(--gray-200);
 }
 .box-image,
 .box-icon {
-	height: 30px;
+  height: 30px;
 }
 .box-image img {
-	border-radius: 50%;
+  border-radius: 50%;
 }
 .box-icon svg {
-	width: 20px;
-	height: 100%;
+  width: 20px;
+  height: 100%;
 }
 .active {
-	background-color: var(--gray-300);
+  background-color: var(--gray-300);
 }
 .active > .box-content,
 .active > .box-icon svg {
-	color: #5932ea;
+  color: #5932ea;
 }

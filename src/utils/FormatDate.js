@@ -47,7 +47,7 @@ function msToTime(ms) {
   var absoluteHours = Math.floor(hours);
   var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
   var day = parseInt((h / 24).toFixed(0));
-  h -= day * 24;
+  h = day % 24;
 
   //Get remainder from hours and convert to minutes
   var minutes = (hours - absoluteHours) * 60;
