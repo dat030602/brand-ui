@@ -18,6 +18,7 @@ import ProductPage from '~/pages/Product';
 import ProductsPage from '~/pages/Products';
 import RegisterPage from '~/pages/Register';
 import LoyaltyPage from '~/pages/Loyalty';
+import RefundOrderPage from '~/pages/RefundOrder';
 
 //Layouts
 import { AdminLayout, PageNoSearchLayout } from '~/layouts/layout';
@@ -34,6 +35,8 @@ const routes = {
       { path: config.routes.Product, components: ProductPage },
       { path: config.routes.Login, components: LoginPage, layout: PageNoSearchLayout },
       { path: config.routes.Register, components: RegisterPage, layout: PageNoSearchLayout },
+      { path: config.routes.RefundOrder, components: RefundOrderPage, layout: PageNoSearchLayout },
+      //delete later
     ],
     user: [
       { path: config.routes.Checkout, components: CheckoutPage },
@@ -43,6 +46,7 @@ const routes = {
       { path: config.routes.ProfileSetting, components: ProfileSettingPage, layout: PageNoSearchLayout },
       { path: config.routes.HotOffers, components: HotOffersPage, layout: PageNoSearchLayout },
       { path: config.routes.Loyalty, components: LoyaltyPage, layout: PageNoSearchLayout },
+      { path: config.routes.RefundOrder, components: RefundOrderPage, layout: PageNoSearchLayout },
     ],
   },
   privateRoutes: [

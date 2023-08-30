@@ -10,7 +10,7 @@ import LoadingPage from '../LoadingPage/LoadingPage';
 import { Image } from '~/components/Image';
 
 function Cart({ children }) {
-  const [cartTotal, setCartTotal] = useState(0);
+  // const [cartTotal, setCartTotal] = useState(0);
   const [cartDetail, setData] = useState();
   // const [indexDetail, setIndexDetail] = useState(0);
   // var indexDetail_clone = 0;
@@ -19,10 +19,6 @@ function Cart({ children }) {
     const fetchApi = async () => {
       let result = await CartServices.GetAllCart(getCookie('Username'));
       setData(result);
-
-      let result2 = await CartServices.GetCartTotal(getCookie('Username'));
-      setCartTotal(result2);
-      console.log('giohang', result2);
     };
     fetchApi();
   }, []);
@@ -35,6 +31,7 @@ function Cart({ children }) {
         cartDetail[index].STT,
         1,
       );
+
       if (result.returnValue === 0)
         toast.error("We can't update the quantity", {
           position: 'top-right',
@@ -49,8 +46,7 @@ function Cart({ children }) {
       else {
         let result = await CartServices.GetAllCart(getCookie('Username'));
         setData(result);
-        let result2 = await CartServices.GetCartTotal(getCookie('Username'));
-        setCartTotal(result2);
+        localStorage.setItem('cartItemCount', cartDetail.length);
 
         toast.success('Quantity updated successfully', {
           position: 'top-right',
@@ -100,8 +96,6 @@ function Cart({ children }) {
         let result = await CartServices.GetAllCart(getCookie('Username'));
         setData(result);
 
-        let result2 = await CartServices.GetCartTotal(getCookie('Username'));
-        setCartTotal(result2);
         toast.success('Upadte successfully', {
           position: 'top-right',
           autoClose: 5000,
@@ -285,7 +279,9 @@ function Cart({ children }) {
                             <div className="d-flex justify-content-end align-items-center">
                               <span className="text-gray mr-2">Sub Total: </span>
                               <span className="text-primary font-weight-bold mr-8">
-                                {cartTotal.length > 0 ? cartTotal[0].TONGTIEN : 0}
+                                {cartDetail.length > 0
+                                  ? cartDetail.reduce((total, item) => total + item.GIA_BAN * item.SO_LUONG, 0)
+                                  : 0}
                               </span>
                               <button
                                 type="button"

@@ -151,108 +151,108 @@ function ManageOrders({ children }) {
                       <h5>Orders ({orderdata.length})</h5>
                     </div>
                   </div>
-                  {orderdata.length > 0 ? (
-                    <section className="ftco-section">
-                      <div className="container">
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="table-wrap">
-                              <table className="table">
-                                <thead className="thead-primary">
-                                  <tr>
-                                    <th className="text-center">Order ID</th>
-                                    <th className="text-center">Date</th>
-                                    <th className="text-center">Shipping address</th>
-                                    <th className="text-center">Status</th>
-                                    <th className="text-center">Actions</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {orderdata !== undefined &&
-                                    Object.keys(orderdata).map((index) => (
-                                      <tr>
-                                        <td className="">
-                                          <p className="par-line-1 text-center">{orderdata[index].MA_DONHANG}</p>
-                                        </td>
-                                        <td className="text-center">
-                                          <div className="overflow-hidden">
-                                            <p className="text-center">{FormatDate(orderdata[index].NGAYTAO)}</p>
-                                          </div>
-                                        </td>
-                                        <td className="text-center">
-                                          <div className="overflow-hidden">
-                                            <p className="text-center">{orderdata[index].DIACHI}</p>
-                                          </div>
-                                        </td>
-                                        <td className="text-center">
-                                          <p className="par-line-1 text-center">{orderdata[index].TRANGTHAI}</p>
-                                        </td>
-                                        <td className="tier d-flex justify-content-center">
+                  {/* {orderdata.length > 0 ? ( */}
+                  <section className="ftco-section">
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="table-wrap">
+                            <table className="table">
+                              <thead className="thead-primary">
+                                <tr>
+                                  <th className="text-center">Order ID</th>
+                                  <th className="text-center">Date</th>
+                                  <th className="text-center">Shipping address</th>
+                                  <th className="text-center">Status</th>
+                                  <th className="text-center">Actions</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {orderdata !== undefined &&
+                                  Object.keys(orderdata).map((index) => (
+                                    <tr>
+                                      <td className="">
+                                        <p className="par-line-1 text-center">{orderdata[index].MA_DONHANG}</p>
+                                      </td>
+                                      <td className="text-center">
+                                        <div className="overflow-hidden">
+                                          <p className="text-center">{FormatDate(orderdata[index].NGAYTAO)}</p>
+                                        </div>
+                                      </td>
+                                      <td className="text-center">
+                                        <div className="overflow-hidden">
+                                          <p className="text-center">{orderdata[index].DIACHI}</p>
+                                        </div>
+                                      </td>
+                                      <td className="text-center">
+                                        <p className="par-line-1 text-center">{orderdata[index].TRANGTHAI}</p>
+                                      </td>
+                                      <td className="tier d-flex justify-content-center">
+                                        <button
+                                          className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-detail"
+                                          data-toggle="modal"
+                                          data-target="#orderDetailModal"
+                                          onClick={() => handleDetailClick(orderdata[index].MA_DONHANG)}
+                                        >
+                                          Detail
+                                        </button>
+                                        {orderdata[index].TRANGTHAI === 'Received' ? (
                                           <button
-                                            className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-detail"
-                                            data-toggle="modal"
-                                            data-target="#orderDetailModal"
-                                            onClick={() => handleDetailClick(orderdata[index].MA_DONHANG)}
+                                            className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-info"
+                                            onClick={() =>
+                                              handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Processing')
+                                            }
                                           >
-                                            Detail
+                                            Processing
                                           </button>
-                                          {orderdata[index].TRANGTHAI === 'Received' ? (
-                                            <button
-                                              className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-info"
-                                              onClick={() =>
-                                                handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Processing')
-                                              }
-                                            >
-                                              Processing
-                                            </button>
-                                          ) : null}
+                                        ) : null}
 
-                                          {
-                                            // orderdata[index].TRANGTHAI === 'Received' ||
-                                            orderdata[index].TRANGTHAI === 'Pending' ? (
-                                              <button
-                                                className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
-                                                data-toggle="modal"
-                                                data-target="#deleteOrderModal"
-                                                onClick={() => setCancelledOrder(orderdata[index])} // data-order-id={orderdata[index].MA_DONHANG}
-                                              >
-                                                Cancel
-                                              </button>
-                                            ) : null
-                                          }
-                                          {orderdata[index].TRANGTHAI === 'Processing' ? (
+                                        {
+                                          // orderdata[index].TRANGTHAI === 'Received' ||
+                                          orderdata[index].TRANGTHAI === 'Pending' ? (
                                             <button
-                                              className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn btn-primary"
-                                              onClick={() =>
-                                                handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Shipped')
-                                              }
+                                              className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
+                                              data-toggle="modal"
+                                              data-target="#deleteOrderModal"
+                                              onClick={() => setCancelledOrder(orderdata[index])} // data-order-id={orderdata[index].MA_DONHANG}
                                             >
-                                              In Delivery
+                                              Cancel
                                             </button>
-                                          ) : null}
-                                          {orderdata[index].TRANGTHAI === 'Shipped' ? (
-                                            <button
-                                              className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-success"
-                                              onClick={() =>
-                                                handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Delivered')
-                                              }
-                                            >
-                                              Delivered
-                                            </button>
-                                          ) : null}
-                                        </td>
-                                      </tr>
-                                    ))}
-                                </tbody>
-                              </table>
-                            </div>
+                                          ) : null
+                                        }
+                                        {orderdata[index].TRANGTHAI === 'Processing' ? (
+                                          <button
+                                            className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn btn-primary"
+                                            onClick={() =>
+                                              handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Shipped')
+                                            }
+                                          >
+                                            In Delivery
+                                          </button>
+                                        ) : null}
+                                        {orderdata[index].TRANGTHAI === 'Shipped' ? (
+                                          <button
+                                            className="btn ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-success"
+                                            onClick={() =>
+                                              handleUpdateOrderStatus(orderdata[index].MA_DONHANG, 'Delivered')
+                                            }
+                                          >
+                                            Delivered
+                                          </button>
+                                        ) : null}
+                                      </td>
+                                    </tr>
+                                  ))}
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                       </div>
-                    </section>
-                  ) : (
-                    <p>No orders available.</p>
-                  )}
+                    </div>
+                  </section>
+                  {/* ) : ( */}
+                  {/* <p>No orders available.</p> */}
+                  {/* )} */}
                 </div>
               </div>
             </div>
@@ -299,6 +299,10 @@ function ManageOrders({ children }) {
                     </div>
                     <div className="line mt-3 mb-3"></div>
                     <div>
+                      <div className="d-flex">
+                        <span className="text-gray">Customer:</span>
+                        <span className="text-bold-normal ml-1">{orderdata[0].HO_TEN}</span>
+                      </div>
                       <div className="d-flex">
                         <span className="text-gray">Shipping address:</span>
                         <span className="text-bold-normal ml-1">{selectedorder[0].DIACHI}</span>

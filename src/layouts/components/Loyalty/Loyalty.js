@@ -15,6 +15,8 @@ function Loyalty({ children }) {
   const fetchApi = async () => {
     let result = await LoyaltyServices.GetRewardPoint(getCookie('Username'));
     setRewardPointData(result[0]);
+    console.log(result[0]);
+    console.log('3', rewardpointdata);
   };
 
   useEffect(() => {

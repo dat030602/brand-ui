@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import styles from './Header.module.scss';
 import * as HeaderServices from '~/services/HeaderServices';
-import { GetCartTotal } from '~/services/CartServices';
 import { Image } from '~/components/Image';
 
 function Header({ children }) {
@@ -13,15 +12,11 @@ function Header({ children }) {
 
   const [isLogin, setIsLogin] = useState(getCookie('Name'));
   const [typeProduct, setTypeProduct] = useState();
-  const [cartAmount, setcartAmount] = useState(0);
 
   useEffect(() => {
     const fetchApi = async () => {
       let result = await HeaderServices.GetAllTypeProduct();
       setTypeProduct(result);
-
-      let result2 = await GetCartTotal(getCookie('Username'));
-      setcartAmount(result2);
     };
     fetchApi();
     setTypeProduct(fetchApi());
@@ -169,7 +164,10 @@ function Header({ children }) {
                       ))}
                   </select>
                 </div>
-                <button onClick={handleSearch} className={`${styles['icon-search']} col-md-auto ${styles['search-col']}`}>
+                <button
+                  onClick={handleSearch}
+                  className={`${styles['icon-search']} col-md-auto ${styles['search-col']}`}
+                >
                   <Image
                     src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
                       window.location.href.split('/').length - 1 >= 3 ? '../' : ''
