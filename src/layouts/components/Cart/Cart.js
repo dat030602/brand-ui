@@ -96,7 +96,7 @@ function Cart({ children }) {
         let result = await CartServices.GetAllCart(getCookie('Username'));
         setData(result);
 
-        toast.success('Upadte successfully', {
+        toast.success('Quantity decreased successfully', {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,

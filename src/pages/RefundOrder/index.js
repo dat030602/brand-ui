@@ -1,4 +1,4 @@
-import RefundOrder from '~/layouts/components/RefundOrder';
+import RefundOrder from '../../layouts/components/RefundOrder';
 
 function RefundOrderPage({ children }) {
   return (
