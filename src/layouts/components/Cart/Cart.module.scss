@@ -1,18 +1,36 @@
 .side-item {
-    background-color: transparent;
+  background-color: transparent;
+}
+.side-item:hover,
+.active {
+  background-color: var(--gray-300);
+}
+.title h3 {
+  font-size: 24px;
+}
+h5 {
+  font-size: 16px;
+}
+.box-description span {
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.amount {
+  // width: 35%;
+  width: 100%;
+  & > div {
+    width: fit-content;
+    margin-left: auto;
   }
-  .side-item:hover,
-  .active {
-    background-color: var(--gray-300);
-  }
-  .title h3 {
-    font-size: 24px;
-  }
-  h5 {
-    font-size: 16px;
-  }
-  .box-description span {
-    font-size: 14px;
-    line-height: 14px;
-  }
-  
+}
+.amount input {
+  width: 30px;
+  border: none;
+  text-align: center;
+}
+.amount button {
+  width: 25px;
+  font-size: 10px;
+  padding: 8px 0px;
+}

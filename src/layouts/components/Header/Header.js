@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { eraseCookie, getCookie } from '~/utils/cookies';
+import { getCookie } from '~/utils/cookies';
 import { createSearchParams, useLocation, useNavigate, useParams } from 'react-router-dom';
 import FuzzySearch from 'fuzzy-search';
 import styles from './Header.module.scss';
 import * as HeaderServices from '~/services/HeaderServices';
-import { GetCartTotal } from '~/services/CartServices';
 import { Image } from '~/components/Image';
 
-function Header({ children, isPageNoSearch = false, isAdmin = false }) {
-  var componentActive = '';
-
+function Header({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
   const [isLogin, setIsLogin] = useState(getCookie('Name'));
   const [typeProduct, setTypeProduct] = useState();
-  const [cartAmount, setcartAmount] = useState(0);
 
   useEffect(() => {
     const fetchApi = async () => {
       let result = await HeaderServices.GetAllTypeProduct();
       setTypeProduct(result);
-
-      let result2 = await GetCartTotal(getCookie('Username'));
-      setcartAmount(result2);
     };
     fetchApi();
     setTypeProduct(fetchApi());
@@ -96,7 +89,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
   return (
     <>
       <header>
-        <div className={!isAdmin ? 'container' : 'pl-4 pr-4'}>
+        <div className="container">
           <div className={`${styles['header']} row`}>
             <div className={`${styles['logo']} col-md-auto`}>
               <a className={`${styles['logo-link']}`} href="/">
@@ -169,22 +162,6 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
             )}
             <div className={`${styles['action']} col-md-auto`}>
               <div className="row">
-                {isLogin && isAdmin && (
-                  <div className="col ml-2 d-flex justify-content-end">
-                    <div
-                      href="/"
-                      className="btn btn-danger p-1 pr-2 pl-2"
-                      onClick={() => {
-                        eraseCookie('Name');
-                        eraseCookie('Username');
-                        eraseCookie('Token');
-                        navigate('/');
-                      }}
-                    >
-                      Logout
-                    </div>
-                  </div>
-                )}
                 {!isLogin && (
                   <div className="col ml-2">
                     <a href="/login" className="btn btn-outline-primary p-1 pr-2 pl-2">
@@ -199,68 +176,69 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
                     </a>
                   </div>
                 )}
-                {isLogin && !isAdmin && (
-                  <div className="col ml-2">
-                    <a href="/personal/edit" className={`${styles['action-icon']}`}>
-                      <Image
-                        src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                {isLogin && (
+                  <>
+                    <div className="col ml-2">
+                      <a href="/personal/edit" className={`${styles['action-icon']}`}>
+                        <Image
+                          src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                            window.location.href.split('/').length - 1 >= 3 ? '../' : ''
                           }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/profile.svg`}
-                        alt="/"
-                      />
-                      <span>Profile</span>
-                    </a>
-                  </div>
-                )}
-                {isLogin && !isAdmin && (
-                  <div className="col ml-2">
-                    <a href="/favorite" className={`${styles['action-icon']}`}>
-                      <Image
-                        src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                          alt="/"
+                        />
+                        <span>Profile</span>
+                      </a>
+                    </div>
+                    <div className="col ml-2">
+                      <a href="/favorite" className={`${styles['action-icon']}`}>
+                        <Image
+                          src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                            window.location.href.split('/').length - 1 >= 3 ? '../' : ''
                           }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/favourite.svg`}
-                        alt="/"
-                      />
-                      <span>Favorite</span>
-                    </a>
-                  </div>
-                )}
-                {isLogin && !isAdmin && (
-                  <div className="col ml-2">
-                    <a href="/my-cart" className={`${styles['action-icon']}`}>
-                      <Image
-                        src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                          alt="/"
+                        />
+                        <span>Favorite</span>
+                      </a>
+                    </div>
+                    <div className="col ml-2">
+                      <a href="/my-cart" className={`${styles['action-icon']}`}>
+                        <Image
+                          src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                            window.location.href.split('/').length - 1 >= 3 ? '../' : ''
                           }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/cart.svg`}
-                        alt="/"
-                      />
-                      <span>Cart</span>
-                      <div className={`${styles['amount']}`}>1</div>
-                    </a>
-                  </div>
+                          alt="/"
+                        />
+                        <span>Cart</span>
+                        <div className={`${styles['amount']}`}>1</div>
+                      </a>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
           </div>
         </div>
         <div className="line"></div>
-        {!isPageNoSearch && !isAdmin && (
-          <div className="container">
-            <div className={`${styles['menu']}`}>
-              <div className={`${styles['menu-item']}`}>
-                <div>
-                  <Image
-                    src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${window.location.href.split('/').length - 1 >= 3 ? '../' : ''
-                      }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/menu.svg`}
-                    alt=""
-                  />
-                </div>
-                <div>All category</div>
+
+        <div className="container">
+          <div className={`${styles['menu']}`}>
+            <div className={`${styles['menu-item']}`}>
+              <div>
+                <Image
+                  src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                    window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                  }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/menu.svg`}
+                  alt=""
+                />
               </div>
-              <div className={`${styles['menu-item']}`}>
-                <a href="/hot-offers/1">Hot offers</a>
-              </div>
+              <div>All category</div>
+            </div>
+            <div className={`${styles['menu-item']}`}>
+              <a href="/hot-offers/1">Hot offers</a>
             </div>
           </div>
-        )}
-        {!isPageNoSearch && <div className="line"></div>}
+        </div>
+        <div className="line"></div>
       </header>
     </>
   );
