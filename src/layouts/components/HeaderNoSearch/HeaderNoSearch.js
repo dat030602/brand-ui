@@ -34,8 +34,21 @@ function HeaderNoSearch({ children }) {
             </div>
             <div className={`${styles['action']} col-md-auto`}>
               <div className="row">
+              {isLogin && (
+                  <div className="col ml-10 d-flex">
+                    <a href="https://m.me/lethungan.190702" className={`${styles['action-icon']}`}>
+                      <Image
+                        src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                          window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                        }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/chatbox.svg`}
+                        alt="/"
+                      />
+                      <span>Chatbox</span>
+                    </a>
+                  </div>
+                )}
                 {isLogin && (
-                  <div className="col ml-2">
+                  <div className="col ml-10 d-flex">
                   <a href="/personal/edit" className={`${styles['action-icon']}`}>
                     <Image
                       src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
@@ -49,7 +62,7 @@ function HeaderNoSearch({ children }) {
                 )}
 
                 {isLogin && (
-                  <div className="col ml-2">
+                  <div className="col ml-10 d-flex">
                     <a href="/favorite" className={`${styles['action-icon']}`}>
                       <Image
                         src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
@@ -62,7 +75,7 @@ function HeaderNoSearch({ children }) {
                   </div>
                 )}
                 {isLogin && (
-                  <div className="col ml-2">
+                  <div className="col ml-10 d-flex">
                     <a href="/my-cart" className={`${styles['action-icon']}`}>
                       <Image
                         src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${

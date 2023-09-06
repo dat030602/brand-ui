@@ -6,6 +6,9 @@ import * as HomeServices from '~/services/HomeServices';
 import LoadingPage from '../LoadingPage/LoadingPage';
 import { FormatDate, TimeRemaining } from '~/utils/FormatDate';
 
+import styles from './Home.module.scss';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import className from "className/bind";
 
 // const cx = className.bind(styles);
@@ -140,7 +143,7 @@ function Home({ children }) {
                       <span>{timeDeal.sec < 10 ? `0${timeDeal.sec}` : timeDeal.sec}</span>
                       <span>Sec</span>
                     </div>
-                    <Timer/>
+                    <Timer />
                   </div>
                 </div>
                 {Object.entries(data.deal.product).map((el, index) => (
@@ -205,6 +208,18 @@ function Home({ children }) {
         </div>
       )}
       {data === undefined && <LoadingPage />}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }
