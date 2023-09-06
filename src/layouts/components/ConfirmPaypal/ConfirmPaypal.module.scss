@@ -1,0 +1,137 @@
+.main {
+	/* padding-top: 32px; */
+}
+.menu-category {
+	background-color: #fff;
+	padding: 16px;
+	border: 1px solid var(--gray-300);
+	border-radius: 8px;
+}
+img {
+	width: 80%;
+}
+.active,
+.menu-category-item.menu-category-list div:hover {
+	background-color: #e5f1ff;
+}
+.menu-category-item div {
+	cursor: pointer;
+	padding: 6px 8px;
+	border-radius: 5px;
+	margin-bottom: 4px;
+	transition: all 0.3s ease-in;
+}
+.menu-category-item-link {
+	position: relative;
+	height: 100%;
+}
+.menu-category-content {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+}
+.menu-category-item {
+	height: 100%;
+}
+.menu-category-content span {
+	color: var(--white);
+}
+.menu-category-content div:first-child span {
+	font-size: 20px;
+}
+.menu-category-content div:nth-child(2) span {
+	font-size: 26px;
+}
+.menu-category-content div:nth-child(3) {
+	background-color: var(--white);
+	text-align: center;
+	width: 60%;
+	padding: 12px 16px;
+	margin-top: 20px;
+}
+
+.menu-category-content div:nth-child(3) span {
+	color: var(--dark);
+}
+
+/* -------------------- */
+.deals-offers {
+}
+.deals-offers-item-title h5 {
+	margin-bottom: 0;
+	font-size: 20px;
+}
+.deals-offers-item-title span {
+	font-size: 14px;
+	color: var(--gray-500);
+}
+.deals-offers-item {
+	border: 1.5px solid var(--gray-300);
+	background-color: #fff;
+}
+.deals-offers-item + .deals-offers-item {
+	border-left: none;
+}
+.deals-offers-item-img {
+	height: 75%;
+}
+.deals-offers-item-timeout {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+.deals-offers-item-timeout div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: var(--gray-800);
+	color: var(--white);
+	padding: 8px 12px;
+	border-radius: 4px;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	font-size: 14px;
+}
+.deals-offers-item-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.deals-offers-item-content span {
+	font-size: 16px;
+}
+.deals-offers-item-content div {
+	padding-top: 12px;
+}
+.deals-offers-item-content div:last-child span {
+	color: #eb001b;
+}
+.deals-offers-item-content div:last-child {
+	background-color: #ffe3e3;
+	padding: 4px 12px;
+	font-weight: 500;
+	border-radius: 12px;
+}
+/* ---------------------------
+  Recommend
+  */
+.recomment-item {
+	border-radius: 8px;
+	background-color: var(--white);
+	border: 2px solid var(--gray-200);	
+}
+.price {
+	font-size: 18px;
+	font-weight: 500;
+}
+.name h5 {
+	font-size: 16px;
+	color: var(--gray-500);
+	font-weight: 400;
+}
+.recomment .col {
+	padding-top: 1rem !important;
+}
+.recomment .col + .col {
+	padding-left: 1rem !important;
+}

@@ -135,7 +135,7 @@ function Header({ children, isPageNoSearch = false, isAdmin = false }) {
 
   return (
     <>
-      <header>
+      <header style={{ zIndex: 1 }}>
         <div className={!isAdmin ? 'container' : 'pl-4 pr-4'}>
           <div className={`${styles['header']} row`}>
             <div className={`${styles['logo']} col-md-auto`}>
