@@ -50,7 +50,7 @@ const routes = {
       { path: config.routes.RefundOrder, components: RefundOrderPage, layout: PageNoSearchLayout },
       { path: config.routes.ConfirmPaypal, components: ConfirmPayPalPage },
       { path: config.routes.CancelPaypal, components: CancelPayPalPage },
-      { path: config.routes.OrderDetail, components: OrderDetail },
+      { path: config.routes.OrderDetail, components: OrderDetailPage },
     ],
   },
   privateRoutes: [

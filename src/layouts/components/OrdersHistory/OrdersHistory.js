@@ -105,7 +105,7 @@ function OrdersHistory({ children }) {
                         <div className="list-products">
                           {data[index].history !== undefined &&
                             Object.keys(data[index].history).map((indexchild) => (
-                              <a href="/" className="product-item mb-2" key={indexchild}>
+                              <a href={`/product/${data[index].history[indexchild].MA_SP}`} className="product-item mb-2" key={indexchild}>
                             <div className="row">
                               <div className="col-1 border rounded p-2 d-flex align-items-center justify-content-center">
                                 <Image src="../../../../assets/image/clock.png" alt="" className="img-fluid max-width" />
