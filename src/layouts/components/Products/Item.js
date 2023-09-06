@@ -16,7 +16,7 @@ function Item(data = {}) {
                         className="background-img pt-100p"
                         style={{
                             backgroundImage:
-                                "url('../../../../assets/image/clock.png')",
+                                `url('${data1 && data1.HINHANH}')`,
                         }}
                     ></div>
                 </a>
@@ -30,8 +30,8 @@ function Item(data = {}) {
                         </div>
                         <div className={`${styles["product-about"]}`}>
                             <div className={`${styles["price"]}`}>
-                                <span>$998.00</span>
-                                <span>$1128.00</span>
+                                <span>${data1 && data1.GIA_BAN}</span>
+                                <span>${data1 && data1.GIA_NHAP}</span>
                             </div>
                             <div className={`${styles["product-about"]} d-flex`}>
                                 <div className={`${styles["product-star"]} d-flex`}>

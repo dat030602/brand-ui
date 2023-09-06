@@ -129,6 +129,9 @@ function PersonalEdit({ children }) {
           <div className="main pt-4 pb-4">
             <div className="row">
               <div className="col-2">
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                <a href="https://m.me/lethungan.190702">Chatbox</a>
+                </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                   <a href="/">Personal info</a>
                 </div>
@@ -140,6 +143,9 @@ function PersonalEdit({ children }) {
                 </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                   <a href="/orders-history">Orders history</a>
+                </div>
+                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                  <a href="/loyalty">Loyalty Program</a>
                 </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
                   <a href="/personal/edit">Profile setting</a>

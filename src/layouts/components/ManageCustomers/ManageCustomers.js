@@ -26,7 +26,7 @@ function ManageCustomers({ children }) {
 				</div>
 				<div className={`${styles["list-box"]} mt-4 mb-2`}>
 					<a
-						href="/dashboard"
+						href="/"
 						className={`${styles["box-item"]} position-relative p-2 pl-4 d-flex align-items-center`}
 					>
 						<div className={`${styles["box-icon"]} mr-3`}>
