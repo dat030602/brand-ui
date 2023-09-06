@@ -25,3 +25,12 @@ export const UpdateOrderStatus = async (id = '', status = '') => {
     console.log('error');
   }
 };
+
+export const GetOrderHistory = async (id = '') => {
+  try {
+    const res = await httpRequest.Get(`/manage-orders/history`, { params: { id:id}});
+    return res;
+  } catch (error) {
+    console.log('error');
+  }
+};

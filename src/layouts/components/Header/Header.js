@@ -100,7 +100,7 @@ function Header({ children }) {
                 />
               </a>
             </div>
-            {!isPageNoSearch && !isAdmin && (
+            {/* {!isPageNoSearch && !isAdmin && ( */}
               <div className={`${styles['search']} col`}>
                 <div className={`${styles['search-row']} row`}>
                   <div className={`${styles['search-col']} col-md-auto`}>
@@ -159,7 +159,7 @@ function Header({ children }) {
                   </div>
                 </div>
               </div>
-            )}
+            {/* )} */}
             <div className={`${styles['action']} col-md-auto`}>
               <div className="row">
                 {!isLogin && (
