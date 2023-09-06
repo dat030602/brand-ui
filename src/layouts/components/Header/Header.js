@@ -20,13 +20,10 @@ function Header({ children }) {
     };
     fetchApi();
     setTypeProduct(fetchApi());
-    const queryParameters = new URLSearchParams(window.location.search)
-    var input = queryParameters.get("q");
-    if(input!==null)
-    setInput(input)
-    var type = queryParameters.get("t");
-    
-
+    const queryParameters = new URLSearchParams(window.location.search);
+    var input = queryParameters.get('q');
+    if (input !== null) setInput(input);
+    var type = queryParameters.get('t');
   }, []);
   useEffect(() => {
     if (getCookie('Name') !== null) {
@@ -47,16 +44,14 @@ function Header({ children }) {
     setInput(value);
     if (value === '') {
       setResults('');
-    }
-    else {
+    } else {
       setResults(searcher.search(value).slice(0, 5));
     }
-
   };
   const handleSearch = () => {
     var cat = document.getElementById('getvalueoption').value;
-    var b = "0";
-    window.location.href='/products'+`?${createSearchParams({ f:b, q: input, t: cat })}`
+    var b = '0';
+    window.location.href = '/products' + `?${createSearchParams({ f: b, q: input, t: cat })}`;
     // navigate({
     //   pathname: '/products',
     //   search: `?${createSearchParams({ q: input, t: cat })}`,
@@ -81,11 +76,10 @@ function Header({ children }) {
     var cat = document.getElementById('getvalueoption').value;
     if (cat === '') {
       getallproduct();
-    }
-    else {
+    } else {
       getallproductbytype();
     }
-  }
+  };
   return (
     <>
       <header>
@@ -94,8 +88,9 @@ function Header({ children }) {
             <div className={`${styles['logo']} col-md-auto`}>
               <a className={`${styles['logo-link']}`} href="/">
                 <Image
-                  src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${window.location.href.split('/').length - 1 >= 3 ? '../' : ''
-                    }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/image/logo-colored.png`}
+                  src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                    window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                  }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/image/logo-colored.png`}
                   alt="s"
                 />
               </a>
@@ -116,19 +111,23 @@ function Header({ children }) {
                         parent = parent.parentElement;
                         parent = parent.parentElement;
                         var child = parent.childNodes[1];
-                        child.classList.add(styles['focus'])
+                        child.classList.add(styles['focus']);
                       }}
                       onBlur={(e) => {
                         var parent = e.target.parentElement;
                         parent = parent.parentElement;
                         parent = parent.parentElement;
                         var child = parent.childNodes[1];
-                        child.classList.remove(styles['focus'])
+                        child.classList.remove(styles['focus']);
                       }}
                     />
                   </div>
                   <div className={`${styles['search-col']} col-md-auto`}>
-                    <select className={`${styles['selection']}`} id="getvalueoption" onChange={() => handleChangeType()}>
+                    <select
+                      className={`${styles['selection']}`}
+                      id="getvalueoption"
+                      onChange={() => handleChangeType()}
+                    >
                       <option value="">All category</option>
                       {typeProduct !== undefined &&
                         Object.keys(typeProduct).map((index) => (
@@ -140,14 +139,15 @@ function Header({ children }) {
                   </div>
                   <a onClick={handleSearch} className={`${styles['icon-search']} col-md-auto ${styles['search-col']}`}>
                     <Image
-                      src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${window.location.href.split('/').length - 1 >= 3 ? '../' : ''
-                        }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/search.svg`}
+                      src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                        window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                      }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/search.svg`}
                       alt="d"
                     />
                   </a>
                 </div>
-                <div className={`${styles['dropdown']}`} >
-                  <div className={`${styles['dropdown-row']}`}style={{ padding: results.length !== 0 ? '8px' : '0' }}>
+                <div className={`${styles['dropdown']}`}>
+                  <div className={`${styles['dropdown-row']}`} style={{ padding: results.length !== 0 ? '8px' : '0' }}>
                     {results &&
                       results.map((result, id) => {
                         return (
@@ -178,7 +178,18 @@ function Header({ children }) {
                 )}
                 {isLogin && (
                   <>
-                    <div className="col ml-2">
+                    <div className="col ml-10 d-flex">
+                      <a href="https://m.me/lethungan.190702" className={`${styles['action-icon']}`}>
+                        <Image
+                          src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                            window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                          }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/chatbox.svg`}
+                          alt="/"
+                        />
+                        <span>Chatbox</span>
+                      </a>
+                    </div>
+                    <div className="col ml-10 d-flex">
                       <a href="/personal/edit" className={`${styles['action-icon']}`}>
                         <Image
                           src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
@@ -189,7 +200,7 @@ function Header({ children }) {
                         <span>Profile</span>
                       </a>
                     </div>
-                    <div className="col ml-2">
+                    <div className="col ml-10 d-flex">
                       <a href="/favorite" className={`${styles['action-icon']}`}>
                         <Image
                           src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
@@ -200,7 +211,7 @@ function Header({ children }) {
                         <span>Favorite</span>
                       </a>
                     </div>
-                    <div className="col ml-2">
+                    <div className="col ml-10 d-flex">
                       <a href="/my-cart" className={`${styles['action-icon']}`}>
                         <Image
                           src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
