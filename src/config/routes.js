@@ -18,6 +18,7 @@ const routes = {
   ConfirmPaypal: 'order/confirmPaypal',
   CancelPaypal: 'order/cancelPaypal',
   OrderDetail: 'order/:id',
+  ReturnVnPay: 'order/returnVnPay',
 };
 // Products Product Checkout Login Register Cart Favorite OrdersHistory PersonalEdit HotOffers Dashboard ManageProducts ManageCustomers ManageOrders ManageVouchers
 export default routes;

@@ -125,21 +125,21 @@ function Checkout({ setDataModal, handleCloseModal }) {
       payment_method: typePayment,
       is_Use_Coin: false,
     };
-    if (typePayment === 'paypal') {
-      const list_Item_Order = [];
-      data.map((product) => {
-        const product_Detail = {
-          MA_SP: product.detail.MA_SP,
-          STT: product.detail.STT,
-          SL: product.amount,
-        };
-        list_Item_Order.push(product_Detail);
-      });
-
-      const paymentData = {
-        data_User,
-        list_Item_Order,
+    const list_Item_Order = [];
+    data.map((product) => {
+      const product_Detail = {
+        MA_SP: product.detail.MA_SP,
+        STT: product.detail.STT,
+        SL: product.amount,
       };
+      list_Item_Order.push(product_Detail);
+    });
+
+    const paymentData = {
+      data_User,
+      list_Item_Order,
+    };
+    if (typePayment === 'paypal') {
       await Payment(paymentData).then((res) => {
         if (res.data.status === 'success') {
           handleCloseModal();
@@ -169,6 +169,37 @@ function Checkout({ setDataModal, handleCloseModal }) {
         }
       });
     }
+    if (typePayment === 'vnpay') {
+      await Payment(paymentData).then((res) => {
+        console.log(res);
+        if (res.data.status === 'success') {
+          handleCloseModal();
+          toast.success('Create order successfully.\n Please pay in 6 hours', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+          linkTo('/');
+          window.open(res.data.linkVnPay, '_blank', 'noopener,noreferrer');
+        } else {
+          toast.error('Error while creating order.\n Please try again', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        }
+      });
+    }
   };
 
   return (
@@ -177,7 +208,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
         <div className="main pb-4" style={{ width: '1350px' }}>
           <div className="pt-4 pb-4">
             {load === false ? (
-              <div className="row">
+              <div className="row" style={{ alignItems: 'normal' }}>
                 <div className="col-9 pr-3">
                   <div className={`${styles['title']} mb-3 row`}>
                     <div className="col-5">

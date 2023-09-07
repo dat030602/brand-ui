@@ -14,7 +14,7 @@ function Cart({ children }) {
   const [cartDetail, setData] = useState();
   // const [indexDetail, setIndexDetail] = useState(0);
   // var indexDetail_clone = 0;
-
+  const linkTo = useNavigate();
   useEffect(() => {
     const fetchApi = async () => {
       let result = await CartServices.GetAllCart(getCookie('Username'));
@@ -289,6 +289,9 @@ function Cart({ children }) {
                                 data-toggle="button"
                                 aria-pressed="false"
                                 autoComplete="off"
+                                onClick={() => {
+                                  linkTo('/checkout');
+                                }}
                               >
                                 Check Out
                               </button>
