@@ -96,69 +96,65 @@ function Header({ children }) {
               </a>
             </div>
             {/* {!isPageNoSearch && !isAdmin && ( */}
-              <div className={`${styles['search']} col`}>
-                <div className={`${styles['search-row']} row`}>
-                  <div className={`${styles['search-col']} col-md-auto`}>
-                    <input
-                      name="selectop"
-                      className={`${styles['input']}`}
-                      type="text"
-                      placeholder="Search..."
-                      value={input}
-                      onChange={(e) => handleChange(e.target.value)}
-                      onFocus={(e) => {
-                        var parent = e.target.parentElement;
-                        parent = parent.parentElement;
-                        parent = parent.parentElement;
-                        var child = parent.childNodes[1];
-                        child.classList.add(styles['focus']);
-                      }}
-                      onBlur={(e) => {
-                        var parent = e.target.parentElement;
-                        parent = parent.parentElement;
-                        parent = parent.parentElement;
-                        var child = parent.childNodes[1];
-                        child.classList.remove(styles['focus']);
-                      }}
-                    />
-                  </div>
-                  <div className={`${styles['search-col']} col-md-auto`}>
-                    <select
-                      className={`${styles['selection']}`}
-                      id="getvalueoption"
-                      onChange={() => handleChangeType()}
-                    >
-                      <option value="">All category</option>
-                      {typeProduct !== undefined &&
-                        Object.keys(typeProduct).map((index) => (
-                          <option value={typeProduct[index].TEN_LOAI_SP} key={index}>
-                            {typeProduct[index].TEN_LOAI_SP}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                  <a onClick={handleSearch} className={`${styles['icon-search']} col-md-auto ${styles['search-col']}`}>
-                    <Image
-                      src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
-                        window.location.href.split('/').length - 1 >= 3 ? '../' : ''
-                      }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/search.svg`}
-                      alt="d"
-                    />
-                  </a>
+            <div className={`${styles['search']} col`}>
+              <div className={`${styles['search-row']} row`}>
+                <div className={`${styles['search-col']} col-md-auto`}>
+                  <input
+                    name="selectop"
+                    className={`${styles['input']}`}
+                    type="text"
+                    placeholder="Search..."
+                    value={input}
+                    onChange={(e) => handleChange(e.target.value)}
+                    onFocus={(e) => {
+                      var parent = e.target.parentElement;
+                      parent = parent.parentElement;
+                      parent = parent.parentElement;
+                      var child = parent.childNodes[1];
+                      child.classList.add(styles['focus']);
+                    }}
+                    onBlur={(e) => {
+                      var parent = e.target.parentElement;
+                      parent = parent.parentElement;
+                      parent = parent.parentElement;
+                      var child = parent.childNodes[1];
+                      child.classList.remove(styles['focus']);
+                    }}
+                  />
                 </div>
-                <div className={`${styles['dropdown']}`}>
-                  <div className={`${styles['dropdown-row']}`} style={{ padding: results.length !== 0 ? '8px' : '0' }}>
-                    {results &&
-                      results.map((result, id) => {
-                        return (
-                          <div className={`${styles['e']}`} key={id}>
-                            <a href={`/product/${result.MA_SP}`}>{result.TEN_SP}</a>
-                          </div>
-                        );
-                      })}
-                  </div>
+                <div className={`${styles['search-col']} col-md-auto`}>
+                  <select className={`${styles['selection']}`} id="getvalueoption" onChange={() => handleChangeType()}>
+                    <option value="">All category</option>
+                    {typeProduct !== undefined &&
+                      Object.keys(typeProduct).map((index) => (
+                        <option value={typeProduct[index].TEN_LOAI_SP} key={index}>
+                          {typeProduct[index].TEN_LOAI_SP}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <a onClick={handleSearch} className={`${styles['icon-search']} col-md-auto ${styles['search-col']}`}>
+                  <Image
+                    src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
+                      window.location.href.split('/').length - 1 >= 3 ? '../' : ''
+                    }${window.location.href.split('/').length - 1 >= 2 ? '.' : ''}./assets/svg/search.svg`}
+                    alt="d"
+                  />
+                </a>
+              </div>
+              <div className={`${styles['dropdown']}`}>
+                <div className={`${styles['dropdown-row']}`} style={{ padding: results.length !== 0 ? '8px' : '0' }}>
+                  {results &&
+                    results.map((result, id) => {
+                      return (
+                        <div className={`${styles['e']}`} key={id}>
+                          <a href={`/product/${result.MA_SP}`}>{result.TEN_SP}</a>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
+            </div>
             {/* )} */}
             <div className={`${styles['action']} col-md-auto`}>
               <div className="row">

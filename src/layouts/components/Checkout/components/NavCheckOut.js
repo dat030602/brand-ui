@@ -24,6 +24,7 @@ export const NavCheckOut = ({
   const username = getCookie('Username');
   const [payment, setPayment] = useState('paypal');
   const [address, setAddress] = useState([]);
+
   const [voucher, setVoucher] = useState([]);
   const [chooseVoucher, setChooseVoucher] = useState({
     id: null,
@@ -69,7 +70,7 @@ export const NavCheckOut = ({
         setShipData(result.data);
         setShipping(result.data.fee);
         setLoad2(false);
-      } else fetchDataShip();
+      }
     });
   };
 

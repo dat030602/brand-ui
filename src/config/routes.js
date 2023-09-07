@@ -16,9 +16,13 @@ const routes = {
   ManageCustomers: 'manage-customers',
   ManageOrders: 'manage-orders',
   ManageVouchers: 'manage-vouchers',
+  Loyalty: 'loyalty',
+  RefundOrder: '/:id/refund',
+  ViewRefundRequest: '/:id/refund/detail',
   ConfirmPaypal: 'order/confirmPaypal',
   CancelPaypal: 'order/cancelPaypal',
   OrderDetail: 'order/:id',
+  ReturnVnPay: 'order/returnVnPay',
 };
 // Products Product Checkout Login Register Cart Favorite OrdersHistory PersonalEdit HotOffers Dashboard ManageProducts ManageCustomers ManageOrders ManageVouchers
 export default routes;
