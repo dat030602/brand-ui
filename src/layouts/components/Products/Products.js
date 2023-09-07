@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import styles from "./Products.module.scss";
-import Item from "./Item";
 import { Image } from "~/components/Image";
 import * as HeaderServices from '~/services/HeaderServices';
 import FuzzySearch from 'fuzzy-search';
@@ -522,9 +521,89 @@ function Products({ children }) {
 								</div>
 								<div className={`${styles["products"]} grid-3`}>
 									{data &&
-										Object.keys(data).map(function (key) {
-											return <Item key={key} data={data[key]} />;
-										})}
+										Object.keys(data).map((index) => (
+											<div className={`${styles["products-item"]}`} key={index}>
+												<div className={`${styles["product"]} row rounded overflow-hidden bg-w pr-3 pl-3 border mb-3`}>
+													<a
+														href={`/product/${data[index].MA_SP[0]}`}
+														className={`${styles["product-image"]}`}
+													>
+														<div
+															className="background-img pt-100p"
+															style={{
+																backgroundImage:
+																	`url('${data[index] && data[index].HINHANH}')`,
+															}}
+														></div>
+													</a>
+													<div className={`${styles["product-content"]} p-3 d-flex`}>
+														<a
+															href={`/product/${data[index].MA_SP[0]}`}
+															className={`${styles["product-content-cover"]} pb-2`}
+														>
+															<div className={`${styles["product-name"]} par-line-2`}>
+																{data[index] && data[index].TEN_SP}
+															</div>
+															<div className={`${styles["product-about"]}`}>
+																<div className={`${styles["price"]}`}>
+																	<span>${data[index] && data[index].GIA_BAN}</span>
+																	<span>${data[index] && data[index].GIA_NHAP}</span>
+																</div>
+																<div className={`${styles["product-about"]} d-flex`}>
+																	<div className={`${styles["product-star"]} d-flex`}>
+																		<div className="svg-star d-flex">
+																			<svg
+																				className="star"
+																				data-src="../../../../assets/svg/star.svg"
+																			></svg>
+																			<svg
+																				className="star"
+																				data-src="../../../../assets/svg/star.svg"
+																			></svg>
+																			<svg
+																				className="star"
+																				data-src="../../../../assets/svg/star.svg"
+																			></svg>
+																			<svg
+																				className="star"
+																				data-src="../../../../assets/svg/star.svg"
+																			></svg>
+																			<svg
+																				className="star"
+																				data-src="../../../../assets/svg/star.svg"
+																			></svg>
+																		</div>
+																		<div className={`${styles["product-point"]}`}>
+																			{data[index] && data[index].RATING}
+																		</div>
+																	</div>
+																	<div className={`${styles["product-sale"]}`}>
+																		<span>•</span>
+																		<span>
+																			{data[index] && data[index].SL_DA_BAN} orders
+																		</span>
+																	</div>
+																</div>
+															</div>
+															<div className={`${styles["product-description"]} mt-2 mb-2 overflow-hidden`}>
+																<span className="par-line-2">
+																	{data[index] && data[index].MO_TA}
+																</span>
+															</div>
+														</a>
+														<div className={`${styles["product-favorite"]} ${styles["active"]}`}>
+															<button>
+																<svg
+																	className="star btn"
+																	data-src="../../../../assets/svg/heart.svg"
+																></svg>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										))
+									}
 								</div>
 							</div>
 

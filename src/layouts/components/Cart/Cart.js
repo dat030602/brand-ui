@@ -10,16 +10,41 @@ import LoadingPage from '../LoadingPage/LoadingPage';
 import { Image } from '~/components/Image';
 
 function Cart({ children }) {
-  const [cartDetail, setData] = useState();
+  // const [cartDetail, setData] = useState();
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      let result = await CartServices.GetAllCart(getCookie('Username'));
-      setData(result);
-    };
-    fetchApi();
-  }, []);
-
+  // useEffect(() => {
+  //   const fetchApi = async () => {
+  //     let result = await CartServices.GetAllCart(getCookie('Username'));
+  //     setData(result);
+  //   };
+  //   fetchApi();
+  // }, []);
+  const [cartDetail, setData] = useState([
+    {
+      MA_GH: 1,
+      MA_SP: 'SP001',
+      STT: 1,
+      SO_LUONG: 1,
+      TEN_SP: 'Iphone 14',
+      TEN_CTSP: 'Iphone 14 red 256gb',
+      HINHANH:
+        'https://firebasestorage.googleapis.com/v0/b/brand-website-11081.appspot.com/o/Image%2F1663236556797549166311-48a2-45eb-b2e8-1a4c1cfef1f8?alt=media&token=140f21b9-35e8-4492-9760-3a3c6669481e',
+      SL_KHO: 164,
+      GIA_BAN: 200,
+    },
+    {
+      MA_GH: 1,
+      MA_SP: 'SP002',
+      STT: 1,
+      SO_LUONG: 5,
+      TEN_SP: 'Samsung Z-Flip',
+      TEN_CTSP: 'Samsung Z-Flip 4 gray  256gb',
+      HINHANH:
+        'https://firebasestorage.googleapis.com/v0/b/brand-website-11081.appspot.com/o/Image%2Fsamsung-galaxy-z-flip4-5g-128gb-thumb-tim-600x6001e78e04c-50ce-40d5-becd-8487d123d1a4?alt=media&token=06275000-281c-429b-8677-acc0eb114fce',
+      SL_KHO: 35,
+      GIA_BAN: 200,
+    },
+  ]);
   const increaseQuantity = async (index) => {
     if (cartDetail[index].SO_LUONG < cartDetail[index].SL_KHO) {
       var result = await CartServices.UpdateQuantity(

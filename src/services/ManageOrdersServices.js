@@ -54,3 +54,12 @@ export const UpdateRefundStatus = async (orderid = '', orderstatus = '', refunds
     console.log('error');
   }
 };
+
+export const GetOrderHistory = async (id = '') => {
+  try {
+    const res = await httpRequest.Get(`/manage-orders/history`, { params: { id:id}});
+    return res;
+  } catch (error) {
+    console.log('error');
+  }
+};

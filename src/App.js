@@ -16,17 +16,7 @@ function App() {
             let Layout = DefaultLayout;
             if (route.layout) Layout = route.layout;
             else if (route.layout === null) Layout = Fragment;
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <Layout>
-                    <Page />
-                  </Layout>
-                }
-              />
-            );
+            return <Route key={index} path={route.path} element={<Layout page={Page}></Layout>} />;
           })}
           {getCookie('Username') !== 'Admin' &&
             routes.publicRoutes.guest.map((route, index) => {
@@ -34,17 +24,7 @@ function App() {
               let Layout = DefaultLayout;
               if (route.layout) Layout = route.layout;
               else if (route.layout === null) Layout = Fragment;
-              return (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  }
-                />
-              );
+              return <Route key={index} path={route.path} element={<Layout page={Page}></Layout>} />;
             })}
           {getCookie('Username') !== null &&
             getCookie('Username') !== 'Admin' &&
@@ -53,17 +33,7 @@ function App() {
               let Layout = DefaultLayout;
               if (route.layout) Layout = route.layout;
               else if (route.layout === null) Layout = Fragment;
-              return (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  }
-                />
-              );
+              return <Route key={index} path={route.path} element={<Layout page={Page}></Layout>} />;
             })}
           {getCookie('Username') === 'Admin' &&
             routes.privateRoutes.map((route, index) => {
@@ -71,17 +41,7 @@ function App() {
               let Layout = DefaultLayout;
               if (route.layout) Layout = route.layout;
               else if (route.layout === null) Layout = Fragment;
-              return (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  }
-                />
-              );
+              return <Route key={index} path={route.path} element={<Layout page={Page}></Layout>} />;
             })}
           <Route path="*" element={<PageNotFoundPage />} />
         </Routes>

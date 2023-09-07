@@ -19,6 +19,11 @@ import ProductsPage from '~/pages/Products';
 import RegisterPage from '~/pages/Register';
 import LoyaltyPage from '~/pages/Loyalty';
 import RefundOrderPage from '~/pages/RefundOrder';
+import ConfirmPayPalPage from '~/pages/ConfirmPaypal';
+import CancelPayPalPage from '~/pages/CancelPaypal';
+import OrderDetailPage from '~/pages/OrderDetail';
+import ReturnVnPayPage from '~/pages/ReturnVnPay';
+import PersonalInfoPage from '~/pages/PersonalInfo';
 
 //Layouts
 import { AdminLayout, PageNoSearchLayout } from '~/layouts/layout';
@@ -47,6 +52,11 @@ const routes = {
       { path: config.routes.Loyalty, components: LoyaltyPage, layout: PageNoSearchLayout },
       { path: config.routes.RefundOrder, components: RefundOrderPage, layout: PageNoSearchLayout },
       { path: config.routes.ViewRefundRequest, components: ViewRefundRequestPage, layout: PageNoSearchLayout },
+      { path: config.routes.ConfirmPaypal, components: ConfirmPayPalPage },
+      { path: config.routes.CancelPaypal, components: CancelPayPalPage },
+      { path: config.routes.OrderDetail, components: OrderDetailPage },
+      { path: config.routes.ReturnVnPay, components: ReturnVnPayPage },
+      { path: config.routes.info, components: PersonalInfoPage },
     ],
   },
   privateRoutes: [

@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react';
 
-import styles from './Home.module.scss';
-
 import * as HomeServices from '~/services/HomeServices';
 import LoadingPage from '../LoadingPage/LoadingPage';
 import { FormatDate, TimeRemaining } from '~/utils/FormatDate';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import className from "className/bind";
 
 // const cx = className.bind(styles);
@@ -62,7 +62,7 @@ function Home({ children }) {
         <div className="container">
           <div className={`${styles['main']} pt-4 pb-4`}>
             <div className={`${styles['menu-category']} pt-4 pb-4`}>
-              <div className="row">
+              <div className="row  align-items-start">
                 <div className="col col-lg-2">
                   <div className={`${styles['menu-category-item']} ${styles['menu-category-list']}`}>
                     {Object.entries(data.type_product).map((el, index) => (
@@ -98,6 +98,7 @@ function Home({ children }) {
                         className={`${styles['menu-category-img']} background-img pt-100p`}
                         style={{
                           backgroundImage: `url('../../../../assets/image/banner-${indexBanner}.png')`,
+                          height: '300px',
                         }}
                       ></div>
                       <div className={`${styles['menu-category-content']}`}>
@@ -140,7 +141,7 @@ function Home({ children }) {
                       <span>{timeDeal.sec < 10 ? `0${timeDeal.sec}` : timeDeal.sec}</span>
                       <span>Sec</span>
                     </div>
-                    <Timer/>
+                    <Timer />
                   </div>
                 </div>
                 {Object.entries(data.deal.product).map((el, index) => (
@@ -205,6 +206,18 @@ function Home({ children }) {
         </div>
       )}
       {data === undefined && <LoadingPage />}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }

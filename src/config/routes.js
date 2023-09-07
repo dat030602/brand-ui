@@ -1,5 +1,6 @@
 const routes = {
   home: '/',
+  info: '/info',
   Products: 'products',
   Product: 'product/:id',
   Checkout: 'checkout',
@@ -16,8 +17,7 @@ const routes = {
   ManageOrders: 'manage-orders',
   ManageVouchers: 'manage-vouchers',
   Loyalty: 'loyalty',
-  RefundOrder: '/:id/refund',
-  ViewRefundRequest: '/:id/refund/detail',
+  RefundOrder: 'refund',
 };
 // Products Product Checkout Login Register Cart Favorite OrdersHistory PersonalEdit HotOffers Dashboard ManageProducts ManageCustomers ManageOrders ManageVouchers
 export default routes;

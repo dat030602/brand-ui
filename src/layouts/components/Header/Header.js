@@ -148,7 +148,7 @@ function Header({ children }) {
                     results.map((result, id) => {
                       return (
                         <div className={`${styles['e']}`} key={id}>
-                          <a href="/product">{result.TEN_SP}</a>
+                          <a href={`/product/${result.MA_SP}`}>{result.TEN_SP}</a>
                         </div>
                       );
                     })}
