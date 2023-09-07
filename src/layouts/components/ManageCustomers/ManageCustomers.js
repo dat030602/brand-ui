@@ -1,9 +1,49 @@
-import React from "react";
+import React,{ Fragment, useEffect, useState } from "react";
 
 import styles from "./ManageCustomers.module.scss";
 import { Image } from "~/components/Image";
+import * as ManageCustomersServices from '~/services/ManageCustomersServices';
 
 function ManageCustomers({ children }) {
+	const [data, setData] = useState([]);
+  const [statistics, setStatistics] = useState([]);
+
+  const fetchApi = async () => {
+    let result = await ManageCustomersServices.GetData();
+    setData(result);
+  };
+  
+  const fetchStatistics = async (name = "This month") => {
+    let result;
+    if (name === "This month") result = await ManageCustomersServices.GetStatistics_Month();
+    else if (name === "This year") result = await ManageCustomersServices.GetStatistics_Year();
+    else if (name === "All") result = await ManageCustomersServices.GetStatistics_All();
+    setStatistics(result?.recordset);
+  };
+  useEffect(() => {
+    fetchApi();
+    fetchStatistics();
+  }, []);
+  const bronzeTierCustomers = Array.isArray(data.listCustomers) ? data.listCustomers.filter((customer) => {
+	// Điều kiện để xác định khách hàng bronze-tier
+	return customer.DIEM_THUONG < 200;
+
+  }) : [];
+  
+  const silverTierCustomers = Array.isArray(data.listCustomers)
+  ? data.listCustomers.filter((customer) => {
+      // Điều kiện để xác định khách hàng silver-tier
+      return customer.DIEM_THUONG >= 200 && customer.DIEM_THUONG < 400;
+    })
+  : [];
+  const goldTierCustomers = Array.isArray(data.listCustomers)
+  ? data.listCustomers.filter((customer) => {
+      // Điều kiện để xác định khách hàng gold-tier
+      return customer.DIEM_THUONG >= 400;
+    })
+  : [];
+
+  
 	return (
 		<>
 			<nav className={`${styles["side-menu"]} bg-w border`}>
@@ -258,8 +298,242 @@ function ManageCustomers({ children }) {
 					</div>
 				</div>
 			</div>
-			{/* <!-- Modal --> */}
 
+			{/* <div className="container">
+				<div className="main pt-4 pb-4">
+					<div className="pl-3 pr-3">
+						<div className="bg-w border rounded">
+							<div className="p-3">
+								<div className="header d-flex align-items-center justify-content-between">
+									<div className={`${styles["title"]}`}>
+										<h5>Customer loyalty management program</h5>
+									</div>
+									
+								</div>
+								<section className="ftco-section">
+									<div className="container">
+										<div className="row">
+											<div className="col-md-12">
+												<div className="table-wrap">
+													<table className="table">
+													<thead className="thead-primary">
+														<tr>
+														<th className="text-center">Employee Name</th>
+														<th className="text-center">Email</th>
+														<th className="text-center">Age</th>
+														<th className="text-center">Membership tiers</th>
+														</tr>
+													</thead>
+													<tbody>
+														{data && data.listCustomers && Object.keys(data.listCustomers).map((index) => (
+														<tr key={index}>
+															<td className="">{data.listCustomers[index].HO_TEN}</td>
+															<td className="text-center">{data.listCustomers[index].EMAIL}</td>
+															<td className="text-center">{data.listCustomers[index].TUOI}</td>
+															<td className={`${styles['tier']} d-flex justify-content-center`}>
+															<div
+																className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${
+																data.listCustomers[index].DIEM_THUONG < 200
+																	? styles['bronze-tier']
+																	: data.listCustomers[index].DIEM_THUONG < 400
+																	? styles['sliver-tier']
+																	: styles['gold-tier']
+																}`}
+															>
+																{data.listCustomers[index].DIEM_THUONG < 200
+																? 'Bronze'
+																: data.listCustomers[index].DIEM_THUONG < 400
+																? 'Sliver'
+																: 'Gold'}
+															</div>
+															</td>
+														</tr>
+														))}
+														</tbody>
+													</table>
+
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> */}
+			{/* <!-- Modal --> */}
+										<div className="container">
+									<div className="main pt-4 pb-4">
+									<div className="pl-3 pr-3">
+										<div className="bg-w border rounded">
+										<div className="p-3">
+											<div className="header d-flex align-items-center justify-content-between">
+											<div className={`${styles["title"]}`}>
+												<h5>Customers with Bronze Tier</h5>
+											</div>
+											</div>
+											<section className="ftco-section">
+											<div className="container">
+												<div className="row">
+												<div className="col-md-12">
+													<div className="table-wrap">
+													<table className="table">
+														<thead className="thead-primary">
+														<tr>
+															<th className="text-center">Customer Name</th>
+															<th className="text-center">Email</th>
+															<th className="text-center">Age</th>
+															<th className="text-center">Membership tiers</th>
+														</tr>
+														</thead>
+														<tbody>
+														{bronzeTierCustomers.map((customer, index) => (
+															<tr key={index}>
+															<td className="">{customer.HO_TEN}</td>
+															<td className="text-center">{customer.EMAIL}</td>
+															<td className="text-center">{customer.TUOI}</td>
+															<td className={`${styles['tier']} d-flex justify-content-center`}>
+																<div
+																className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${
+																	customer.DIEM_THUONG < 200
+																	? styles['bronze-tier']
+																	: customer.DIEM_THUONG < 400
+																	? styles['silver-tier']
+																	: styles['gold-tier']
+																}`}
+																>
+																{customer.DIEM_THUONG < 200
+																	? 'Bronze'
+																	: customer.DIEM_THUONG < 400
+																	? 'Silver'
+																	: 'Gold'}
+																</div>
+															</td>
+															</tr>
+														))}
+														</tbody>
+													</table>
+													</div>
+												</div>
+												</div>
+											</div>
+											</section>
+										</div>
+										</div>
+									</div>
+									</div>
+
+									<div className="container">
+							<div className="main pt-4 pb-4">
+								<div className="pl-3 pr-3">
+								<div className="bg-w border rounded">
+									<div className="p-3">
+									<div className="header d-flex align-items-center justify-content-between">
+										<div className={`${styles["title"]}`}>
+										<h5>Customers with Silver Tier</h5>
+										</div>
+									</div>
+									<section className="ftco-section">
+										<div className="container">
+										<div className="row">
+											<div className="col-md-12">
+											<div className="table-wrap">
+												<table className="table">
+												<thead className="thead-primary">
+													<tr>
+													<th className="text-center">Customer Name</th>
+													<th className="text-center">Email</th>
+													<th className="text-center">Age</th>
+													<th className="text-center">Membership tiers</th>
+													</tr>
+												</thead>
+												<tbody>
+													{silverTierCustomers.map((customer, index) => (
+													<tr key={index}>
+														<td className="">{customer.HO_TEN}</td>
+														<td className="text-center">{customer.EMAIL}</td>
+														<td className="text-center">{customer.TUOI}</td>
+														<td className={`${styles['tier']} d-flex justify-content-center`}>
+														<div
+															className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${
+															styles['silver-tier']
+															}`}
+														>
+															Silver
+														</div>
+														</td>
+													</tr>
+													))}
+												</tbody>
+												</table>
+											</div>
+											</div>
+										</div>
+										</div>
+									</section>
+									</div>
+								</div>
+								</div>
+							</div>
+							</div>
+							<div className="container">
+							<div className="main pt-4 pb-4">
+								<div className="pl-3 pr-3">
+								<div className="bg-w border rounded">
+									<div className="p-3">
+									<div className="header d-flex align-items-center justify-content-between">
+										<div className={`${styles["title"]}`}>
+										<h5>Customers with Gold Tier</h5>
+										</div>
+									</div>
+									<section className="ftco-section">
+										<div className="container">
+										<div className="row">
+											<div className="col-md-12">
+											<div className="table-wrap">
+												<table className="table">
+												<thead className="thead-primary">
+													<tr>
+													<th className="text-center">Customer Name</th>
+													<th className="text-center">Email</th>
+													<th className="text-center">Age</th>
+													<th className="text-center">Membership tiers</th>
+													</tr>
+												</thead>
+												<tbody>
+													{goldTierCustomers.map((customer, index) => (
+													<tr key={index}>
+														<td className="">{customer.HO_TEN}</td>
+														<td className="text-center">{customer.EMAIL}</td>
+														<td className="text-center">{customer.TUOI}</td>
+														<td className={`${styles['tier']} d-flex justify-content-center`}>
+														<div
+															className={`bg-gray p-1 pr-3 pl-3 rounded text-bold-normal ${
+															styles['gold-tier']
+															}`}
+														>
+															Gold
+														</div>
+														</td>
+													</tr>
+													))}
+												</tbody>
+												</table>
+											</div>
+											</div>
+										</div>
+										</div>
+									</section>
+									</div>
+								</div>
+								</div>
+							</div>
+							</div>
+
+
+      </div>
 			<div
 				className="modal fade"
 				id="addCustomerModal"
