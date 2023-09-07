@@ -10,10 +10,7 @@ import LoadingPage from '../LoadingPage/LoadingPage';
 import { Image } from '~/components/Image';
 
 function Cart({ children }) {
-  // const [cartTotal, setCartTotal] = useState(0);
   const [cartDetail, setData] = useState();
-  // const [indexDetail, setIndexDetail] = useState(0);
-  // var indexDetail_clone = 0;
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -48,7 +45,7 @@ function Cart({ children }) {
         setData(result);
         localStorage.setItem('cartItemCount', cartDetail.length);
 
-        toast.success('Quantity updated successfully', {
+        toast.success('Quantity increased successfully', {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
@@ -74,41 +71,29 @@ function Cart({ children }) {
   };
 
   const decreaseQuantity = async (index) => {
-    if (cartDetail[index].SO_LUONG > 1) {
-      var result = await CartServices.UpdateQuantity(
-        getCookie('Username'),
-        cartDetail[index].MA_SP,
-        cartDetail[index].STT,
-        -1,
-      );
-      if (result.returnValue === 0)
-        toast.error("We can't update", {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        });
-      else {
-        let result = await CartServices.GetAllCart(getCookie('Username'));
-        setData(result);
+    var result = await CartServices.UpdateQuantity(
+      getCookie('Username'),
+      cartDetail[index].MA_SP,
+      cartDetail[index].STT,
+      -1,
+    );
+    if (result.returnValue === 0)
+      toast.error("We can't update", {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+    else {
+      let result = await CartServices.GetAllCart(getCookie('Username'));
+      setData(result);
+      localStorage.setItem('cartItemCount', cartDetail.length);
 
-        toast.success('Quantity decreased successfully', {
-          position: 'top-right',
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: 'light',
-        });
-      }
-    } else {
-      toast.warning('Are you sure you want to delete this from cart?', {
+      toast.success('Quantity decreased successfully', {
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: true,
@@ -121,7 +106,7 @@ function Cart({ children }) {
     }
   };
 
-  const handleOnClickRemoveFromCart = async (index, submit) => {
+  const handleOnClickRemoveFromCart = async (index) => {
     var result = await CartServices.RemoveFromCart(
       getCookie('Username'),
       cartDetail[index].MA_SP,
@@ -141,6 +126,8 @@ function Cart({ children }) {
     else {
       let result = await CartServices.GetAllCart(getCookie('Username'));
       setData(result);
+      localStorage.setItem('cartItemCount', cartDetail.length);
+
       toast.success('Remove successfully', {
         position: 'top-right',
         autoClose: 5000,
@@ -161,7 +148,7 @@ function Cart({ children }) {
         <div className="container">
           <div className="main pt-4 pb-4">
             <div className="row">
-              <div className="col-2">
+              <div className="col-2 align-self-start">
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                   <a href="/">Personal info</a>
                 </div>
@@ -209,57 +196,56 @@ function Cart({ children }) {
                               <div className="pr-4">
                                 <div className="row">
                                   <a
-                                    href="/product"
-                                    className="col-1 border rounded p-2 d-flex align-items-center justify-content-center"
+                                    href={`/product/${cartDetail[index].MA_SP}`}
+                                    className="ml-3 col-1 border rounded p-2 d-flex align-items-center justify-content-center"
                                   >
                                     <Image className={'img-fluid max-width'} src={cartDetail[index].HINHANH} />
                                   </a>
-                                  <div className="col-9 pl-3 pr-3">
+                                  <div className="col-6 pl-3 pr-3">
                                     <div className="box-title">
-                                      <a href="/product">
+                                      <a href={`/product/${cartDetail[index].MA_SP}`}>
                                         <h5>{cartDetail[index].TEN_SP}</h5>
                                       </a>
                                     </div>
                                     <div className="box-description">
                                       <span className="text-gray">Category: {cartDetail[index].TEN_CTSP}</span>
-                                      <div className="box-description">
-                                        <div class="btn-group" role="group" aria-label="Basic outlined example">
-                                          <button
-                                            type="button"
-                                            onClick={() => decreaseQuantity(index)}
-                                            class={`btn ${
-                                              cartDetail[index].SO_LUONG <= 1 ? 'btn-white' : 'btn-outline-primary'
-                                            }`}
-                                            disabled={cartDetail[index].SO_LUONG <= 1}
-                                          >
-                                            -
-                                          </button>
-                                          <span class="btn btn-outline-primary">{cartDetail[index].SO_LUONG}</span>
-                                          <button
-                                            type="button"
-                                            onClick={() => increaseQuantity(index)}
-                                            class={`btn ${
-                                              cartDetail[index].SO_LUONG === cartDetail[index].SL_KHO
-                                                ? 'btn-white'
-                                                : 'btn-outline-primary'
-                                            }`}
-                                            disabled={cartDetail[index].SO_LUONG === cartDetail[index].SL_KHO}
-                                          >
-                                            +
-                                          </button>
-                                        </div>
+                                    </div>
+                                  </div>
+                                  <div className="mr-4 col-1">
+                                    <div className="box-description">
+                                      <div class="btn-group" role="group">
+                                        <button
+                                          type="button"
+                                          onClick={() => decreaseQuantity(index)}
+                                          class="btn btn-outline-primary"
+                                        >
+                                          -
+                                        </button>
+                                        <span class="btn btn-outline-primary">{cartDetail[index].SO_LUONG}</span>
+                                        <button
+                                          type="button"
+                                          onClick={() => increaseQuantity(index)}
+                                          class={`btn ${
+                                            cartDetail[index].SO_LUONG === cartDetail[index].SL_KHO
+                                              ? 'btn-white'
+                                              : 'btn-outline-primary'
+                                          }`}
+                                          disabled={cartDetail[index].SO_LUONG === cartDetail[index].SL_KHO}
+                                        >
+                                          +
+                                        </button>
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="col-2">
+                                  <div className="col-2 mb-1">
                                     <div className="d-flex flex-column align-items-end">
-                                      <span>{cartDetail[index].GIA_BAN}</span>
+                                      <span>${cartDetail[index].GIA_BAN}</span>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              <div className="">
-                                <div className="btn p-1 pr-3 pl-3 rounded text-bold-normal btn-outline-danger">
+                              <div className="d-flex flex-column align-items-begin pt-1 pr-1">
+                                <div className="btn pr-3 pl-3 mt-2 pt-1 rounded text-bold-normal btn-outline-danger">
                                   <button
                                     type="button"
                                     onClick={() => handleOnClickRemoveFromCart(index)}
@@ -275,24 +261,23 @@ function Cart({ children }) {
                       <div className="line mt-3 mb-3"></div>
                       <div className="">
                         <div className="d-flex justify-content-end align-items-center ">
-                          <div>
-                            <div className="d-flex justify-content-end align-items-center">
-                              <span className="text-gray mr-2">Sub Total: </span>
-                              <span className="text-primary font-weight-bold mr-8">
-                                {cartDetail.length > 0
-                                  ? cartDetail.reduce((total, item) => total + item.GIA_BAN * item.SO_LUONG, 0)
-                                  : 0}
-                              </span>
-                              <button
-                                type="button"
-                                className="btn btn-primary ml-3"
-                                data-toggle="button"
-                                aria-pressed="false"
-                                autoComplete="off"
-                              >
-                                Check Out
-                              </button>
-                            </div>
+                          <div className="d-flex justify-content-end align-items-center">
+                            <span className="text-gray mr-2">Sub Total: </span>
+                            <span className="text-primary font-weight-bold mr-8">
+                              $
+                              {cartDetail.length > 0
+                                ? cartDetail.reduce((total, item) => total + item.GIA_BAN * item.SO_LUONG, 0)
+                                : 0}
+                            </span>
+                            <button
+                              type="button"
+                              className="btn btn-primary ml-3"
+                              data-toggle="button"
+                              aria-pressed="false"
+                              autoComplete="off"
+                            >
+                              Check Out
+                            </button>
                           </div>
                         </div>
                       </div>

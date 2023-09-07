@@ -16,7 +16,8 @@ const routes = {
   ManageOrders: 'manage-orders',
   ManageVouchers: 'manage-vouchers',
   Loyalty: 'loyalty',
-  RefundOrder: 'refund',
+  RefundOrder: '/:id/refund',
+  ViewRefundRequest: '/:id/refund/detail',
 };
 // Products Product Checkout Login Register Cart Favorite OrdersHistory PersonalEdit HotOffers Dashboard ManageProducts ManageCustomers ManageOrders ManageVouchers
 export default routes;

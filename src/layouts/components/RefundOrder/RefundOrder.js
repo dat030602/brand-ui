@@ -8,32 +8,34 @@ import * as RefundOrderServices from '~/services/RefundOrderServices';
 
 function RefundOrder() {
   const navigate = useNavigate();
-  const quantityInputRefs = useRef({}); // Create a ref to store quantity input refs
 
-  // const { orderID } = useParams();
-  const { orderID } = 'DH001';
+  const quantityInputRefs = useRef({});
+  const totalRefundElement = useRef(null);
 
-  const [requestRefund, setRefund] = useState();
-  // const [requestRefundDetail, setRefundDetail] = useState({
-  //   masp: '',
-  //   stt: 0,
-  //   soluong: 0,
-  //   gia: '',
-  // });
+  const orderID = useParams().id;
+
+  // console.log('id', useParams().id);
+
+  const [requestRefund, setRefund] = useState({
+    lydo: '',
+    items: [],
+    maddh: orderID,
+    makhach: getCookie('Username'),
+    image: '',
+    note: '',
+    // sotien: 0,
+  });
 
   const [submitted, setSubmitted] = useState(false);
-
-  const [checkedItems, setCheckedItems] = useState([]);
 
   const [orderItems, setOrderItems] = useState([]);
 
   useEffect(() => {
     const fetchOrderItems = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/manage-orders/order-detail/DH001`);
+        const response = await fetch(`http://localhost:5000/manage-orders/DH001/order-detail`);
         const data = await response.json();
         setOrderItems(data);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching order details:', error);
       }
@@ -43,17 +45,17 @@ function RefundOrder() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setSubmitted(true);
-    //khuc nay con backend la ghi vao don hoan tra + update status donhang
-    // var result = await RefundOrderServices.AddNewRefundRequest()
-    setRefund((pre) => ({ ...pre, maddh: orderID, makhach: getCookie('Username') }));
-    console.log('ho', requestRefund);
+
+    // setRefund((prevRefund) => ({ ...prevRefund, sotien: parseFloat(totalRefundElement.current.innerText) }));
+    console.log('final', requestRefund);
+
     var result = await RefundOrderServices.AddNewRefundRequest(requestRefund);
-    // if (result.data.returnValue === 1) {
-    //   console.log('addnew');
-    // } else {
-    //   console.log('fail');
-    // }
+    if (result.data.returnValue === 1) {
+      console.log('addnew');
+      setSubmitted(true);
+    } else {
+      console.log('fail');
+    }
   };
 
   const handleOnChangeAddRefund = (e) => {
@@ -63,29 +65,38 @@ function RefundOrder() {
     } else if (name === 'note') {
       setRefund((pre) => ({ ...pre, note: value }));
     } else if (name === 'image') {
-      setRefund((pre) => ({ ...pre, HINHANH: e.target.files[0] }));
+      setRefund((pre) => ({ ...pre, image: e.target.files[0] }));
     }
-    console.log(requestRefund);
   };
 
   const handleTickChange = (MA_SP, STT, GIA) => {
     const SOLUONG = parseInt(quantityInputRefs.current[`${MA_SP}_${STT}`].value, 10) || 0;
 
-    const isChecked = checkedItems.some((item) => item.MA_SP === MA_SP && item.STT === STT);
+    setRefund((prevRefund) => {
+      const isChecked = prevRefund.items.some((item) => item.MA_SP === MA_SP && item.STT === STT);
 
-    if (isChecked) {
-      setCheckedItems(checkedItems.filter((item) => !(item.MA_SP === MA_SP && item.STT === STT)));
-    } else {
-      setCheckedItems([...checkedItems, { MA_SP, STT, GIA, SOLUONG }]);
-    }
-    console.log('2', checkedItems);
+      if (isChecked) {
+        const updatedItems = prevRefund.items.filter((item) => !(item.MA_SP === MA_SP && item.STT === STT));
+        return {
+          ...prevRefund,
+          items: updatedItems,
+        };
+      } else {
+        const newItem = { MA_SP, STT, GIA, SOLUONG };
+        return {
+          ...prevRefund,
+          items: [...prevRefund.items, newItem],
+        };
+      }
+    });
   };
 
-  const handleQuantityChange = (MA_SP, STT, GIA) => {
+  const handleQuantityChange = (MA_SP, STT) => {
     const SOLUONG = parseInt(quantityInputRefs.current[`${MA_SP}_${STT}`].value, 10) || 0;
-    setCheckedItems((prevCheckedItems) =>
-      prevCheckedItems.map((item) => (item.MA_SP === MA_SP && item.STT === STT ? { ...item, SOLUONG } : item)),
-    );
+    setRefund((prevRefund) => ({
+      ...prevRefund,
+      items: prevRefund.items.map((item) => (item.MA_SP === MA_SP && item.STT === STT ? { ...item, SOLUONG } : item)),
+    }));
   };
 
   return (
@@ -93,7 +104,7 @@ function RefundOrder() {
       <div className="container">
         <div className="main pt-4 pb-4">
           <div className="row">
-            <div className="col-2">
+            <div className="col-2 align-self-start">
               <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                 <a href="/">Personal info</a>
               </div>
@@ -105,6 +116,9 @@ function RefundOrder() {
               </div>
               <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
                 <a href="/orders-history">Orders history</a>
+              </div>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                <a href="/loyalty">Loyalty Program</a>
               </div>
               <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 active`}>
                 <a href="/personal/edit">Profile setting</a>
@@ -126,14 +140,21 @@ function RefundOrder() {
             <div className="col-8 pl-3 d-flex">
               <div className="col-11 bg-w rounded border p-4">
                 <div className="title pb-3">
-                  <h3>Refund Request</h3>
+                  <div className="d-flex align-items-center justify-content-between">
+                    <h3>Refund Request Detail</h3>
+                    <div className="col-3 align-items-center">
+                      <a href="/orders-history" className="btn btn-outline-primary p-4 pt-2 pb-2 ml-2">
+                        Go Back
+                      </a>
+                    </div>
+                  </div>
                   <div className="mt-3 line"></div>
                   <div>
                     <div className="d-flex align-items-center justify-content-between mt-3 pl-2">
                       <div>
                         <div className="d-flex">
-                          <span>Order ID:</span>
-                          <span className="ml-1 text-bold-normal">8924</span>
+                          <span className="text-gray">Order ID:</span>
+                          <span className="ml-1 text-black text-bold-normal">{orderID}</span>
                         </div>
                         <div className="d-flex">
                           <span className="text-gray">Delivered Date:</span>
@@ -157,22 +178,23 @@ function RefundOrder() {
                               <label className={`${styles['refund-checkbox']}`}>
                                 <input
                                   type="checkbox"
-                                  checked={checkedItems.some(
+                                  checked={requestRefund.items.some(
                                     (checkedItem) => checkedItem.MA_SP === item.MA_SP && checkedItem.STT === item.STT,
                                   )}
                                   onChange={(e) => handleTickChange(item.MA_SP, item.STT, item.GIA)}
+                                  disabled={submitted}
                                 />
                                 <span className={`${styles['checkmark']}`}></span>
                               </label>
                             </div>
 
                             <div className="col-1 border rounded p-2 d-inline-flex align-items-center justify-content-center">
-                              <a href="/">
+                              <a href={`/product/${item.MA_SP}`}>
                                 <Image src={item.HINHANH} alt="" className="img-fluid max-width" />
                               </a>
                             </div>
                             <div className="col-7 pl-3">
-                              <a href="/">
+                              <a href={`/product/${item.MA_SP}`}>
                                 <div className="box-title">
                                   <h5 href>{item.TEN_SP}</h5>
                                 </div>
@@ -193,6 +215,7 @@ function RefundOrder() {
                                   defaultValue={1}
                                   min={1}
                                   max={item.SOLUONG}
+                                  onKeyDown={(e) => e.preventDefault()}
                                   className={styles['custom-input']}
                                   onChange={(e) => handleQuantityChange(item.MA_SP, item.STT, item.GIA)}
                                 />
@@ -213,6 +236,7 @@ function RefundOrder() {
                           style={{ marginLeft: '0.75rem' }}
                           onChange={(e) => handleOnChangeAddRefund(e)}
                           required
+                          disabled={submitted}
                         >
                           <option value="">Select a reason</option>
                           <option value="wrong_item">Wrong Item Received</option>
@@ -226,15 +250,20 @@ function RefundOrder() {
                       <textarea
                         className="col-9 border rounded ml-3"
                         name="note"
+                        disabled={submitted}
                         onChange={(e) => handleOnChangeAddRefund(e)}
                         rows="2"
-                        cols="50"
                         style={{ padding: '5px' }}
                       />
                     </div>
                     <div className="mt-3 d-flex align-items-center">
                       <span className="ml-1 text-bold-normal mr-3">Upload Evidence (if applicable):</span>
-                      <input name="image" type="file" onChange={(e) => handleOnChangeAddRefund(e)} />
+                      <input
+                        disabled={submitted}
+                        name="image"
+                        type="file"
+                        onChange={(e) => handleOnChangeAddRefund(e)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -244,16 +273,16 @@ function RefundOrder() {
                   <h4>Summary</h4>
                 </div>
                 <div className="box-description mt-3">
-                  {checkedItems.length > 0 ? (
+                  {requestRefund.items.length > 0 ? (
                     <>
                       <div className="d-inline-flex justify-content-between align-items-center">
                         <span>Items Subtotal: </span>
                         <span style={{ marginLeft: '52px' }}>
-                          ${checkedItems.reduce((total, item) => total + item.GIA * item.SOLUONG, 0)}
+                          ${requestRefund.items.reduce((total, item) => total + item.GIA * item.SOLUONG, 0)}
                         </span>
                       </div>
                       <div className="text-gray">
-                        {checkedItems.reduce((amount, item) => amount + item.SOLUONG, 0)} item
+                        {requestRefund.items.reduce((amount, item) => amount + item.SOLUONG, 0)} item
                       </div>
                       <div className="line mt-3 mb-3"> </div>
                       <div className="d-inline-flex justify-content-between align-items-center">
@@ -262,7 +291,12 @@ function RefundOrder() {
                       </div>
                       <div className="box-description mt-2">
                         <span>Total Refund:</span>
-                        <span style={{ marginLeft: '65px' }}>$30</span>
+                        {/* <span style={{ marginLeft: '65px' }}>
+                          ${requestRefund.items.reduce((total, item) => total + item.GIA * item.SOLUONG, 0)} */}
+                        <span style={{ marginLeft: '65px' }}>$</span>
+                        <span ref={totalRefundElement}>
+                          {requestRefund.items.reduce((total, item) => total + item.GIA * item.SOLUONG, 0)}
+                        </span>
                       </div>
                     </>
                   ) : (
@@ -271,14 +305,14 @@ function RefundOrder() {
                   <div className="d-flex justify-content-center mt-4 mb-4">
                     {submitted ? (
                       <div className="text-primary text-bold-normal text-center">
-                        {/* <a href="/" className=""> */}
-                        Refund request is submitted. We will review it shortly.
-                        {/* </a> */}
+                        <a href={`/${orderID}/refund/view`} className="">
+                          Refund request is submitted. We will review it shortly.
+                        </a>
                       </div>
                     ) : (
                       <form onSubmit={handleSubmit}>
                         <button
-                          disabled={checkedItems.length === 0} //|| reason.trim() === ''}
+                          disabled={requestRefund.items.length === 0 || requestRefund.lydo.trim() === ''}
                           type="submit"
                           class=" btn btn-primary"
                         >
@@ -289,8 +323,6 @@ function RefundOrder() {
                   </div>
                 </div>
               </div>
-
-              {/* )} */}
             </div>
           </div>
           <div></div>

@@ -22,6 +22,7 @@ import RefundOrderPage from '~/pages/RefundOrder';
 
 //Layouts
 import { AdminLayout, PageNoSearchLayout } from '~/layouts/layout';
+import ViewRefundRequestPage from '~/pages/ViewRefundRequest';
 
 const routes = {
   publicRoutes: {
@@ -45,6 +46,7 @@ const routes = {
       { path: config.routes.ProfileSetting, components: ProfileSettingPage, layout: PageNoSearchLayout },
       { path: config.routes.Loyalty, components: LoyaltyPage, layout: PageNoSearchLayout },
       { path: config.routes.RefundOrder, components: RefundOrderPage, layout: PageNoSearchLayout },
+      { path: config.routes.ViewRefundRequest, components: ViewRefundRequestPage, layout: PageNoSearchLayout },
     ],
   },
   privateRoutes: [

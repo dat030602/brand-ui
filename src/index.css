@@ -255,6 +255,19 @@ p {
 	color: #749d00;
 	background-color: rgba(116, 157, 0, 0.2);
 }
+
+
+.btn-view {
+	color:			#b9732d;
+	background-color: 	#f9d7aa;
+	transition: all 0.2s ease;
+}
+.btn-view:hover {
+	opacity: 0.8;
+	color:			#b9732d;
+	background-color: 	#f9d7aa;
+}
+
 .carousel-indicators [data-mdb-target] {
 	text-indent: inherit !important;
 }
