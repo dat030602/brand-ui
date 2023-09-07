@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './Product.module.scss';
 import * as ProductServices from '~/services/ProductServices';
@@ -14,12 +16,16 @@ function Product({ children }) {
   const { id } = useParams();
   const [data, setData] = useState();
   const [dataFavorite, setDataFavorite] = useState();
+  const [favorite, setFavorite] = useState(false);
+  const [dataSelected, setDataSelected] = useState({ MA_SP: '', STT: -1, soluong: 1 });
+  const [amount, setAmount] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchApi = async () => {
       let result = await ProductServices.GetProduct(id, getCookie('Username'));
       setData(result);
+      setFavorite(result[0][0].favorite == 1);
       if (getCookie('Username') !== null) {
         result = await FavoriteServices.GetProducts(getCookie('Username'));
         setDataFavorite(result[0]);
@@ -63,7 +69,7 @@ function Product({ children }) {
                     <Carousel data-bs-theme="dark">
                       {Object.keys(data[2]).map((index) => (
                         <Carousel.Item key={index}>
-                          <Image src={data[2][index].HINHANH} className={`d-block ${styles['img-slide']}`} alt="..."/>
+                          <Image src={data[2][index].HINHANH} className={`d-block ${styles['img-slide']}`} alt="..." />
                         </Carousel.Item>
                       ))}
                     </Carousel>
@@ -113,6 +119,12 @@ function Product({ children }) {
                               }
                               clearStyle(node);
                               node.style.boxShadow = 'rgba(0, 0, 0, 0.24) 0px 3px 8px';
+                              setDataSelected((pre) => {
+                                var newData = { ...pre };
+                                newData.MA_SP = data[1][index].MA_SP;
+                                newData.STT = data[1][index].STT;
+                                return newData;
+                              });
                             }}
                           >
                             <span>{data[1][index].TEN_CTSP}</span>
@@ -127,19 +139,56 @@ function Product({ children }) {
                         <label htmlFor="" className="mr-3">
                           Qty:
                         </label>
-                        <input type="text" className="rounded border pl-2 pr-2 pt-1 pb-1" defaultValue="1" />
+                        <input
+                          type="number"
+                          className="rounded border pl-2 pr-2 pt-1 pb-1"
+                          defaultValue="1"
+                          onChange={(e) => {
+                            setAmount(amount + parseInt(e.target.value));
+                            setDataSelected((pre) => {
+                              var newData = { ...pre };
+                              newData.soluong = amount + parseInt(e.target.value);
+                              return newData;
+                            });
+                          }}
+                        />
                       </div>
                       <div
                         className={`${styles['product-action']} d-flex align-items-center mt-3 justify-content-between`}
                       >
                         <div
-                          className={`${styles['product-favorite']} ${
-                            data[0][0].favorite === 1 && styles['active']
-                          } mr-3`}
+                          className={`${styles['product-favorite']} ${favorite === true ? styles['active'] : ''} mr-3`}
                         >
                           <button
-                            onClick={() => {
+                            onClick={async () => {
                               if (getCookie('Username') === null) navigate('/login');
+                              else {
+                                var result = await ProductServices.Favorite(data[0][0].MA_SP, getCookie('Username'));
+                                if (result.data === 1) {
+                                  setFavorite(!favorite);
+                                  toast.success('Favorite successfully', {
+                                    position: 'top-right',
+                                    autoClose: 5000,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: 'light',
+                                  });
+                                } else {
+                                  toast.error('Favorite error', {
+                                    position: 'top-right',
+                                    autoClose: 5000,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                    theme: 'light',
+                                  });
+                                }
+                              }
                             }}
                           >
                             <svg className="star btn" data-src="../../../../assets/svg/heart.svg"></svg>
@@ -147,16 +196,85 @@ function Product({ children }) {
                         </div>
                         <button
                           className="btn btn-outline-primary pr-5 pl-5 mr-3"
-                          onClick={() => {
+                          onClick={async () => {
                             if (getCookie('Username') === null) navigate('/login');
+                            else {
+                              if (dataSelected.MA_SP === '') {
+                                toast.warn('Please choose product', {
+                                  position: 'top-right',
+                                  autoClose: 5000,
+                                  hideProgressBar: true,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: 'light',
+                                });
+                                return;
+                              }
+                              var result = await ProductServices.AddToCart(getCookie('Username'), dataSelected);
+                              if (result.data === 1) {
+                                toast.success('Add successfully', {
+                                  position: 'top-right',
+                                  autoClose: 5000,
+                                  hideProgressBar: true,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: 'light',
+                                });
+                              } else {
+                                toast.error('Add error', {
+                                  position: 'top-right',
+                                  autoClose: 5000,
+                                  hideProgressBar: true,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: 'light',
+                                });
+                              }
+                            }
                           }}
                         >
                           Add to Cart
                         </button>
                         <button
                           className="btn btn-primary pr-5 pl-5"
-                          onClick={() => {
+                          onClick={async () => {
                             if (getCookie('Username') === null) navigate('/login');
+                            else {
+                              if (dataSelected.MA_SP === '') {
+                                toast.warn('Please choose product', {
+                                  position: 'top-right',
+                                  autoClose: 5000,
+                                  hideProgressBar: true,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: 'light',
+                                });
+                                return;
+                              }
+                              var result = await ProductServices.AddToCart(getCookie('Username'), dataSelected);
+                              if (result.data === 1) {
+                                navigate('/my-cart')
+                              } else {
+                                toast.error('Add error', {
+                                  position: 'top-right',
+                                  autoClose: 5000,
+                                  hideProgressBar: true,
+                                  closeOnClick: true,
+                                  pauseOnHover: true,
+                                  draggable: true,
+                                  progress: undefined,
+                                  theme: 'light',
+                                });
+                              }
+                            }
                           }}
                         >
                           Buy Now
@@ -282,6 +400,18 @@ function Product({ children }) {
               </div>
             )}
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </div>
       )}
       {data === undefined && <LoadingPage />}

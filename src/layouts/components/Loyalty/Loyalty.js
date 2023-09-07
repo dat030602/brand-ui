@@ -31,7 +31,7 @@ function Loyalty({ children }) {
             <div className="row">
               <div className="col-2">
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                  <a href="/">Personal info</a>
+                  <a href="/info">Personal info</a>
                 </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                   <a href="/my-cart">My cart</a>

@@ -17,7 +17,7 @@ const ModalAddress = (
           }}
           className={`${stylesModal["titleCloseBtn"]}`}
         >
-          <i class="fa fa-close"></i>
+          <i className="fa fa-close"></i>
         </button>
       </div>
       <div className="line mt-2 mb-2"></div>

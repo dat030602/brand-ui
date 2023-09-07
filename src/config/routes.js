@@ -1,5 +1,6 @@
 const routes = {
   home: '/',
+  info: '/info',
   Products: 'products',
   Product: 'product/:id',
   Checkout: 'checkout',
@@ -10,7 +11,7 @@ const routes = {
   OrdersHistory: 'orders-history',
   ProfileSetting: 'personal/edit',
   HotOffers: 'hot-offers/:id',
-  Dashboard: 'dashboard',
+  Dashboard: '/',
   ManageProducts: 'manage-products',
   ManageCustomers: 'manage-customers',
   ManageOrders: 'manage-orders',

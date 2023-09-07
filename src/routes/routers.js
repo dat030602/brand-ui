@@ -23,6 +23,8 @@ import ConfirmPayPalPage from '~/pages/ConfirmPaypal';
 import CancelPayPalPage from '~/pages/CancelPaypal';
 import OrderDetailPage from '~/pages/OrderDetail';
 import ReturnVnPayPage from '~/pages/ReturnVnPay';
+import PersonalInfoPage from '~/pages/PersonalInfo';
+
 //Layouts
 import { AdminLayout, PageNoSearchLayout } from '~/layouts/layout';
 
@@ -52,6 +54,7 @@ const routes = {
       { path: config.routes.CancelPaypal, components: CancelPayPalPage },
       { path: config.routes.OrderDetail, components: OrderDetailPage },
       { path: config.routes.ReturnVnPay, components: ReturnVnPayPage },
+      { path: config.routes.info, components: PersonalInfoPage },
     ],
   },
   privateRoutes: [

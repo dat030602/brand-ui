@@ -127,13 +127,13 @@ function PersonalEdit({ children }) {
       {data !== undefined && (
         <div className="container">
           <div className="main pt-4 pb-4">
-            <div className="row">
+            <div className="row align-items-start">
               <div className="col-2">
               <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                <a href="https://m.me/lethungan.190702">Chatbox</a>
+                {/* <a href="https://m.me/lethungan.190702">Chatbox</a> */}
                 </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                  <a href="/">Personal info</a>
+                  <a href="/info">Personal info</a>
                 </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                   <a href="/my-cart">My cart</a>

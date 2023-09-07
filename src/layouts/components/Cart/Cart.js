@@ -160,10 +160,10 @@ function Cart({ children }) {
       {cartDetail !== undefined && (
         <div className="container">
           <div className="main pt-4 pb-4">
-            <div className="row">
+            <div className="row align-items-start">
               <div className="col-2">
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                  <a href="/">Personal info</a>
+                  <a href="/info">Personal info</a>
                 </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
                   <a href="/my-cart">My cart</a>
@@ -209,36 +209,36 @@ function Cart({ children }) {
                               <div className="pr-4">
                                 <div className="row">
                                   <a
-                                    href="/product"
+                                    href={`/product/${cartDetail[index].MA_SP}`}
                                     className="col-1 border rounded p-2 d-flex align-items-center justify-content-center"
                                   >
                                     <Image className={'img-fluid max-width'} src={cartDetail[index].HINHANH} />
                                   </a>
                                   <div className="col-9 pl-3 pr-3">
                                     <div className="box-title">
-                                      <a href="/product">
+                                      <a href={`/product/${cartDetail[index].MA_SP}`}>
                                         <h5>{cartDetail[index].TEN_SP}</h5>
                                       </a>
                                     </div>
                                     <div className="box-description">
                                       <span className="text-gray">Category: {cartDetail[index].TEN_CTSP}</span>
                                       <div className="box-description">
-                                        <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                        <div className="btn-group" role="group" aria-label="Basic outlined example">
                                           <button
                                             type="button"
                                             onClick={() => decreaseQuantity(index)}
-                                            class={`btn ${
+                                            className={`btn ${
                                               cartDetail[index].SO_LUONG <= 1 ? 'btn-white' : 'btn-outline-primary'
                                             }`}
                                             disabled={cartDetail[index].SO_LUONG <= 1}
                                           >
                                             -
                                           </button>
-                                          <span class="btn btn-outline-primary">{cartDetail[index].SO_LUONG}</span>
+                                          <span className="btn btn-outline-primary">{cartDetail[index].SO_LUONG}</span>
                                           <button
                                             type="button"
                                             onClick={() => increaseQuantity(index)}
-                                            class={`btn ${
+                                            className={`btn ${
                                               cartDetail[index].SO_LUONG === cartDetail[index].SL_KHO
                                                 ? 'btn-white'
                                                 : 'btn-outline-primary'
@@ -258,7 +258,7 @@ function Cart({ children }) {
                                   </div>
                                 </div>
                               </div>
-                              <div className="">
+                              <div className="d-flex justify-content-center flex-column">
                                 <div className="btn p-1 pr-3 pl-3 rounded text-bold-normal btn-outline-danger">
                                   <button
                                     type="button"
