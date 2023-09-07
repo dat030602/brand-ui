@@ -121,7 +121,7 @@ export const NavCheckOut = ({
                     </p>
                   </div>
                   <div style={{ width: '10%' }}>
-                    <i class="fas fa-angle-right" style={{ fontSize: '28px' }}></i>
+                    <i className="fas fa-angle-right" style={{ fontSize: '28px' }}></i>
                   </div>
                 </div>
               </button>
