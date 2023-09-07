@@ -80,13 +80,18 @@ header {
 
 .dropdown {
 	background-color: white;
-	display: flex;
+	// display: flex;
+	display: none;
 	flex-direction: column;
 	position: absolute;
 	top: 100%;
 	left: 0;
 	right: 0;
 	border-radius: 10px;
+	&.focus{
+		display: flex;
+
+	}
 }
 .dropdown:emty {
 	border: none;
@@ -176,5 +181,4 @@ header {
 .active > .box-icon svg {
 	color: #5932ea;
 }
-
 

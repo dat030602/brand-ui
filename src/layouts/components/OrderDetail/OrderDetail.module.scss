@@ -1,0 +1,17 @@
+.side-item {
+	background-color: transparent;
+}
+.side-item:hover,
+.active {
+	background-color: var(--gray-300);
+}
+.title h3 {
+	font-size: 24px;
+}
+h5 {
+	font-size: 16px;
+}
+.box-description span {
+	font-size: 14px;
+	line-height: 14px;
+}

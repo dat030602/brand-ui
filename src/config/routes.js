@@ -1,5 +1,6 @@
 const routes = {
   home: '/',
+  info: '/info',
   Products: 'products',
   Product: 'product/:id',
   Checkout: 'checkout',
@@ -10,13 +11,14 @@ const routes = {
   OrdersHistory: 'orders-history',
   ProfileSetting: 'personal/edit',
   HotOffers: 'hot-offers/:id',
-  Dashboard: '/',
+  Dashboard: 'dashboard',
   ManageProducts: 'manage-products',
   ManageCustomers: 'manage-customers',
   ManageOrders: 'manage-orders',
   ManageVouchers: 'manage-vouchers',
-  Loyalty: 'loyalty',
-  RefundOrder: 'refund',
+  ConfirmPaypal: 'order/confirmPaypal',
+  CancelPaypal: 'order/cancelPaypal',
+  OrderDetail: 'order/:id',
 };
 // Products Product Checkout Login Register Cart Favorite OrdersHistory PersonalEdit HotOffers Dashboard ManageProducts ManageCustomers ManageOrders ManageVouchers
 export default routes;

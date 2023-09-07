@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './Checkout.module.scss';
 import axios from 'axios';
@@ -9,9 +11,10 @@ import { NavCheckOut } from './components/NavCheckOut';
 import { getCookie } from '~/utils/cookies';
 import { GetCartItem, GetAddress, Payment } from '~/services/CheckoutServices';
 import { GetAllProducts } from '~/services/ManageProductsServices';
+import { useNavigate } from 'react-router-dom';
 function Checkout({ setDataModal, handleCloseModal }) {
   //   const navigate = useNavigate();
-  //   const linkTo = useNavigate();
+  const linkTo = useNavigate();
 
   const username = getCookie('Username');
   const [dataCart, setDataCart] = useState(null);
@@ -30,10 +33,13 @@ function Checkout({ setDataModal, handleCloseModal }) {
     id: -1,
     full_info: '',
   });
+  const [idVoucher, setIdVoucher] = useState(null);
+
   useEffect(() => {
     const fetchApi = async () => {
       await GetCartItem(username).then((result) => {
         if (result.message === 'success') setDataCart(result.data);
+        console.log(result);
       });
       await GetAllProducts().then((result) => {
         setDataProduct(result);
@@ -87,8 +93,8 @@ function Checkout({ setDataModal, handleCloseModal }) {
 
   useEffect(() => {
     if (removeId != -1) {
-      console.log(removeId);
       const newData = data.filter((product) => product.detail.MA_SP !== removeId);
+      console.log('new: ', newData);
       setData(newData);
       setRemoveId(-1);
     }
@@ -102,12 +108,22 @@ function Checkout({ setDataModal, handleCloseModal }) {
   }, [changeId]);
 
   const handlePayment = async (typePayment) => {
+    toast.loading('Creating order .\n Please wait', {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    });
     const data_User = {
       id_user: username,
       index_address: addressShip.index,
-      discount_id: null,
-      shipping_discount_id: null,
+      shipping_discount_id: idVoucher,
       payment_method: typePayment,
+      is_Use_Coin: false,
     };
     if (typePayment === 'paypal') {
       const list_Item_Order = [];
@@ -124,10 +140,34 @@ function Checkout({ setDataModal, handleCloseModal }) {
         data_User,
         list_Item_Order,
       };
-      // console.log(paymentData);
-      // await Payment(paymentData).then((res) => {
-      //   console.log(res.data);
-      // });
+      await Payment(paymentData).then((res) => {
+        if (res.data.status === 'success') {
+          handleCloseModal();
+          toast.success('Create order successfully.\n Please pay in 6 hours', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+          linkTo('/');
+          window.open(res.data.linkPayment, '_blank', 'noopener,noreferrer');
+        } else {
+          toast.error('Error while creating order.\n Please try again', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        }
+      });
     }
   };
 
@@ -139,8 +179,19 @@ function Checkout({ setDataModal, handleCloseModal }) {
             {load === false ? (
               <div className="row">
                 <div className="col-9 pr-3">
-                  <div className={`${styles['title']} mb-3`}>
-                    <h3>Product Order</h3>
+                  <div className={`${styles['title']} mb-3 row`}>
+                    <div className="col-5">
+                      <h3>Product Order</h3>
+                    </div>
+                    <div className="col-2" style={{ textAlign: 'center', margin: 'auto' }}>
+                      <span style={{ color: '#bbb' }}>Unit Price</span>
+                    </div>
+                    <div className="col-2" style={{ textAlign: 'center', margin: 'auto' }}>
+                      <span style={{ color: '#bbb' }}>Amount</span>
+                    </div>
+                    <div style={{ textAlign: 'center', width: '25%', margin: 'auto' }}>
+                      <span style={{ color: '#bbb' }}>Item Subtotal</span>
+                    </div>
                   </div>
                   <div className="bg-w border rounded">
                     <div className="list-box">
@@ -179,21 +230,33 @@ function Checkout({ setDataModal, handleCloseModal }) {
                         <svg className="left mr-2" data-src="../../../../assets/svg/arrow1.svg"></svg>
                         Back to Home
                       </button>
-                      {data.length !== 0 && (
-                        <button className="btn btn-outline-primary p-2 d-flex align-items-center">Remove all</button>
-                      )}
                     </div>
                   </div>
                 </div>
-                <NavCheckOut
-                  Price={total}
-                  handlePayment={handlePayment}
-                  setDataModal={setDataModal}
-                  handleCloseModal={handleCloseModal}
-                  empty={empty}
-                  handleClickPayment={handlePayment}
-                  setShipping={setShipping}
-                  setAddressShip={setAddressShip}
+                {data.length != 0 && (
+                  <NavCheckOut
+                    Price={total}
+                    handlePayment={handlePayment}
+                    setDataModal={setDataModal}
+                    handleCloseModal={handleCloseModal}
+                    empty={empty}
+                    handleClickPayment={handlePayment}
+                    setShipping={setShipping}
+                    setAddressShip={setAddressShip}
+                    setIdVoucher={setIdVoucher}
+                  />
+                )}
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="light"
                 />
               </div>
             ) : (

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 
-import styles from "../Checkout.module.scss";
-import stylesModal from "./Modal.module.scss";
-import stylesLoad from "./Load.module.scss";
-import Select from "react-select";
-import { getCookie } from "~/utils/cookies";
-import { GetAddress, GetShipData } from "~/services/CheckoutServices";
-import ModalAddress from "./ModalAddress";
-import ModalPayment from "./ModalPayment";
+import styles from '../Checkout.module.scss';
+import stylesModal from './Modal.module.scss';
+import stylesLoad from './Load.module.scss';
+import Select from 'react-select';
+import { getCookie } from '~/utils/cookies';
+import { GetAddress, GetShipData } from '~/services/CheckoutServices';
+import ModalAddress from './ModalAddress';
+import ModalPayment from './ModalPayment';
+import ModalVoucher from './ModalVoucher';
 export const NavCheckOut = ({
   Price,
   handlePayment,
@@ -18,24 +19,35 @@ export const NavCheckOut = ({
   handleClickPayment,
   setShipping,
   setAddressShip,
+  setIdVoucher,
 }) => {
-  const username = getCookie("Username");
-  const [payment, setPayment] = useState("paypal");
+  const username = getCookie('Username');
+  const [payment, setPayment] = useState('paypal');
   const [address, setAddress] = useState([]);
-  const [shipData, setShipData] = useState(null);
+  const [voucher, setVoucher] = useState([]);
+  const [chooseVoucher, setChooseVoucher] = useState({
+    id: null,
+    name: null,
+    discount: 0,
+  });
+  const [shipData, setShipData] = useState({
+    fee: 0,
+    dayShip: null,
+  });
   const [choose, setChoose] = useState(null);
   const [load, setLoad] = useState(true);
   const [load2, setLoad2] = useState(true);
   const fetchApi = async () => {
     await GetAddress(username).then((result) => {
-      if (result.message === "success") setAddress(result.data);
-      else fetchApi();
+      if (result.message === 'success') {
+        setAddress(result.data.address);
+        setVoucher(result.data.voucher);
+      } else fetchApi();
     });
   };
 
   useEffect(() => {
     fetchApi();
-    console.log("AAAAAA");
   }, []);
 
   useEffect(() => {
@@ -48,14 +60,12 @@ export const NavCheckOut = ({
           });
         }
       });
-
-      setLoad(false);
     }
   }, [address]);
 
   const fetchDataShip = async () => {
     await GetShipData(username, choose.data.stt).then((result) => {
-      if (result.message === "success") {
+      if (result.message === 'success') {
         setShipData(result.data);
         setShipping(result.data.fee);
         setLoad2(false);
@@ -65,14 +75,22 @@ export const NavCheckOut = ({
 
   useEffect(() => {
     if (choose) {
+      console.log('ASDSWQW', choose);
       setLoad2(true);
       fetchDataShip();
       setAddressShip({
         full_info: choose.data.FULL_INFO,
-        index: choose.data.STT,
+        index: choose.data.stt,
       });
+      setLoad(false);
     }
   }, [choose]);
+
+  useEffect(() => {
+    if (chooseVoucher != null) {
+      setIdVoucher(chooseVoucher.id);
+    }
+  }, [chooseVoucher]);
 
   return (
     <div className="col-3">
@@ -80,7 +98,7 @@ export const NavCheckOut = ({
         <p>Loading</p>
       ) : (
         <>
-          <div className={`${styles["title"]} mb-3`}>
+          <div className={`${styles['title']} mb-3`}>
             <h3>Summary</h3>
           </div>
 
@@ -90,57 +108,44 @@ export const NavCheckOut = ({
 
               <button
                 onClick={() => {
-                  const dataModal = ModalAddress(
-                    address,
-                    choose.index,
-                    handleCloseModal,
-                    setDataModal,
-                    setChoose
-                  );
+                  const dataModal = ModalAddress(address, choose.index, handleCloseModal, setDataModal, setChoose);
                   setDataModal(dataModal);
                 }}
-                style={{ width: "100%", textAlign: "left" }}
+                style={{ width: '100%', textAlign: 'left' }}
               >
-                <div style={{ display: "flex" }}>
-                  <div style={{ width: "90%" }}>
+                <div style={{ display: 'flex' }}>
+                  <div style={{ width: '90%' }}>
                     <p>{choose.data.SONHA_DUONG}</p>
                     <p>
-                      {choose.data.TEN_PHUONG}, {choose.data.TEN_THANHPHO},{" "}
-                      {choose.data.TEN_TINH}
+                      {choose.data.TEN_PHUONG}, {choose.data.TEN_THANHPHO}, {choose.data.TEN_TINH}
                     </p>
                   </div>
-                  <div style={{ width: "10%" }}>
-                    <i
-                      class="fas fa-angle-right"
-                      style={{ fontSize: "28px" }}
-                    ></i>
+                  <div style={{ width: '10%' }}>
+                    <i className="fas fa-angle-right" style={{ fontSize: '28px' }}></i>
                   </div>
                 </div>
               </button>
             </div>
 
             <div className="line mt-3 mb-3"></div>
-            <div>
-              {load2 ? (
-                <p>Loading</p>
-              ) : (
-                <p>{`Ship in ${shipData.dayShip - 1} - ${
-                  shipData.dayShip
-                } days`}</p>
-              )}
-            </div>
+            <div>{load2 ? <p>Loading</p> : <p>{`Ship in ${shipData.dayShip - 1} - ${shipData.dayShip} days`}</p>}</div>
             <div className="line mt-3 mb-3"></div>
 
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <p>Redeem x coin</p>
               <input type="checkbox" name="coin" id="coin" />
             </div>
 
             <div className="line mt-3 mb-3"></div>
-            <button>
-              <div style={{ display: "flex" }}>
+            <button
+              onClick={() => {
+                const dataModal = ModalVoucher(voucher, handleCloseModal, setDataModal, setChooseVoucher);
+                setDataModal(dataModal);
+              }}
+            >
+              <div style={{ display: 'flex' }}>
                 <img
-                  style={{ width: "25px", height: "25px", marginRight: "10px" }}
+                  style={{ width: '25px', height: '25px', marginRight: '10px' }}
                   src="https://img.icons8.com/ios/50/loyalty-card.png"
                   alt="loyalty-card"
                 />
@@ -148,35 +153,23 @@ export const NavCheckOut = ({
                 <div>
                   <img
                     style={{
-                      width: "15px",
-                      height: "15px",
+                      width: '15px',
+                      height: '15px',
                       // marginRight: "10px",
                     }}
                     src="https://img.icons8.com/ios-filled/50/forward--v1.png"
                     alt="forward--v1"
                   />
                 </div>
+                {chooseVoucher != null ? <p>{chooseVoucher.name}</p> : <></>}
               </div>
             </button>
 
             <div className="line mt-3 mb-3"></div>
 
-            <div
-              className={`${styles["subtract"]} d-flex justify-content-between `}
-            >
+            <div className={`${styles['subtract']} d-flex justify-content-between `}>
               <span>Item total price:</span>
               <span>${Price}</span>
-            </div>
-            <div
-              className={`${styles["plus"]} d-flex justify-content-between `}
-            >
-              <span>Tax:</span>
-              <span>$0</span>
-            </div>
-
-            <div className="d-flex justify-content-between">
-              <span>Coins Redeemed:</span>
-              <span>$0</span>
             </div>
             <div className="d-flex justify-content-between">
               {load2 ? (
@@ -191,14 +184,45 @@ export const NavCheckOut = ({
                 </>
               )}
             </div>
+
+            <div className={`${styles['plus']} d-flex justify-content-between `}>
+              {chooseVoucher != null ? (
+                <>
+                  <span>Shipping discount:</span>
+                  <span>${((shipData.fee * chooseVoucher.discount) / 100).toFixed(2)}</span>
+                </>
+              ) : (
+                <>
+                  <span>Shipping discount:</span>
+                  <span>$0</span>
+                </>
+              )}
+            </div>
+            <div className="d-flex justify-content-between">
+              <span>Coins Redeemed:</span>
+              <span>$0</span>
+            </div>
+
             <div className="line mt-3 mb-3"></div>
             <div className="d-flex justify-content-between">
               <span>
                 <strong>Total:</strong>
               </span>
-              <span>
-                <strong>${0}</strong>
-              </span>
+              {load2 ? (
+                <>
+                  <span>
+                    <span>Loading</span>
+                  </span>
+                </>
+              ) : (
+                <>
+                  <span>
+                    <strong>
+                      ${(Price + shipData.fee - (shipData.fee * chooseVoucher.discount) / 100).toFixed(2)}
+                    </strong>
+                  </span>
+                </>
+              )}
             </div>
             <div className="d-flex justify-content-center mt-3">
               <button
@@ -207,12 +231,7 @@ export const NavCheckOut = ({
                 disabled={load || empty}
                 onClick={() => {
                   // dispatch(change());
-                  const temp = ModalPayment(
-                    handleCloseModal,
-                    1,
-                    setDataModal,
-                    handleClickPayment
-                  );
+                  const temp = ModalPayment(handleCloseModal, 1, setDataModal, handleClickPayment);
                   setDataModal(temp);
                 }}
               >
