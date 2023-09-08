@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
+import styles from './Home.module.scss';
 
 import * as HomeServices from '~/services/HomeServices';
 import LoadingPage from '../LoadingPage/LoadingPage';
