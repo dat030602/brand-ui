@@ -109,11 +109,19 @@ function OrdersHistory({ children }) {
                                 )}
                               </div>
                               <div className="d-flex">
-                                <span className="text-gray">Order Date:</span>
+                                <span className="text-gray">Order DateTime:</span>
                                 <span className="ml-1 text-bold-normal">
                                   {FormatDateAndTime(data && data[index].voucher.NGAYTAO)}
                                 </span>
                               </div>
+                              {data &&
+                              data[index].voucher.TRANGTHAI === 'Cancelled' &&
+                              data[index].voucher.LY_DO_HUY != null ? (
+                                <div className="d-flex">
+                                  <span className="text-gray">Reason To Cancel:</span>
+                                  <span className="ml-1 text-bold-normal">{data[index].voucher.LY_DO_HUY}</span>
+                                </div>
+                              ) : null}
                               {data && data[index].voucher.TRANGTHAI === 'Delivered' ? (
                                 <div className="d-flex">
                                   <span className="text-gray">Delivered DateTime:</span>

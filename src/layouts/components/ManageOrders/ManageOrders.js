@@ -372,6 +372,12 @@ function ManageOrders({ children }) {
                           <span className="text-gray">Order DateTime:</span>
                           <span className="ml-1 text-bold-normal">{FormatDateAndTime(selectedorder[0].NGAYTAO)}</span>
                         </div>
+                        {selectedorder[0].TRANGTHAI === 'Cancelled' && selectedorder[0].LY_DO_HUY != null ? (
+                          <div className="d-flex">
+                            <span className="text-gray">Reason To Cancel:</span>
+                            <span className="ml-1 text-bold-normal">{selectedorder[0].LY_DO_HUY}</span>
+                          </div>
+                        ) : null}
                         {selectedorder[0].TRANGTHAI === 'Delivered' ? (
                           <div className="d-flex">
                             <span className="text-gray">Delivered DateTime:</span>
