@@ -1,4 +1,5 @@
 function FormatDate(dateString, time = false, timeInput = false) {
+  console.log(dateString)
   var date = new Date(dateString);
   var day = date.getUTCDate();
   if (day < 10) day = `0${day}`;

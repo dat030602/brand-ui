@@ -29,7 +29,7 @@ function Loyalty({ children }) {
         <div className="container">
           <div className="main pt-4 pb-4">
             <div className="row">
-              <div className="col-2">
+              <div className="col-2 align-self-start">
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                   <a href="/info">Personal info</a>
                 </div>

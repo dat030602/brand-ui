@@ -23,11 +23,11 @@ function PersonalEdit({ children }) {
       if (result !== undefined)
         setDataInput((pre) => {
           var newData = { ...pre };
-          pre.username = result[0].TEN_TK;
-          pre.name = result[0].HO_TEN;
-          pre.date = result[0].NGAY_SINH;
-          pre.email = result[0].EMAIL;
-          pre.phone = result[0].SDT;
+          newData.username = result[0].TEN_TK;
+          newData.name = result[0].HO_TEN;
+          newData.date = result[0].NGAY_SINH;
+          newData.email = result[0].EMAIL;
+          newData.phone = result[0].SDT;
           return newData;
         });
     };
@@ -39,25 +39,25 @@ function PersonalEdit({ children }) {
     if (name === 'Name')
       setDataInput((pre) => {
         var newData = { ...pre };
-        pre.name = value;
+        newData.name = value;
         return newData;
       });
     else if (name === 'Email')
       setDataInput((pre) => {
         var newData = { ...pre };
-        pre.email = value;
+        newData.email = value;
         return newData;
       });
     else if (name === 'Phone number')
       setDataInput((pre) => {
         var newData = { ...pre };
-        pre.phone = value;
+        newData.phone = value;
         return newData;
       });
     else if (name === 'Date of Birth')
       setDataInput((pre) => {
         var newData = { ...pre };
-        pre.date = value;
+        newData.date = value;
         return newData;
       });
   };
@@ -79,11 +79,11 @@ function PersonalEdit({ children }) {
           if (result !== undefined)
             setDataInput((pre) => {
               var newData = { ...pre };
-              pre.username = result[0].TEN_TK;
-              pre.name = result[0].HO_TEN;
-              pre.date = result[0].NGAY_SINH;
-              pre.email = result[0].EMAIL;
-              pre.phone = result[0].SDT;
+              newData.username = result[0].TEN_TK;
+              newData.name = result[0].HO_TEN;
+              newData.date = result[0].NGAY_SINH;
+              newData.email = result[0].EMAIL;
+              newData.phone = result[0].SDT;
               return newData;
             });
           toast.success('Editing is successful', {
@@ -129,8 +129,8 @@ function PersonalEdit({ children }) {
           <div className="main pt-4 pb-4">
             <div className="row align-items-start">
               <div className="col-2">
-              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                {/* <a href="https://m.me/lethungan.190702">Chatbox</a> */}
+                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                  {/* <a href="https://m.me/lethungan.190702">Chatbox</a> */}
                 </div>
                 <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
                   <a href="/info">Personal info</a>
