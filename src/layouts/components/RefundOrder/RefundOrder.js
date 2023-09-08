@@ -12,7 +12,6 @@ import * as RefundOrderServices from '~/services/RefundOrderServices';
 
 function RefundOrder() {
   const navigate = useNavigate();
-
   const quantityInputRefs = useRef({});
   const totalRefundElement = useRef(null);
 
@@ -325,7 +324,7 @@ function RefundOrder() {
                     <div className="d-flex justify-content-center mt-4 mb-4">
                       {submitted ? (
                         <div className="text-primary text-bold-normal text-center">
-                          <a href={`orders-history/${orderID}/refund/detail`} className="">
+                          <a href={`/orders-history/${orderID}/refund/detail`} className="">
                             Refund request is submitted. We will review it shortly.
                           </a>
                         </div>
