@@ -10,6 +10,8 @@ import { GetAddress, GetShipData } from '~/services/CheckoutServices';
 import ModalAddress from './ModalAddress';
 import ModalPayment from './ModalPayment';
 import ModalVoucher from './ModalVoucher';
+import ModalAlert from './ModalAler';
+import { useNavigate } from 'react-router-dom';
 export const NavCheckOut = ({
   Price,
   handlePayment,
@@ -20,10 +22,14 @@ export const NavCheckOut = ({
   setShipping,
   setAddressShip,
   setIdVoucher,
+  setCoinChoose,
 }) => {
+  const LinkTo = useNavigate();
   const username = getCookie('Username');
   const [payment, setPayment] = useState('paypal');
   const [address, setAddress] = useState([]);
+  const [coin, setCoin] = useState(0);
+  const [coinC, setCoinC] = useState(false);
   const [voucher, setVoucher] = useState([]);
   const [chooseVoucher, setChooseVoucher] = useState({
     id: null,
@@ -40,9 +46,17 @@ export const NavCheckOut = ({
   const fetchApi = async () => {
     await GetAddress(username).then((result) => {
       if (result.message === 'success') {
-        setAddress(result.data.address);
-        setVoucher(result.data.voucher);
-      } else fetchApi();
+        if (result.data.address.length === 0) {
+          const ModalAler = ModalAlert(handleCloseModal, LinkTo);
+          setDataModal(ModalAler);
+        } else {
+          setAddress(result.data.address);
+          setVoucher(result.data.voucher);
+          let coinTemp =
+            result.data.coin >= Price / 3 ? Number((Price / 3).toFixed(2)) : Number(result.data.coin.toFixed(2));
+          setCoin(coinTemp);
+        }
+      }
     });
   };
 
@@ -53,6 +67,12 @@ export const NavCheckOut = ({
   useEffect(() => {
     if (address.length > 0) {
       address.map((x, index) => {
+        if (index === 0) {
+          setChoose({
+            data: x,
+            index: index,
+          });
+        }
         if (x.MAC_DINH === 1) {
           setChoose({
             data: x,
@@ -69,7 +89,7 @@ export const NavCheckOut = ({
         setShipData(result.data);
         setShipping(result.data.fee);
         setLoad2(false);
-      } else fetchDataShip();
+      }
     });
   };
 
@@ -132,8 +152,16 @@ export const NavCheckOut = ({
             <div className="line mt-3 mb-3"></div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <p>Redeem x coin</p>
-              <input type="checkbox" name="coin" id="coin" />
+              <p>Redeem {coin} coin</p>
+              <input
+                type="checkbox"
+                name="coin"
+                id="coin"
+                onClick={(e) => {
+                  setCoinChoose(e.target.checked);
+                  setCoinC(e.target.checked);
+                }}
+              />
             </div>
 
             <div className="line mt-3 mb-3"></div>
@@ -200,7 +228,7 @@ export const NavCheckOut = ({
             </div>
             <div className="d-flex justify-content-between">
               <span>Coins Redeemed:</span>
-              <span>$0</span>
+              {coinC === false ? <span>$0</span> : <span>${coin}</span>}
             </div>
 
             <div className="line mt-3 mb-3"></div>
@@ -217,9 +245,15 @@ export const NavCheckOut = ({
               ) : (
                 <>
                   <span>
-                    <strong>
-                      ${(Price + shipData.fee - (shipData.fee * chooseVoucher.discount) / 100).toFixed(2)}
-                    </strong>
+                    {coinC === false ? (
+                      <strong>
+                        ${(Price + shipData.fee - (shipData.fee * chooseVoucher.discount) / 100).toFixed(2)}
+                      </strong>
+                    ) : (
+                      <strong>
+                        ${(Price + shipData.fee - coin - (shipData.fee * chooseVoucher.discount) / 100).toFixed(2)}
+                      </strong>
+                    )}
                   </span>
                 </>
               )}

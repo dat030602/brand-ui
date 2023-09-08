@@ -1,4 +1,5 @@
 function FormatDate(dateString, time = false, timeInput = false) {
+  console.log(dateString);
   var date = new Date(dateString);
   var day = date.getUTCDate();
   if (day < 10) day = `0${day}`;
@@ -73,4 +74,21 @@ function TimeRemaining(dateString) {
   return msToTime(date - currentTime);
 }
 
-export { FormatDate, FormatDateAndTime, TimeRemaining };
+function dateDifference(startDate) {
+  // Convert the input string to a Date object
+  const startDateObj = new Date(startDate);
+
+  // Get the current date
+  const currentDate = new Date();
+
+  // Calculate the time difference in milliseconds
+  const timeDifference = currentDate - startDateObj;
+
+  // Calculate the number of milliseconds in a day
+  const millisecondsPerDay = 24 * 60 * 60 * 1000;
+
+  const daysDifference = Math.floor(timeDifference / millisecondsPerDay);
+
+  return daysDifference;
+}
+export { FormatDate, FormatDateAndTime, TimeRemaining, dateDifference };

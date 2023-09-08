@@ -1,25 +1,22 @@
 import React, { useEffect } from 'react';
 
-import styles from './ConfirmPaypal.module.scss';
+import styles from './ReturnVnPay.module.scss';
 import LoadingPage from '../LoadingPage';
 // import className from "className/bind";
-import { ConfirmPayPalApi } from '~/services/CheckoutServices';
+import { ReturnVnPayApi } from '~/services/CheckoutServices';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // const cx = className.bind(styles);
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getCookie } from '~/utils/cookies';
-function ConfirmPayPal({ children }) {
+function ReturnVnPay({ children }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const username = getCookie('Username');
   const linkTo = useNavigate();
-  const funcConfirm = async (id_Paypal) => {
-    const data = {
-      id_Paypal: id_Paypal,
-      id_user: username,
-    };
-    await ConfirmPayPalApi(data).then((res) => {
-      if (res.data.status === 'success') {
+  const funcReturn = async (query) => {
+    await ReturnVnPayApi(query).then((res) => {
+      console.log(res);
+      if (res.status === 'success') {
         window.location.href = '/orders-history';
         toast.success('Confirm success', {
           position: 'top-right',
@@ -32,9 +29,9 @@ function ConfirmPayPal({ children }) {
           theme: 'light',
         });
       }
-      if (res.data.status === 'error') {
+      if (res.status === 'error') {
         window.location.href = '/orders-history';
-        toast.error(`${res.data.message}`, {
+        toast.error(`${res.message}`, {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
@@ -45,9 +42,22 @@ function ConfirmPayPal({ children }) {
           theme: 'light',
         });
       }
-      if (res.data.status === 'Not Found') {
+      if (res.status === 'Cancel') {
         window.location.href = '/orders-history';
-        toast.error(`${res.data.message}`, {
+        toast.error(`${res.message}`, {
+          position: 'top-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        });
+      }
+      if (res.status === 'Not Found') {
+        window.location.href = '/orders-history';
+        toast.error(`${res.message}`, {
           position: 'top-right',
           autoClose: 5000,
           hideProgressBar: true,
@@ -62,8 +72,19 @@ function ConfirmPayPal({ children }) {
   };
 
   useEffect(() => {
-    const id_Paypal = searchParams.get('token');
-    funcConfirm(id_Paypal);
+    let query = '?';
+    let index = 0;
+    for (const entry of searchParams.entries()) {
+      const [param, value] = entry;
+      if (index === 0) {
+        query = query + param + '=' + value;
+      } else {
+        query = query + '&' + param + '=' + value;
+      }
+      index = index + 1;
+    }
+    query = query + '&id_user=' + username;
+    funcReturn(query);
   }, []);
   return (
     <>
@@ -71,4 +92,4 @@ function ConfirmPayPal({ children }) {
     </>
   );
 }
-export default ConfirmPayPal;
+export default ReturnVnPay;

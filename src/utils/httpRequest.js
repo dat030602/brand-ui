@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const httpRequest = axios.create({
-	baseURL: "http://localhost:5000",
+	baseURL: "https://brand-api-z5ls.onrender.com/",
 	// headers: {
 	// 	Accept: "application/json",
 	// 	"Content-Type": "application/json",

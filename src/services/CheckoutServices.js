@@ -70,3 +70,12 @@ export const CancelPayPalApi = async (data = {}) => {
     console.log('error');
   }
 };
+
+export const ReturnVnPayApi = async (query = '') => {
+  try {
+    const res = await httpRequest.Get(`/user/returnVnPay${query}`, {});
+    return res;
+  } catch (error) {
+    console.log('error');
+  }
+};

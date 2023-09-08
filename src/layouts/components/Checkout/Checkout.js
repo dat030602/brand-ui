@@ -29,6 +29,8 @@ function Checkout({ setDataModal, handleCloseModal }) {
   const [tax, setTax] = useState(0);
   const [shipping_discount, setShippingDiscount] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [coinChoose, setCoinChoose] = useState(false);
+
   const [addressShip, setAddressShip] = useState({
     id: -1,
     full_info: '',
@@ -123,23 +125,24 @@ function Checkout({ setDataModal, handleCloseModal }) {
       index_address: addressShip.index,
       shipping_discount_id: idVoucher,
       payment_method: typePayment,
-      is_Use_Coin: false,
+      is_Use_Coin: coinChoose,
     };
-    if (typePayment === 'paypal') {
-      const list_Item_Order = [];
-      data.map((product) => {
-        const product_Detail = {
-          MA_SP: product.detail.MA_SP,
-          STT: product.detail.STT,
-          SL: product.amount,
-        };
-        list_Item_Order.push(product_Detail);
-      });
-
-      const paymentData = {
-        data_User,
-        list_Item_Order,
+    const list_Item_Order = [];
+    data.map((product) => {
+      const product_Detail = {
+        MA_SP: product.detail.MA_SP,
+        STT: product.detail.STT,
+        SL: product.amount,
       };
+      list_Item_Order.push(product_Detail);
+    });
+
+    const paymentData = {
+      data_User,
+      list_Item_Order,
+    };
+    console.log(paymentData);
+    if (typePayment === 'paypal') {
       await Payment(paymentData).then((res) => {
         if (res.data.status === 'success') {
           handleCloseModal();
@@ -153,8 +156,39 @@ function Checkout({ setDataModal, handleCloseModal }) {
             progress: undefined,
             theme: 'light',
           });
-          linkTo('/');
+          window.location.href = '/orders-history';
           window.open(res.data.linkPayment, '_blank', 'noopener,noreferrer');
+        } else {
+          toast.error('Error while creating order.\n Please try again', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+        }
+      });
+    }
+    if (typePayment === 'vnpay') {
+      await Payment(paymentData).then((res) => {
+        console.log(res);
+        if (res.data.status === 'success') {
+          handleCloseModal();
+          toast.success('Create order successfully.\n Please pay in 6 hours', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+          });
+          window.location.href = '/orders-history';
+          window.open(res.data.linkVnPay, '_blank', 'noopener,noreferrer');
         } else {
           toast.error('Error while creating order.\n Please try again', {
             position: 'top-right',
@@ -177,7 +211,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
         <div className="main pb-4" style={{ width: '1350px' }}>
           <div className="pt-4 pb-4">
             {load === false ? (
-              <div className="row">
+              <div className="row" style={{ alignItems: 'normal' }}>
                 <div className="col-9 pr-3">
                   <div className={`${styles['title']} mb-3 row`}>
                     <div className="col-5">
@@ -244,6 +278,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
                     setShipping={setShipping}
                     setAddressShip={setAddressShip}
                     setIdVoucher={setIdVoucher}
+                    setCoinChoose={setCoinChoose}
                   />
                 )}
                 <ToastContainer
