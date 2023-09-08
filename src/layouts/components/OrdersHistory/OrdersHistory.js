@@ -155,7 +155,7 @@ function OrdersHistory({ children }) {
                               )}
                               {data &&
                               data[index].voucher.TRANGTHAI === 'Delivered' &&
-                              dateDifference(data[index].voucher.NGAY_GIAO_HANG) > 7 ? (
+                              dateDifference(data[index].voucher.NGAY_GIAO_HANG) <= 7 ? (
                                 <button
                                   className="btn btn-outline-primary p-4 pt-2 pb-2 ml-2"
                                   onClick={() => {

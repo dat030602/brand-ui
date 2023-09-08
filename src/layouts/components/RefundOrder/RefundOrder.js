@@ -259,9 +259,9 @@ function RefundOrder() {
                             disabled={submitted}
                           >
                             <option value="">Select a reason</option>
-                            <option value="wrong_item">Wrong Item Received</option>
-                            <option value="damaged">Item Damaged</option>
-                            <option value="changed_mind">Changed Mind</option>
+                            <option value="Wrong Item Received">Wrong Item Received</option>
+                            <option value="Item Damaged">Item Damaged</option>
+                            <option value="Changed Mind">Changed Mind</option>
                           </select>
                         </div>
                       </div>
