@@ -4,7 +4,7 @@ import styles from './Home.module.scss';
 import * as HomeServices from '~/services/HomeServices';
 import LoadingPage from '../LoadingPage/LoadingPage';
 import { FormatDate, TimeRemaining } from '~/utils/FormatDate';
-
+import styles from './Home.module.scss';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // import className from "className/bind";

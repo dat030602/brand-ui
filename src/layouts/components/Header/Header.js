@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getCookie } from '~/utils/cookies';
 import { createSearchParams, useLocation, useNavigate, useParams } from 'react-router-dom';
 import FuzzySearch from 'fuzzy-search';
@@ -13,7 +13,7 @@ function Header({ children }) {
   const [isLogin, setIsLogin] = useState(getCookie('Name'));
   const [typeProduct, setTypeProduct] = useState();
 
-  useEffect(() => {
+  useEffect(() => {document.addEventListener('click', handleClick)
     const fetchApi = async () => {
       let result = await HeaderServices.GetAllTypeProduct();
       setTypeProduct(result);
@@ -80,6 +80,28 @@ function Header({ children }) {
       getallproductbytype();
     }
   };
+
+  const refInputSearch = useRef()
+  const refDropdown = useRef()
+
+  const componentDidMount= ()=> {
+    document.addEventListener('click', handleClick)
+  }
+  
+  const componentWillUnmount= ()=>  {
+    // important
+    document.removeEventListener('click', handleClick)
+  }
+  
+  const handleClick = (e) => {
+    const { target } = e
+    if (!refInputSearch.current.contains(target)) {
+      refDropdown.current.classList.remove(styles['focus']);
+    }
+ 
+  }
+
+
   return (
     <>
       <header>
@@ -96,7 +118,10 @@ function Header({ children }) {
               </a>
             </div>
             {/* {!isPageNoSearch && !isAdmin && ( */}
-            <div className={`${styles['search']} col`}>
+            <div
+              className={`${styles['search']} col`}
+              ref={refInputSearch}
+            >
               <div className={`${styles['search-row']} row`}>
                 <div className={`${styles['search-col']} col-md-auto`}>
                   <input
@@ -112,13 +137,6 @@ function Header({ children }) {
                       parent = parent.parentElement;
                       var child = parent.childNodes[1];
                       child.classList.add(styles['focus']);
-                    }}
-                    onBlur={(e) => {
-                      var parent = e.target.parentElement;
-                      parent = parent.parentElement;
-                      parent = parent.parentElement;
-                      var child = parent.childNodes[1];
-                      child.classList.remove(styles['focus']);
                     }}
                   />
                 </div>
@@ -142,13 +160,13 @@ function Header({ children }) {
                   />
                 </a>
               </div>
-              <div className={`${styles['dropdown']}`}>
+              <div className={`${styles['dropdown']}`} ref={refDropdown}>
                 <div className={`${styles['dropdown-row']}`} style={{ padding: results.length !== 0 ? '8px' : '0' }}>
                   {results &&
                     results.map((result, id) => {
                       return (
                         <div className={`${styles['e']}`} key={id}>
-                          <a href={`/product/${result.MA_SP}`}>{result.TEN_SP}</a>
+                          <a href={`/product/${result.MA_SP[0]}`}>{result.TEN_SP}</a>
                         </div>
                       );
                     })}

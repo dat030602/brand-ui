@@ -6,6 +6,10 @@ import * as HeaderServices from '~/services/HeaderServices';
 import FuzzySearch from 'fuzzy-search';
 import LoadingPage from '../LoadingPage/LoadingPage';
 import { createSearchParams } from 'react-router-dom';
+import { getCookie } from '~/utils/cookies';
+import * as ProductServices from '~/services/ProductServices';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Products({ children }) {
   const queryParameters = new URLSearchParams(window.location.search);
   const fil = queryParameters.get('f');
@@ -124,7 +128,7 @@ function Products({ children }) {
                 </a>
               </div>
             </div>
-            <div className="row pt-4 pb-4 align-items-start">
+            <div className="row pt-4 pb-4">
               <div className="col col-lg-2 pr-3">
                 <div className={`${styles['filter-list']}`}>
                   <div className={`${styles['filter-item']} pb-3`}>
@@ -422,7 +426,40 @@ function Products({ children }) {
                               </div>
                             </a>
                             <div className={`${styles['product-favorite']} ${styles['active']}`}>
-                              <button>
+                              <button
+                                onClick={async () => {
+                                  if (getCookie('Username') === null) window.location.href = '/login';
+                                  else {
+                                    var result = await ProductServices.Favorite(
+                                      data[index].MA_SP,
+                                      getCookie('Username'),
+                                    );
+                                    if (result.data === 1) {
+                                      toast.success('Favorite successfully', {
+                                        position: 'top-right',
+                                        autoClose: 5000,
+                                        hideProgressBar: true,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                        theme: 'light',
+                                      });
+                                    } else {
+                                      toast.error('Favorite error', {
+                                        position: 'top-right',
+                                        autoClose: 5000,
+                                        hideProgressBar: true,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: true,
+                                        progress: undefined,
+                                        theme: 'light',
+                                      });
+                                    }
+                                  }
+                                }}
+                              >
                                 <svg className="star btn" data-src="../../../../assets/svg/heart.svg"></svg>
                               </button>
                             </div>
