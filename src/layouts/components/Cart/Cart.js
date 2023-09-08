@@ -10,41 +10,17 @@ import LoadingPage from '../LoadingPage/LoadingPage';
 import { Image } from '~/components/Image';
 
 function Cart({ children }) {
-  // const [cartDetail, setData] = useState();
+  const [cartDetail, setData] = useState([]);
+  const linkTo = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchApi = async () => {
-  //     let result = await CartServices.GetAllCart(getCookie('Username'));
-  //     setData(result);
-  //   };
-  //   fetchApi();
-  // }, []);
-  const [cartDetail, setData] = useState([
-    {
-      MA_GH: 1,
-      MA_SP: 'SP001',
-      STT: 1,
-      SO_LUONG: 1,
-      TEN_SP: 'Iphone 14',
-      TEN_CTSP: 'Iphone 14 red 256gb',
-      HINHANH:
-        'https://firebasestorage.googleapis.com/v0/b/brand-website-11081.appspot.com/o/Image%2F1663236556797549166311-48a2-45eb-b2e8-1a4c1cfef1f8?alt=media&token=140f21b9-35e8-4492-9760-3a3c6669481e',
-      SL_KHO: 164,
-      GIA_BAN: 200,
-    },
-    {
-      MA_GH: 1,
-      MA_SP: 'SP002',
-      STT: 1,
-      SO_LUONG: 5,
-      TEN_SP: 'Samsung Z-Flip',
-      TEN_CTSP: 'Samsung Z-Flip 4 gray  256gb',
-      HINHANH:
-        'https://firebasestorage.googleapis.com/v0/b/brand-website-11081.appspot.com/o/Image%2Fsamsung-galaxy-z-flip4-5g-128gb-thumb-tim-600x6001e78e04c-50ce-40d5-becd-8487d123d1a4?alt=media&token=06275000-281c-429b-8677-acc0eb114fce',
-      SL_KHO: 35,
-      GIA_BAN: 200,
-    },
-  ]);
+  useEffect(() => {
+    const fetchApi = async () => {
+      let result = await CartServices.GetAllCart(getCookie('Username'));
+      setData(result);
+    };
+    fetchApi();
+  }, []);
+
   const increaseQuantity = async (index) => {
     if (cartDetail[index].SO_LUONG < cartDetail[index].SL_KHO) {
       var result = await CartServices.UpdateQuantity(
@@ -169,48 +145,48 @@ function Cart({ children }) {
   const navigate = useNavigate();
   return (
     <>
-      {cartDetail !== undefined && (
-        <div className="container">
-          <div className="main pt-4 pb-4">
-            <div className="row">
-              <div className="col-2 align-self-start">
-                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                  <a href="/">Personal info</a>
-                </div>
-                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
-                  <a href="/my-cart">My cart</a>
-                </div>
-                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                  <a href="/favorite">Favorite</a>
-                </div>
-                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                  <a href="/orders-history">Orders history</a>
-                </div>
-                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
-                  <a href="/loyalty">Loyalty Program</a>
-                </div>
-                <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 active`}>
-                  <a href="/personal/edit">Profile setting</a>
-                </div>
-                <div
-                  className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}
-                  onClick={() => {
-                    eraseCookie('Name');
-                    eraseCookie('Username');
-                    eraseCookie('Token');
-                    navigate('/');
-                  }}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <button>Log out</button>
-                </div>
+      <div className="container">
+        <div className="main pt-4 pb-4">
+          <div className="row">
+            <div className="col-2 align-self-start">
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                <a href="/info">Personal info</a>
               </div>
-              <div className="col-10 pl-3">
-                <div className="bg-w rounded border p-4">
-                  <div className="title pb-3">
-                    <h3>My Cart</h3>
-                  </div>
-                  <div className="line"></div>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
+                <a href="/my-cart">My cart</a>
+              </div>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                <a href="/favorite">Favorite</a>
+              </div>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                <a href="/orders-history">Orders history</a>
+              </div>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                <a href="/loyalty">Loyalty Program</a>
+              </div>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 active`}>
+                <a href="/personal/edit">Profile setting</a>
+              </div>
+              <div
+                className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}
+                onClick={() => {
+                  eraseCookie('Name');
+                  eraseCookie('Username');
+                  eraseCookie('Token');
+                  navigate('/');
+                }}
+                style={{ cursor: 'pointer' }}
+              >
+                <button>Log out</button>
+              </div>
+            </div>
+            <div className="col-10 pl-3">
+              <div className="bg-w rounded border p-4">
+                <div className="title pb-3">
+                  <h3>My Cart</h3>
+                </div>
+                <div className="line"></div>
+                {cartDetail.length > 0 ? (
                   <div className="list-box mt-4">
                     <div className="box-item mb-4">
                       {/* show product list */}
@@ -300,6 +276,9 @@ function Cart({ children }) {
                               data-toggle="button"
                               aria-pressed="false"
                               autoComplete="off"
+                              onClick={() => {
+                                linkTo('/checkout');
+                              }}
                             >
                               Check Out
                             </button>
@@ -308,24 +287,27 @@ function Cart({ children }) {
                       </div>
                     </div>
                   </div>
-                </div>
-                <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                />
+                ) : (
+                  <h5 className="text-primary text-center mt-5">You don't have anything in cart!</h5>
+                )}
               </div>
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+              />
             </div>
           </div>
         </div>
-      )}
+      </div>
+
       {cartDetail === undefined && <LoadingPage />}
     </>
   );

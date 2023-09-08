@@ -20,7 +20,7 @@ function ConfirmPayPal({ children }) {
     };
     await ConfirmPayPalApi(data).then((res) => {
       if (res.data.status === 'success') {
-        linkTo('/');
+        linkTo('/orders-history');
         toast.success('Confirm success', {
           position: 'top-right',
           autoClose: 5000,
@@ -33,7 +33,7 @@ function ConfirmPayPal({ children }) {
         });
       }
       if (res.data.status === 'error') {
-        linkTo('/');
+        linkTo('/orders-history');
         toast.error(`${res.data.message}`, {
           position: 'top-right',
           autoClose: 5000,
@@ -46,7 +46,7 @@ function ConfirmPayPal({ children }) {
         });
       }
       if (res.data.status === 'Not Found') {
-        linkTo('/');
+        linkTo('/orders-history');
         toast.error(`${res.data.message}`, {
           position: 'top-right',
           autoClose: 5000,

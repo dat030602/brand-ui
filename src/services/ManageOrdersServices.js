@@ -57,7 +57,25 @@ export const UpdateRefundStatus = async (orderid = '', orderstatus = '', refunds
 
 export const GetOrderHistory = async (id = '') => {
   try {
-    const res = await httpRequest.Get(`/manage-orders/history`, { params: { id:id}});
+    const res = await httpRequest.Get(`/manage-orders/history`, { params: { id: id } });
+    return res;
+  } catch (error) {
+    console.log('error');
+  }
+};
+
+export const CheckExpireOrder = async (query = '') => {
+  try {
+    const res = await httpRequest.Get(`/user/checkexpire?id_user=${query}`);
+    return res;
+  } catch (error) {
+    console.log('error');
+  }
+};
+
+export const CancelOrder = async (data = {}) => {
+  try {
+    const res = await httpRequest.Post(`/user/cancelOrder`, data);
     return res;
   } catch (error) {
     console.log('error');
