@@ -13,7 +13,7 @@ function RefundOrder() {
   const totalRefundElement = useRef(null);
 
   const orderID = useParams().id;
-
+  // const orderID = 'DH0';
   // console.log('id', useParams().id);
 
   const [requestRefund, setRefund] = useState({
@@ -28,12 +28,15 @@ function RefundOrder() {
 
   const [submitted, setSubmitted] = useState(false);
 
-  const [orderItems, setOrderItems] = useState([]);
-
+  const [orderItems, setOrderItems] = useState();
+  const [orderdata, setOrderdata] = useState([]);
   useEffect(() => {
     const fetchOrderItems = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/manage-orders/DH001/order-detail`);
+        const response2 = await fetch(`http://localhost:5000/manage-orders/${orderID}`);
+        const data2 = await response2.json();
+        setOrderdata(data2);
+        const response = await fetch(`http://localhost:5000/manage-orders/${orderID}/order-detail`);
         const data = await response.json();
         setOrderItems(data);
       } catch (error) {
@@ -158,15 +161,15 @@ function RefundOrder() {
                         </div>
                         <div className="d-flex">
                           <span className="text-gray">Delivered Date:</span>
-                          <span className="ml-1 text-bold-normal">16 December 2018</span>
+                          <span className="ml-1 text-bold-normal">{orderdata[0].NGAY_GIAO_HANG}</span>
                         </div>
                         <div className="d-flex">
                           <span className="text-gray">Payment:</span>
-                          <span className="text-green pl-1 text-bold-normal">Visa **** 4216</span>
+                          <span className="text-green pl-1 text-bold-normal">{orderdata[0].LOAI_THANH_TOAN}</span>
                         </div>
                         <div className="d-flex">
                           <span className="text-gray">Total paid:</span>
-                          <span className="text-green pl-1 text-bold-normal">$456</span>
+                          <span className="text-green pl-1 text-bold-normal">${orderdata[0].TONGTIEN}</span>
                         </div>
                       </div>
                     </div>
@@ -239,9 +242,9 @@ function RefundOrder() {
                           disabled={submitted}
                         >
                           <option value="">Select a reason</option>
-                          <option value="wrong_item">Wrong Item Received</option>
-                          <option value="damaged">Item Damaged</option>
-                          <option value="changed_mind">Changed Mind</option>
+                          <option value="Wrong Item Received">Wrong Item Received</option>
+                          <option value="Item Damaged">Item Damaged</option>
+                          <option value="Changed Mind">Changed Mind</option>
                         </select>
                       </div>
                     </div>
@@ -305,7 +308,7 @@ function RefundOrder() {
                   <div className="d-flex justify-content-center mt-4 mb-4">
                     {submitted ? (
                       <div className="text-primary text-bold-normal text-center">
-                        <a href={`/${orderID}/refund/view`} className="">
+                        <a href={`/orders-history/${orderID}/refund/detail`} className="">
                           Refund request is submitted. We will review it shortly.
                         </a>
                       </div>

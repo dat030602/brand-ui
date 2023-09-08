@@ -6,7 +6,7 @@ import LoadingPage from '../LoadingPage/LoadingPage';
 import { FormatDate, TimeRemaining } from '~/utils/FormatDate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { createSearchParams } from 'react-router-dom';
 // import className from "className/bind";
 
 // const cx = className.bind(styles);
@@ -71,7 +71,15 @@ function Home({ children }) {
                         key={el[0]}
                         className={el[0] == 0 ? `${styles['active']}` : ''}
                         onClick={() => {
-                          window.location.href = '/products/...';
+                          window.location.href =
+                            '/products' +
+                            `?${createSearchParams({
+                              f: '1',
+                              c: el[1].MA_LOAI_SP,
+                              b: 'all',
+                              p: 'all',
+                              r: 'all',
+                            })}`;
                         }}
                         onMouseOver={(e) => {
                           var parent = e.target.parentElement;

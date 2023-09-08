@@ -21,13 +21,14 @@ function ManageCustomers({ children }) {
       let result = await ManageCustomersServices.GetAllCustomers();
       setData(result[0]);
       setCoin(result[1]);
-      console.log(result[1][0]);
+      console.log(result[0])
     };
     fetchApi();
   }, []);
 
   const HandleOnChangeEditCustomer = (e) => {
     const { value, name } = e.target;
+    console.log(value);
     if (name === 'Name') {
       setDataEdited((pre) => {
         var newData = { ...pre };
@@ -52,6 +53,12 @@ function ManageCustomers({ children }) {
         newData.date = value;
         return newData;
       });
+    } else if (name === 'Status') {
+      setDataEdited((pre) => {
+        var newData = { ...pre };
+        newData.status = value;
+        return newData;
+      });
     }
   };
 
@@ -62,8 +69,8 @@ function ManageCustomers({ children }) {
       dataedited.email,
       dataedited.sdt,
       dataedited.date,
+      dataedited.status,
     );
-    console.log(result);
     window.location.href = '/manage-customers';
   };
 
@@ -111,15 +118,11 @@ function ManageCustomers({ children }) {
           />
         </div>
         <div className="modal-text">
-          <p className="text-bold-normal">Sex</p>
-          <select className="border text-primary p-1">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+          <p className="text-bold-normal">Status</p>
+          <select name="Status" className="border text-primary p-1" onChange={(e) => HandleOnChangeEditCustomer(e)}>
+            <option value="1">Active</option>
+            <option value="2">Disable</option>
           </select>
-        </div>
-        <div className="modal-text">
-          <p className="text-bold-normal">Membership tiers</p>
-          <input type="text" className="border p-1 pr-2 pl-2" value="123" />
         </div>
       </div>
     );
@@ -205,15 +208,8 @@ function ManageCustomers({ children }) {
               <div className="p-3">
                 <div className="header d-flex align-items-center justify-content-between">
                   <div className={`${styles['title']}`}>
-                    <h5>Customers (3)</h5>
+                    <h5>Customers ({data && data.length})</h5>
                   </div>
-                  <button
-                    className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-add"
-                    data-toggle="modal"
-                    data-target="#addCustomerModal"
-                  >
-                    Add
-                  </button>
                 </div>
                 <section className="ftco-section">
                   <div className="container">
@@ -227,7 +223,7 @@ function ManageCustomers({ children }) {
                                 <th className="text-center">Email</th>
                                 <th className="text-center">Phone number</th>
                                 <th className="text-center">Date of birth</th>
-                                <th className="text-center">Sex</th>
+                                <th className="text-center">Status</th>
                                 <th className="text-center">Membership tiers</th>
                                 <th className="text-center">Coin</th>
                                 <th className="text-center">Actions</th>
@@ -248,20 +244,41 @@ function ManageCustomers({ children }) {
                                       <p className="par-line-1 text-center">{data && data[index].NGAY_SINH}</p>
                                     </td>
                                     <td className="">
-                                      <p className="par-line-1 text-center">Male</p>
+                                      <p className="par-line-1 text-center">
+                                        {data && data[index].STATUS_ACCOUNT !== 2 ? 'Active' : 'Disable'}
+                                      </p>
                                     </td>
                                     <td className={`${styles['tier']}`}>
                                       <div className="d-flex justify-content-center">
-                                        <div
-                                          className={`${styles['bronze-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        {data && data[index].DIEM_THUONG  <= 200 ? ( 
+                                          <>                                       
+                                        <div className={`${styles['bronze-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
                                         >
                                           Bronze
                                         </div>
                                         <div
                                           className={`${styles['bronze-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
                                         >
-                                          123
+                                         {data && data[index].DIEM_THUONG}
                                         </div>
+                                        </>) : (data[index].DIEM_THUONG <=  400 && data[index].DIEM_THUONG >200 ) ? (<><div className={`${styles['silver-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        >
+                                          Silver
+                                        </div>
+                                        <div
+                                          className={`${styles['silver-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        >
+                                         {data && data[index].DIEM_THUONG}
+                                        </div></>):(<><div className={`${styles['gold-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        >
+                                          Gold
+                                        </div>
+                                        <div
+                                          className={`${styles['gold-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        >
+                                         {data && data[index].DIEM_THUONG}
+                                        </div></>)}
+
                                       </div>
                                     </td>
                                     <td className="">
@@ -298,17 +315,11 @@ function ManageCustomers({ children }) {
                                               email: '',
                                               sdt: '',
                                               date: '',
+                                              status: '',
                                             });
                                           }}
                                         >
                                           Edit
-                                        </button>
-                                        <button
-                                          className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
-                                          data-toggle="modal"
-                                          data-target="#deleteCustomerModal"
-                                        >
-                                          Delete
                                         </button>
                                       </div>
                                     </td>
