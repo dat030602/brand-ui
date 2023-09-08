@@ -40,9 +40,9 @@ function Login({ children }) {
     } else {
       if (dataInput.user !== '' && dataInput.password !== '') {
         const result = await AuthenticationServices.Login(dataInput);
-        if (result.data.recordset !== []) {
+        if (result.data.recordsets !== []) {
           if (result.data.returnValue === 1) {
-            toast.success('Delete successfully', {
+            toast.success('Login successfully', {
               position: 'top-right',
               autoClose: 5000,
               hideProgressBar: true,

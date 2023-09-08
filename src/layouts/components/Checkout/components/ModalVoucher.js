@@ -60,16 +60,11 @@ const ModalVoucher = (voucher, handleCloseModal, setDataModal, setChoose) => {
         <button
           onClick={() => {
             if (chooseTemp != -1)
-              console.log({
-                id: voucher[chooseTemp].id_voucher,
-                name: voucher[chooseTemp].name_voucher,
-                discount: voucher[chooseTemp].discount,
+              setChoose({
+                id: voucher[chooseTemp]?.id_voucher,
+                name: voucher[chooseTemp]?.name_voucher,
+                discount: voucher[chooseTemp]?.discount,
               });
-            setChoose({
-              id: voucher[chooseTemp].id_voucher,
-              name: voucher[chooseTemp].name_voucher,
-              discount: voucher[chooseTemp].discount,
-            });
             handleCloseModal();
           }}
         >
