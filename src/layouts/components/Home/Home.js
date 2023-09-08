@@ -6,6 +6,9 @@ import LoadingPage from '../LoadingPage/LoadingPage';
 import { FormatDate, TimeRemaining } from '~/utils/FormatDate';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import styles from './Home.module.scss';
+
 // import className from "className/bind";
 
 // const cx = className.bind(styles);
