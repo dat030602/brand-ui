@@ -6,10 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { Image } from '~/components/Image';
 import * as ManageOrdersServices from '~/services/ManageOrdersServices';
 import { ToastContainer, toast } from 'react-toastify';
+import { FormatDateAndTime, dateDifference } from '~/utils/FormatDate';
+
 import 'react-toastify/dist/ReactToastify.css';
 function OrdersHistory({ children }) {
   const [data, setData] = useState();
   const navigate = useNavigate();
+  const linkTo = useNavigate();
   const username = getCookie('Username');
   useEffect(() => {
     const fetchApi = async () => {
@@ -46,6 +49,9 @@ function OrdersHistory({ children }) {
               </div>
               <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 ${styles['active']}`}>
                 <a href="/orders-history">Orders history</a>
+              </div>
+              <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2`}>
+                <a href="/loyalty">Loyalty Program</a>
               </div>
               <div className={`${styles['side-item']} rounded pl-3 p-1 mb-2 active`}>
                 <a href="/personal/edit">Profile setting</a>
@@ -87,13 +93,24 @@ function OrdersHistory({ children }) {
                                 </span>
                               </div>
                               <div className="d-flex">
-                                <span className="text-gray">Date:</span>
-                                <span className="ml-1 text-bold-normal">{data && data[index].voucher.NGAYTAO}</span>
+                                <span className="text-gray">Order Date:</span>
+                                <span className="ml-1 text-bold-normal">
+                                  {FormatDateAndTime(data && data[index].voucher.NGAYTAO)}
+                                </span>
                               </div>
+                              {data && data[index].voucher.TRANGTHAI === 'Delivered' ? (
+                                <div className="d-flex">
+                                  <span className="text-gray">Delivered DateTime:</span>
+                                  <span className="ml-1 text-bold-normal">
+                                    {FormatDateAndTime(data[index].voucher.NGAY_GIAO_HANG)}
+                                  </span>
+                                </div>
+                              ) : null}
                             </div>
                             <div className="">
-                              {data[index].voucher.TRANGTHAI != 'Received' &&
-                              data[index].voucher.TRANGTHAI != 'Cancel' ? (
+                              {/* {data[index].voucher.TRANGTHAI != 'Received' &&
+                              data[index].voucher.TRANGTHAI != 'Cancel' ? ( */}
+                              {data[index].voucher.TRANGTHAI === 'Pending' ? (
                                 <button
                                   className="btn btn-outline-danger p-4 pt-2 pb-2 ml-2"
                                   onClick={async () => {
@@ -136,6 +153,28 @@ function OrdersHistory({ children }) {
                               ) : (
                                 <></>
                               )}
+                              {data &&
+                              data[index].voucher.TRANGTHAI === 'Delivered' &&
+                              dateDifference(data[index].voucher.NGAY_GIAO_HANG) > 7 ? (
+                                <button
+                                  className="btn btn-outline-primary p-4 pt-2 pb-2 ml-2"
+                                  onClick={() => {
+                                    linkTo(`${data[index].voucher.MA_DONHANG}/refund`);
+                                  }}
+                                >
+                                  Request Refund
+                                </button>
+                              ) : null}
+                              {data && data[index].voucher.TRANGTHAI.includes('Refund') ? (
+                                <button
+                                  className="btn btn-outline-info p-4 pt-2 pb-2 ml-2"
+                                  onClick={() => {
+                                    linkTo(`${data[index].voucher.MA_DONHANG}/refund/detail`);
+                                  }}
+                                >
+                                  View Refund Request
+                                </button>
+                              ) : null}
                             </div>
                           </div>
                           <div className="line mt-3 mb-3"></div>
