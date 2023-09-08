@@ -161,7 +161,7 @@ function Product({ children }) {
                         >
                           <button
                             onClick={async () => {
-                              if (getCookie('Username') === null) navigate('/login');
+                              if (getCookie('Username') === null) window.location.href = '/login';
                               else {
                                 var result = await ProductServices.Favorite(data[0][0].MA_SP, getCookie('Username'));
                                 if (result.data === 1) {
