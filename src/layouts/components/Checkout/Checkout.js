@@ -174,7 +174,6 @@ function Checkout({ setDataModal, handleCloseModal }) {
     }
     if (typePayment === 'vnpay') {
       await Payment(paymentData).then((res) => {
-        console.log(res);
         if (res.data.status === 'success') {
           handleCloseModal();
           toast.success('Create order successfully.\n Please pay in 6 hours', {
@@ -187,8 +186,8 @@ function Checkout({ setDataModal, handleCloseModal }) {
             progress: undefined,
             theme: 'light',
           });
-          window.location.href = '/orders-history';
           window.open(res.data.linkVnPay, '_blank', 'noopener,noreferrer');
+          window.location.href = '/orders-history';
         } else {
           toast.error('Error while creating order.\n Please try again', {
             position: 'top-right',

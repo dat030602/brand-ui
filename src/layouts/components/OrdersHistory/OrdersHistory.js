@@ -91,6 +91,22 @@ function OrdersHistory({ children }) {
                                 <span className="text-green text-bold-normal">
                                   {data && data[index].voucher.TRANGTHAI}
                                 </span>
+                                {data[index].voucher.TRANGTHAI === 'Pending' ? (
+                                  <>
+                                    <span className="ml-1 mr-1">•</span>
+                                    <button
+                                      onClick={() => {
+                                        window.location.href = data[index].voucher.LINK;
+                                      }}
+                                    >
+                                      <span className="text-bold-normal" style={{ color: 'blue' }}>
+                                        Link checkout
+                                      </span>
+                                    </button>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                               <div className="d-flex">
                                 <span className="text-gray">Order Date:</span>
@@ -114,8 +130,6 @@ function OrdersHistory({ children }) {
                                 <button
                                   className="btn btn-outline-danger p-4 pt-2 pb-2 ml-2"
                                   onClick={async () => {
-                                    console.log(data[index].voucher.MA_DONHANG);
-
                                     const dataObj = {
                                       id_order: data[index].voucher.MA_DONHANG,
                                       id_user: username,
@@ -146,6 +160,7 @@ function OrdersHistory({ children }) {
                                         });
                                       }
                                     });
+                                    window.location.href = '/orders-history';
                                   }}
                                 >
                                   Cancel
