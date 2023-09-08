@@ -46,17 +46,17 @@ export const NavCheckOut = ({
   const fetchApi = async () => {
     await GetAddress(username).then((result) => {
       if (result.message === 'success') {
-        // if (result.data.address.length === 0) {
-        //   const ModalAler = ModalAlert(handleCloseModal, LinkTo);
-        //   setDataModal(ModalAler);
-        // } else {
-        setAddress(result.data.address);
-        setVoucher(result.data.voucher);
-        let coinTemp =
-          result.data.coin >= Price / 3 ? Number((Price / 3).toFixed(2)) : Number(result.data.coin.toFixed(2));
-        setCoin(coinTemp);
+        if (result.data.address.length === 0) {
+          const ModalAler = ModalAlert(handleCloseModal, LinkTo);
+          setDataModal(ModalAler);
+        } else {
+          setAddress(result.data.address);
+          setVoucher(result.data.voucher);
+          let coinTemp =
+            result.data.coin >= Price / 3 ? Number((Price / 3).toFixed(2)) : Number(result.data.coin.toFixed(2));
+          setCoin(coinTemp);
+        }
       }
-      // }
     });
   };
 
