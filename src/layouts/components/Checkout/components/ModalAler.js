@@ -20,7 +20,8 @@ const ModalAlert = (handleCloseModal, linkTo) => {
       <div className={`${stylesModal['footer']}`}>
         <button
           onClick={() => {
-            linkTo('/info');
+            window.location.href = '/info';
+
             handleCloseModal();
           }}
           className={`${stylesModal['cancelBtn']}`}

@@ -156,7 +156,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
             progress: undefined,
             theme: 'light',
           });
-          linkTo('/orders-history');
+          window.location.href = '/orders-history';
           window.open(res.data.linkPayment, '_blank', 'noopener,noreferrer');
         } else {
           toast.error('Error while creating order.\n Please try again', {
@@ -187,7 +187,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
             progress: undefined,
             theme: 'light',
           });
-          linkTo('/orders-history');
+          window.location.href = '/orders-history';
           window.open(res.data.linkVnPay, '_blank', 'noopener,noreferrer');
         } else {
           toast.error('Error while creating order.\n Please try again', {

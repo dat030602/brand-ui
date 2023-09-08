@@ -277,7 +277,7 @@ function Cart({ children }) {
                               aria-pressed="false"
                               autoComplete="off"
                               onClick={() => {
-                                linkTo('/checkout');
+                                window.location.href = '/checkout';
                               }}
                             >
                               Check Out
