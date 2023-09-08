@@ -27,7 +27,7 @@ function ViewRefundRequest({ children }) {
       console.log(setOrderRefundRequest);
       let result2 = await RefundOrdersServices.GetRefundDetail(orderID);
       setRefundDetail(result2);
-      console.log('begin', result2);
+      console.log('begin', result2, 'end', refunddetail);
     };
     fetchApi();
   }, []);
@@ -150,7 +150,7 @@ function ViewRefundRequest({ children }) {
                             <div className="d-flex">
                               <span className="text-gray">Payment:</span>
                               <span className="text-primary pl-1 text-bold-normal">
-                                {orderRefundRequest[0].LOAI_THANHTOAN}
+                                {orderRefundRequest[0].LOAI_THANH_TOAN.toUpperCase()}
                               </span>
                             </div>
                             <div className="d-flex">

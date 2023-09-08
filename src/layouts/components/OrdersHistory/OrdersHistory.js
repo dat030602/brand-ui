@@ -204,7 +204,7 @@ function OrdersHistory({ children }) {
                             <div className="d-flex">
                               <span className="text-gray">Payment:</span>
                               <span className="text-green pl-1 text-bold-normal">
-                                {data && data[index].voucher.LOAI_THANHTOAN}
+                                {data && data[index].voucher.LOAI_THANHTOAN.toUpperCase()}
                               </span>
                             </div>
                             <div className="d-flex">
@@ -214,19 +214,19 @@ function OrdersHistory({ children }) {
                               </span>
                             </div>
                             <div className="d-flex">
-                              <span className="text-gray">Total product:</span>
+                              <span className="text-gray">Total amount:</span>
                               <span className="text-green pl-1 text-bold-normal">
                                 ${data && data[index].voucher.TONGTIEN}
                               </span>
                             </div>
                             <div className="d-flex">
-                              <span className="text-gray">Discound:</span>
+                              <span className="text-gray">Discount:</span>
                               <span className="text-green pl-1 text-bold-normal">
                                 ${data && data[index].voucher.GIAM_GIA}
                               </span>
                             </div>
                             <div className="d-flex">
-                              <span className="text-gray">Discound shipping:</span>
+                              <span className="text-gray">Discount shipping:</span>
                               <span className="text-green pl-1 text-bold-normal">
                                 ${data && data[index].voucher.GIAM_GIA_GIAO_HANG}
                               </span>
