@@ -91,13 +91,37 @@ function OrdersHistory({ children }) {
                                 <span className="text-green text-bold-normal">
                                   {data && data[index].voucher.TRANGTHAI}
                                 </span>
+                                {data[index].voucher.TRANGTHAI === 'Pending' ? (
+                                  <>
+                                    <span className="ml-1 mr-1">•</span>
+                                    <button
+                                      onClick={() => {
+                                        window.location.href = data[index].voucher.LINK;
+                                      }}
+                                    >
+                                      <span className="text-bold-normal" style={{ color: 'blue' }}>
+                                        Link checkout
+                                      </span>
+                                    </button>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
                               </div>
                               <div className="d-flex">
-                                <span className="text-gray">Order Date:</span>
+                                <span className="text-gray">Order DateTime:</span>
                                 <span className="ml-1 text-bold-normal">
                                   {FormatDateAndTime(data && data[index].voucher.NGAYTAO)}
                                 </span>
                               </div>
+                              {data &&
+                              data[index].voucher.TRANGTHAI === 'Cancelled' &&
+                              data[index].voucher.LY_DO_HUY != null ? (
+                                <div className="d-flex">
+                                  <span className="text-gray">Reason To Cancel:</span>
+                                  <span className="ml-1 text-bold-normal">{data[index].voucher.LY_DO_HUY}</span>
+                                </div>
+                              ) : null}
                               {data && data[index].voucher.TRANGTHAI === 'Delivered' ? (
                                 <div className="d-flex">
                                   <span className="text-gray">Delivered DateTime:</span>
@@ -114,8 +138,6 @@ function OrdersHistory({ children }) {
                                 <button
                                   className="btn btn-outline-danger p-4 pt-2 pb-2 ml-2"
                                   onClick={async () => {
-                                    console.log(data[index].voucher.MA_DONHANG);
-
                                     const dataObj = {
                                       id_order: data[index].voucher.MA_DONHANG,
                                       id_user: username,
@@ -146,6 +168,7 @@ function OrdersHistory({ children }) {
                                         });
                                       }
                                     });
+                                    window.location.href = '/orders-history';
                                   }}
                                 >
                                   Cancel
@@ -155,7 +178,7 @@ function OrdersHistory({ children }) {
                               )}
                               {data &&
                               data[index].voucher.TRANGTHAI === 'Delivered' &&
-                              dateDifference(data[index].voucher.NGAY_GIAO_HANG) > 7 ? (
+                              dateDifference(data[index].voucher.NGAY_GIAO_HANG) <= 7 ? (
                                 <button
                                   className="btn btn-outline-primary p-4 pt-2 pb-2 ml-2"
                                   onClick={() => {
@@ -189,7 +212,7 @@ function OrdersHistory({ children }) {
                             <div className="d-flex">
                               <span className="text-gray">Payment:</span>
                               <span className="text-green pl-1 text-bold-normal">
-                                {data && data[index].voucher.LOAI_THANHTOAN}
+                                {data && data[index].voucher.LOAI_THANHTOAN.toUpperCase()}
                               </span>
                             </div>
                             <div className="d-flex">
@@ -199,19 +222,19 @@ function OrdersHistory({ children }) {
                               </span>
                             </div>
                             <div className="d-flex">
-                              <span className="text-gray">Total product:</span>
+                              <span className="text-gray">Total amount:</span>
                               <span className="text-green pl-1 text-bold-normal">
                                 ${data && data[index].voucher.TONGTIEN}
                               </span>
                             </div>
                             <div className="d-flex">
-                              <span className="text-gray">Discound:</span>
+                              <span className="text-gray">Discount:</span>
                               <span className="text-green pl-1 text-bold-normal">
                                 ${data && data[index].voucher.GIAM_GIA}
                               </span>
                             </div>
                             <div className="d-flex">
-                              <span className="text-gray">Discound shipping:</span>
+                              <span className="text-gray">Discount shipping:</span>
                               <span className="text-green pl-1 text-bold-normal">
                                 ${data && data[index].voucher.GIAM_GIA_GIAO_HANG}
                               </span>

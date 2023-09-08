@@ -372,6 +372,12 @@ function ManageOrders({ children }) {
                           <span className="text-gray">Order DateTime:</span>
                           <span className="ml-1 text-bold-normal">{FormatDateAndTime(selectedorder[0].NGAYTAO)}</span>
                         </div>
+                        {selectedorder[0].TRANGTHAI === 'Cancelled' && selectedorder[0].LY_DO_HUY != null ? (
+                          <div className="d-flex">
+                            <span className="text-gray">Reason To Cancel:</span>
+                            <span className="ml-1 text-bold-normal">{selectedorder[0].LY_DO_HUY}</span>
+                          </div>
+                        ) : null}
                         {selectedorder[0].TRANGTHAI === 'Delivered' ? (
                           <div className="d-flex">
                             <span className="text-gray">Delivered DateTime:</span>
@@ -394,11 +400,23 @@ function ManageOrders({ children }) {
                       </div>
                       <div className="d-flex">
                         <span className="text-gray">Payment:</span>
-                        <span className="text-primary pl-1 text-bold-normal">{selectedorder[0].LOAI_THANHTOAN}</span>
+                        <span className="text-primary pl-1 text-bold-normal">
+                          {selectedorder[0].LOAI_THANHTOAN.toUpperCase()}
+                        </span>
                       </div>
                       <div className="d-flex">
                         <span className="text-gray">Shipping fee:</span>
                         <span className="text-primary pl-1 text-bold-normal">${selectedorder[0].PHI_GIAO_HANG}</span>
+                      </div>
+                      <div className="d-flex">
+                        <span className="text-gray">Discount Shipping</span>
+                        <span className="text-primary pl-1 text-bold-normal">
+                          ${selectedorder[0].GIAM_GIA_GIAO_HANG}
+                        </span>
+                      </div>
+                      <div className="d-flex">
+                        <span className="text-gray">Discount</span>
+                        <span className="text-primary pl-1 text-bold-normal">${selectedorder[0].GIAM_GIA}</span>
                       </div>
                       <div className="d-flex">
                         <span className="text-gray">Total paid:</span>
@@ -543,7 +561,7 @@ function ManageOrders({ children }) {
                       <div className="d-flex">
                         <span className="text-gray">Payment:</span>
                         <span className="text-primary pl-1 text-bold-normal">
-                          {orderRefundRequest[0].LOAI_THANHTOAN}
+                          {orderRefundRequest[0].LOAI_THANH_TOAN.toUpperCase()}
                         </span>
                       </div>
                       {/* <div className="d-flex">
