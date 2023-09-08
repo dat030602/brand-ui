@@ -8,10 +8,10 @@ export const GetAllCustomers = async () => {
   }
 };
 
-export const EditCustomer = async (makh, name, email, sdt, date) => {
+export const EditCustomer = async (makh, name, email, sdt, date, status) => {
 	try {
 		const res = await httpRequest.Put(`/manage-customers/edit`, {
-			data: { makh, name, email, sdt, date },
+			data: { makh, name, email, sdt, date, status },
 		});
 		return res.data;
 	} catch (error) {
