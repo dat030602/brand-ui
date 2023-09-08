@@ -49,7 +49,7 @@ function HeaderNoSearch({ children }) {
                 )}
                 {isLogin && (
                   <div className="col ml-10 d-flex">
-                  <a href="/personal/edit" className={`${styles['action-icon']}`}>
+                  <a href="/info" className={`${styles['action-icon']}`}>
                     <Image
                       src={`${window.location.href.split('/').length - 1 >= 4 ? '../' : ''}${
                         window.location.href.split('/').length - 1 >= 3 ? '../' : ''
