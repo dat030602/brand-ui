@@ -15,6 +15,10 @@ function ManageCustomers({ children }) {
   const [dataEditing, setDataEditing] = useState();
   const [dataedited, setDataEdited] = useState();
   const [coinIndex, setCoinIndex] = useState();
+  const [bronzeTierUsers, setBronzeTierUsers] = useState([]);
+  const [silverTierUsers, setSilverTierUsers] = useState([]);
+  const [goldTierUsers, setGoldTierUsers] = useState([]);
+
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -22,6 +26,15 @@ function ManageCustomers({ children }) {
       setData(result[0]);
       setCoin(result[1]);
       console.log(result[0])
+	  // Lọc danh sách người dùng có hạng bronze tier
+	  const bronzeTierUsers = result[0].filter(user => user.DIEM_THUONG <= 200);
+	  setBronzeTierUsers(bronzeTierUsers);
+	  // Lọc danh sách người dùng có hạng silver tier
+	  const silverTierUsers = result[0].filter(user => user.DIEM_THUONG > 200 && user.DIEM_THUONG <= 400);
+	  setSilverTierUsers(silverTierUsers);
+	  // Lọc danh sách người dùng có hạng gold tier
+	  const goldTierUsers = result[0].filter(user => user.DIEM_THUONG > 400); // Điều kiện có thể thay đổi
+	  setGoldTierUsers(goldTierUsers);
     };
     fetchApi();
   }, []);
@@ -332,13 +345,128 @@ function ManageCustomers({ children }) {
                     </div>
                   </div>
                 </section>
+				
               </div>
             </div>
           </div>
         </div>
       </div>
       {/* <!-- Modal --> */}
-
+	  <div className="container">
+  <div className="main pt-4 pb-4">
+    <div className="pl-3 pr-3">
+      <div className="bg-w border rounded">
+        <div className="p-3">
+          <div className="header d-flex align-items-center justify-content-between">
+            <div className={`${styles['title']}`}>
+              <h5>Customers with bronze tier ({bronzeTierUsers.length})</h5>
+            </div>
+          </div>
+          <section className="ftco-section">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="table-wrap">
+                    <table className="table">
+                      <thead className="thead-primary">
+                        <tr>
+                          <th className="text-center">Customer Name</th>
+                          <th className="text-center">Email</th>
+                          <th className="text-center">Phone number</th>
+                          <th className="text-center">Date of birth</th>
+                          <th className="text-center">Status</th>
+                          <th className="text-center">Membership tiers</th>
+                          <th className="text-center">Coin</th>
+                          <th className="text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      {bronzeTierUsers.map((user, index) => (
+                        <tbody key={index}>
+                          <tr>
+                            <td className="">{user.HO_TEN}</td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.EMAIL}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.SDT}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.NGAY_SINH}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">
+                                {user.STATUS_ACCOUNT !== 2 ? 'Active' : 'Disable'}
+                              </p>
+                            </td>
+                            <td className={`${styles['tier']}`}>
+                              <div className="d-flex justify-content-center">
+                                <div className={`${styles['bronze-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                >
+                                  Bronze
+                                </div>
+                                <div
+                                  className={`${styles['bronze-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                >
+                                  {user.DIEM_THUONG}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="">
+                              <button
+                                className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
+                                data-toggle="modal"
+                                data-target="#showCoin"
+                                onClick={() => {
+                                  setIndexDetail(index);
+                                  setCoinIndex(user.TEN_TK);
+                                  indexDetail_clone = index;
+                                  const newData = user;
+                                }}
+                                style={{ width: '100%' }}
+                              >
+                                {Number(user.COIN.toFixed(2))}
+                              </button>
+                            </td>
+                            <td className="">
+                              <div className={`${styles['tier']} d-flex justify-content-center`}>
+                                <button
+                                  className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
+                                  data-toggle="modal"
+                                  data-target="#editCustomerModal"
+                                  onClick={() => {
+                                    setIndexDetail(index);
+                                    indexDetail_clone = index;
+                                    const newData = user;
+                                    setElementModalEdit(ElementEditCustomer(newData, indexDetail_clone));
+                                    setDataEditing(newData);
+                                    setDataEdited({
+                                      makh: user.TEN_TK,
+                                      name: '',
+                                      email: '',
+                                      sdt: '',
+                                      date: '',
+                                      status: '',
+                                    });
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>									  
       <div
         className="modal fade"
         id="addCustomerModal"
@@ -456,7 +584,240 @@ function ManageCustomers({ children }) {
           </div>
         </div>
       </div>
+	  
+	  <div className="container">
+  <div className="main pt-4 pb-4">
+    <div className="pl-3 pr-3">
+      <div className="bg-w border rounded">
+        <div className="p-3">
+          <div className="header d-flex align-items-center justify-content-between">
+            <div className={`${styles['title']}`}>
+              <h5>Customers with silver tier ({silverTierUsers.length})</h5>
+            </div>
+          </div>
+          <section className="ftco-section">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="table-wrap">
+                    <table className="table">
+                      <thead className="thead-primary">
+                        <tr>
+                          <th className="text-center">Customer Name</th>
+                          <th className="text-center">Email</th>
+                          <th className="text-center">Phone number</th>
+                          <th className="text-center">Date of birth</th>
+                          <th className="text-center">Status</th>
+                          <th className="text-center">Membership tiers</th>
+                          <th className="text-center">Coin</th>
+                          <th className="text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      {silverTierUsers.map((user, index) => (
+                        <tbody key={index}>
+                          <tr>
+                            <td className="">{user.HO_TEN}</td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.EMAIL}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.SDT}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.NGAY_SINH}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">
+                                {user.STATUS_ACCOUNT !== 2 ? 'Active' : 'Disable'}
+                              </p>
+                            </td>
+                            <td className={`${styles['tier']}`}>
+                              <div className="d-flex justify-content-center">
+                                <div className={`${styles['silver-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                >
+                                  Silver
+                                </div>
+                                <div
+                                  className={`${styles['silver-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                >
+                                  {user.DIEM_THUONG}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="">
+                              <button
+                                className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
+                                data-toggle="modal"
+                                data-target="#showCoin"
+                                onClick={() => {
+                                  setIndexDetail(index);
+                                  setCoinIndex(user.TEN_TK);
+                                  indexDetail_clone = index;
+                                  const newData = user;
+                                }}
+                                style={{ width: '100%' }}
+                              >
+                                {Number(user.COIN.toFixed(2))}
+                              </button>
+                            </td>
+                            <td className="">
+                              <div className={`${styles['tier']} d-flex justify-content-center`}>
+                                <button
+                                  className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
+                                  data-toggle="modal"
+                                  data-target="#editCustomerModal"
+                                  onClick={() => {
+                                    setIndexDetail(index);
+                                    indexDetail_clone = index;
+                                    const newData = user;
+                                    setElementModalEdit(ElementEditCustomer(newData, indexDetail_clone));
+                                    setDataEditing(newData);
+                                    setDataEdited({
+                                      makh: user.TEN_TK,
+                                      name: '',
+                                      email: '',
+                                      sdt: '',
+                                      date: '',
+                                      status: '',
+                                    });
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div className="container">
+  <div className="main pt-4 pb-4">
+    <div className="pl-3 pr-3">
+      <div className="bg-w border rounded">
+        <div className="p-3">
+          <div className="header d-flex align-items-center justify-content-between">
+            <div className={`${styles['title']}`}>
+              <h5>Customers with gold tier ({goldTierUsers.length})</h5>
+            </div>
+          </div>
+          <section className="ftco-section">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="table-wrap">
+                    <table className="table">
+                      <thead className="thead-primary">
+                        <tr>
+                          <th className="text-center">Customer Name</th>
+                          <th className="text-center">Email</th>
+                          <th className="text-center">Phone number</th>
+                          <th className="text-center">Date of birth</th>
+                          <th className="text-center">Status</th>
+                          <th className="text-center">Membership tiers</th>
+                          <th className="text-center">Coin</th>
+                          <th className="text-center">Actions</th>
+                        </tr>
+                      </thead>
+                      {goldTierUsers.map((user, index) => (
+                        <tbody key={index}>
+                          <tr>
+                            <td className="">{user.HO_TEN}</td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.EMAIL}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.SDT}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">{user.NGAY_SINH}</p>
+                            </td>
+                            <td className="">
+                              <p className="par-line-1 text-center">
+                                {user.STATUS_ACCOUNT !== 2 ? 'Active' : 'Disable'}
+                              </p>
+                            </td>
+                            <td className={`${styles['tier']}`}>
+                              <div className="d-flex justify-content-center">
+                                <div className={`${styles['gold-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                >
+                                  Gold
+                                </div>
+                                <div
+                                  className={`${styles['gold-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                >
+                                  {user.DIEM_THUONG}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="">
+                              <button
+                                className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
+                                data-toggle="modal"
+                                data-target="#showCoin"
+                                onClick={() => {
+                                  setIndexDetail(index);
+                                  setCoinIndex(user.TEN_TK);
+                                  indexDetail_clone = index;
+                                  const newData = user;
+                                }}
+                                style={{ width: '100%' }}
+                              >
+                                {Number(user.COIN.toFixed(2))}
+                              </button>
+                            </td>
+                            <td className="">
+                              <div className={`${styles['tier']} d-flex justify-content-center`}>
+                                <button
+                                  className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
+                                  data-toggle="modal"
+                                  data-target="#editCustomerModal"
+                                  onClick={() => {
+                                    setIndexDetail(index);
+                                    indexDetail_clone = index;
+                                    const newData = user;
+                                    setElementModalEdit(ElementEditCustomer(newData, indexDetail_clone));
+                                    setDataEditing(newData);
+                                    setDataEdited({
+                                      makh: user.TEN_TK,
+                                      name: '',
+                                      email: '',
+                                      sdt: '',
+                                      date: '',
+                                      status: '',
+                                    });
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      ))}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+	  
       <div
         className="modal fade"
         id="deleteCustomerModal"
