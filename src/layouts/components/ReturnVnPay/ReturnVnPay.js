@@ -17,7 +17,7 @@ function ReturnVnPay({ children }) {
     await ReturnVnPayApi(query).then((res) => {
       console.log(res);
       if (res.status === 'success') {
-        linkTo('/orders-history');
+        window.location.href = '/orders-history';
         toast.success('Confirm success', {
           position: 'top-right',
           autoClose: 5000,
@@ -30,7 +30,7 @@ function ReturnVnPay({ children }) {
         });
       }
       if (res.status === 'error') {
-        linkTo('/orders-history');
+        window.location.href = '/orders-history';
         toast.error(`${res.message}`, {
           position: 'top-right',
           autoClose: 5000,
@@ -43,7 +43,7 @@ function ReturnVnPay({ children }) {
         });
       }
       if (res.status === 'Cancel') {
-        linkTo('/orders-history');
+        window.location.href = '/orders-history';
         toast.error(`${res.message}`, {
           position: 'top-right',
           autoClose: 5000,
@@ -56,7 +56,7 @@ function ReturnVnPay({ children }) {
         });
       }
       if (res.status === 'Not Found') {
-        linkTo('/orders-history');
+        window.location.href = '/orders-history';
         toast.error(`${res.message}`, {
           position: 'top-right',
           autoClose: 5000,
