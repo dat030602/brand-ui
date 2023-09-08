@@ -21,7 +21,7 @@ function ManageCustomers({ children }) {
       let result = await ManageCustomersServices.GetAllCustomers();
       setData(result[0]);
       setCoin(result[1]);
-      console.log(result[1][0]);
+      console.log(result[0])
     };
     fetchApi();
   }, []);
@@ -261,7 +261,7 @@ function ManageCustomers({ children }) {
                                         >
                                          {data && data[index].DIEM_THUONG}
                                         </div>
-                                        </>) : data[index].DIEM_THUONG <=  400 ? (<><div className={`${styles['silver-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        </>) : (data[index].DIEM_THUONG <=  400 && data[index].DIEM_THUONG >200 ) ? (<><div className={`${styles['silver-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
                                         >
                                           Silver
                                         </div>
@@ -276,7 +276,7 @@ function ManageCustomers({ children }) {
                                         <div
                                           className={`${styles['gold-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
                                         >
-                                         {data && data[index].DIEM_THUONG.toFixed(2)}
+                                         {data && data[index].DIEM_THUONG}
                                         </div></>)}
 
                                       </div>
