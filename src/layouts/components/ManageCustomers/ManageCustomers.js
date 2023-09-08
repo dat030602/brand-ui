@@ -3,25 +3,32 @@ import React, { useEffect, useState } from 'react';
 import styles from './ManageCustomers.module.scss';
 import { Image } from '~/components/Image';
 import * as ManageCustomersServices from '~/services/ManageCustomersServices';
+import { FormatDate } from '~/utils/FormatDate';
 
 function ManageCustomers({ children }) {
   const [data, setData] = useState();
+  const [coin, setCoin] = useState();
+
   const [indexDetail, setIndexDetail] = useState(0);
   var indexDetail_clone = 0;
   const [elementModalEdit, setElementModalEdit] = useState();
   const [dataEditing, setDataEditing] = useState();
   const [dataedited, setDataEdited] = useState();
+  const [coinIndex, setCoinIndex] = useState();
 
   useEffect(() => {
     const fetchApi = async () => {
       let result = await ManageCustomersServices.GetAllCustomers();
-      setData(result);
+      setData(result[0]);
+      setCoin(result[1]);
+      console.log(result[0])
     };
     fetchApi();
   }, []);
 
   const HandleOnChangeEditCustomer = (e) => {
     const { value, name } = e.target;
+    console.log(value);
     if (name === 'Name') {
       setDataEdited((pre) => {
         var newData = { ...pre };
@@ -46,48 +53,81 @@ function ManageCustomers({ children }) {
         newData.date = value;
         return newData;
       });
+    } else if (name === 'Status') {
+      setDataEdited((pre) => {
+        var newData = { ...pre };
+        newData.status = value;
+        return newData;
+      });
     }
   };
 
   const HandleOnClickFinish = async () => {
-	let result = await ManageCustomersServices.EditCustomer(dataedited.makh, dataedited.name, dataedited.email, dataedited.sdt, dataedited.date);
-	console.log(result);
-  window.location.href = '/manage-customers';
-  }
+    let result = await ManageCustomersServices.EditCustomer(
+      dataedited.makh,
+      dataedited.name,
+      dataedited.email,
+      dataedited.sdt,
+      dataedited.date,
+      dataedited.status,
+    );
+    window.location.href = '/manage-customers';
+  };
 
   const ElementEditCustomer = (newData, indexDetail) => {
     return (
       <div className="modal-body">
         <div className="modal-text">
           <p className="text-bold-normal">Customer Name</p>
-          <input name="Name" type="text" className="border p-1 pr-2 pl-2" defaultValue={newData.HO_TEN} onChange={(e) => HandleOnChangeEditCustomer(e)}/>
+          <input
+            name="Name"
+            type="text"
+            className="border p-1 pr-2 pl-2"
+            defaultValue={newData.HO_TEN}
+            onChange={(e) => HandleOnChangeEditCustomer(e)}
+          />
         </div>
         <div className="modal-text">
           <p className="text-bold-normal">Email</p>
-          <input name="Email" type="text" className="border p-1 pr-2 pl-2" defaultValue={newData.EMAIL} onChange={(e) => HandleOnChangeEditCustomer(e)}/>
+          <input
+            name="Email"
+            type="text"
+            className="border p-1 pr-2 pl-2"
+            defaultValue={newData.EMAIL}
+            onChange={(e) => HandleOnChangeEditCustomer(e)}
+          />
         </div>
         <div className="modal-text">
           <p className="text-bold-normal">Phone number</p>
-          <input name="Phone" type="text" className="border p-1 pr-2 pl-2" defaultValue={newData.SDT} onChange={(e) => HandleOnChangeEditCustomer(e)}/>
+          <input
+            name="Phone"
+            type="text"
+            className="border p-1 pr-2 pl-2"
+            defaultValue={newData.SDT}
+            onChange={(e) => HandleOnChangeEditCustomer(e)}
+          />
         </div>
         <div className="modal-text">
           <p className="text-bold-normal">Date of birth</p>
-          <input name="Date" type="date" className="border p-1 pr-2 pl-2" defaultValue={newData.NGAY_SINH} onChange={(e) => HandleOnChangeEditCustomer(e)}/>
+          <input
+            name="Date"
+            type="date"
+            className="border p-1 pr-2 pl-2"
+            defaultValue={newData.NGAY_SINH}
+            onChange={(e) => HandleOnChangeEditCustomer(e)}
+          />
         </div>
         <div className="modal-text">
-          <p className="text-bold-normal">Sex</p>
-          <select className="border text-primary p-1">
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
+          <p className="text-bold-normal">Status</p>
+          <select name="Status" className="border text-primary p-1" onChange={(e) => HandleOnChangeEditCustomer(e)}>
+            <option value="1">Active</option>
+            <option value="2">Disable</option>
           </select>
-        </div>
-        <div className="modal-text">
-          <p className="text-bold-normal">Membership tiers</p>
-          <input type="text" className="border p-1 pr-2 pl-2" value="123" />
         </div>
       </div>
     );
   };
+
   return (
     <>
       <nav className={`${styles['side-menu']} bg-w border`}>
@@ -168,15 +208,8 @@ function ManageCustomers({ children }) {
               <div className="p-3">
                 <div className="header d-flex align-items-center justify-content-between">
                   <div className={`${styles['title']}`}>
-                    <h5>Customers (3)</h5>
+                    <h5>Customers ({data && data.length})</h5>
                   </div>
-                  <button
-                    className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-add"
-                    data-toggle="modal"
-                    data-target="#addCustomerModal"
-                  >
-                    Add
-                  </button>
                 </div>
                 <section className="ftco-section">
                   <div className="container">
@@ -190,8 +223,9 @@ function ManageCustomers({ children }) {
                                 <th className="text-center">Email</th>
                                 <th className="text-center">Phone number</th>
                                 <th className="text-center">Date of birth</th>
-                                <th className="text-center">Sex</th>
+                                <th className="text-center">Status</th>
                                 <th className="text-center">Membership tiers</th>
+                                <th className="text-center">Coin</th>
                                 <th className="text-center">Actions</th>
                               </tr>
                             </thead>
@@ -210,21 +244,58 @@ function ManageCustomers({ children }) {
                                       <p className="par-line-1 text-center">{data && data[index].NGAY_SINH}</p>
                                     </td>
                                     <td className="">
-                                      <p className="par-line-1 text-center">Male</p>
+                                      <p className="par-line-1 text-center">
+                                        {data && data[index].STATUS_ACCOUNT !== 2 ? 'Active' : 'Disable'}
+                                      </p>
                                     </td>
                                     <td className={`${styles['tier']}`}>
                                       <div className="d-flex justify-content-center">
-                                        <div
-                                          className={`${styles['bronze-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        {data && data[index].DIEM_THUONG  <= 200 ? ( 
+                                          <>                                       
+                                        <div className={`${styles['bronze-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
                                         >
                                           Bronze
                                         </div>
                                         <div
                                           className={`${styles['bronze-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
                                         >
-                                          123
+                                         {data && data[index].DIEM_THUONG}
                                         </div>
+                                        </>) : (data[index].DIEM_THUONG <=  400 && data[index].DIEM_THUONG >200 ) ? (<><div className={`${styles['silver-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        >
+                                          Silver
+                                        </div>
+                                        <div
+                                          className={`${styles['silver-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        >
+                                         {data && data[index].DIEM_THUONG}
+                                        </div></>):(<><div className={`${styles['gold-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        >
+                                          Gold
+                                        </div>
+                                        <div
+                                          className={`${styles['gold-tier']} bg-gray p-1 pr-3 pl-3 rounded text-bold-normal text-center`}
+                                        >
+                                         {data && data[index].DIEM_THUONG}
+                                        </div></>)}
+
                                       </div>
+                                    </td>
+                                    <td className="">
+                                      <button
+                                        className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
+                                        data-toggle="modal"
+                                        data-target="#showCoin"
+                                        onClick={() => {
+                                          setIndexDetail(index);
+                                          setCoinIndex(data[index].TEN_TK);
+                                          indexDetail_clone = index;
+                                          const newData = data[index];
+                                        }}
+                                        style={{ width: '100%' }}
+                                      >
+                                        {data && Number(data[index].COIN.toFixed(2))}
+                                      </button>
                                     </td>
                                     <td className="">
                                       <div className={`${styles['tier']} d-flex justify-content-center`}>
@@ -238,17 +309,17 @@ function ManageCustomers({ children }) {
                                             const newData = data[index];
                                             setElementModalEdit(ElementEditCustomer(newData, indexDetail_clone));
                                             setDataEditing(newData);
-                                            setDataEdited({ makh: data[index].TEN_TK, name: '', email: '', sdt: '', date: '', });
+                                            setDataEdited({
+                                              makh: data[index].TEN_TK,
+                                              name: '',
+                                              email: '',
+                                              sdt: '',
+                                              date: '',
+                                              status: '',
+                                            });
                                           }}
                                         >
                                           Edit
-                                        </button>
-                                        <button
-                                          className="btn bg-gray ml-2 p-1 pr-3 pl-3 rounded text-bold-normal btn-delete"
-                                          data-toggle="modal"
-                                          data-target="#deleteCustomerModal"
-                                        >
-                                          Delete
                                         </button>
                                       </div>
                                     </td>
@@ -409,6 +480,55 @@ function ManageCustomers({ children }) {
               <button type="button" className="btn btn-danger">
                 Delete
               </button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade"
+        id="showCoin"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="showCoinLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="showCoinLabel">
+                Status
+              </h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              {coin !== undefined &&
+                Object.keys(coin).map((index) => {
+                  if (coin[index].MA_KHACH === coinIndex) {
+                    let use = 0;
+                    let total = Number(
+                      (
+                        coin[index].TONGTIEN +
+                        coin[index].PHI_GIAO_HANG -
+                        coin[index].GIAM_GIA -
+                        coin[index].GIAM_GIA_GIAO_HANG
+                      ).toFixed(2),
+                    );
+                    if (coin[index].GIAM_GIA > 0) use = coin[index].GIAM_GIA;
+                    total = Number((total / 100).toFixed(2));
+                    return (
+                      <p>
+                        {FormatDate(coin[index].NGAYTAO)}: RECEIVE: {total}, USE: {use}
+                      </p>
+                    );
+                  }
+                })}
+            </div>
+            <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">
                 Close
               </button>

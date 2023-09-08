@@ -21,6 +21,7 @@ function ManageOrders({ children }) {
   useEffect(() => {
     const fetchApi = async () => {
       let result = await ManageOrdersServices.GetAllOrders();
+      console.log(result);
       setOrderData(result);
     };
     fetchApi();
@@ -385,7 +386,7 @@ function ManageOrders({ children }) {
                     <div>
                       <div className="d-flex">
                         <span className="text-gray">Customer:</span>
-                        <span className="text-bold-normal ml-1">{orderdata[0].HO_TEN}</span>
+                        <span className="text-bold-normal ml-1">{selectedorder[0].HO_TEN}</span>
                       </div>
                       <div className="d-flex">
                         <span className="text-gray">Shipping address:</span>
