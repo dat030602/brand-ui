@@ -156,8 +156,8 @@ function Checkout({ setDataModal, handleCloseModal }) {
             progress: undefined,
             theme: 'light',
           });
-          window.location.href = '/orders-history';
           window.open(res.data.linkPayment, '_blank', 'noopener,noreferrer');
+          window.location.href = '/orders-history';
         } else {
           toast.error('Error while creating order.\n Please try again', {
             position: 'top-right',
