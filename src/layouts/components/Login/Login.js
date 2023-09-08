@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import * as AuthenticationServices from '~/services/AuthenticationServices';
-
 import styles from './Login.module.scss';
 import { eraseCookie, setCookie } from '~/utils/cookies';
 
@@ -38,21 +39,43 @@ function Login({ children }) {
       window.location.href = '/';
     } else {
       if (dataInput.user !== '' && dataInput.password !== '') {
-        console.log(dataInput);
         const result = await AuthenticationServices.Login(dataInput);
-        if (result.data.returnValue === 1) {
-          eraseCookie('Name');
-          setCookie('Name', result.data.recordset[0].HO_TEN, 30);
-          setCookie('Username', result.data.recordset[0].TEN_TK, 30);
-          setCookie('Token', result.data.recordset[0].TOKEN, 30);
-          window.location.href = '/';
+        if (result.data.recordsets !== []) {
+          if (result.data.returnValue === 1) {
+            toast.success('Login successfully', {
+              position: 'top-right',
+              autoClose: 5000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'light',
+            });
+            eraseCookie('Name');
+            setCookie('Name', result.data.recordset[0].HO_TEN, 30);
+            setCookie('Username', result.data.recordset[0].TEN_TK, 30);
+            setCookie('Token', result.data.recordset[0].TOKEN, 30);
+            window.location.href = '/';
+          } else {
+            setTextError((pre) => {
+              var newData = { ...pre };
+              newData.fill.username = false;
+              newData.fill.password = false;
+              newData.cantRequest = true;
+              return newData;
+            });
+          }
         } else {
-          setTextError((pre) => {
-            var newData = { ...pre };
-            newData.fill.username = false;
-            newData.fill.password = false;
-            newData.cantRequest = true;
-            return newData;
+          toast.error('Login error', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
           });
         }
       } else {
@@ -170,6 +193,18 @@ function Login({ children }) {
             </div>
           </div>
         </div>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </>
   );

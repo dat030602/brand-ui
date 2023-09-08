@@ -61,6 +61,8 @@ const routes = {
   },
   privateRoutes: [
     { path: config.routes.Dashboard, components: DashboardPage, layout: AdminLayout },
+    { path: config.routes.Dashboard2, components: DashboardPage, layout: AdminLayout },
+
     { path: config.routes.ManageProducts, components: ManageProductsPage, layout: AdminLayout },
     { path: config.routes.ManageCustomers, components: ManageCustomersPage, layout: AdminLayout },
     { path: config.routes.ManageOrders, components: ManageOrdersPage, layout: AdminLayout },

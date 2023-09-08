@@ -12,6 +12,8 @@ const routes = {
   ProfileSetting: 'personal/edit',
   HotOffers: 'hot-offers/:id',
   Dashboard: '/',
+  Dashboard2: '/dashboard',
+
   ManageProducts: 'manage-products',
   ManageCustomers: 'manage-customers',
   ManageOrders: 'manage-orders',

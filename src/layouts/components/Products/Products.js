@@ -389,7 +389,7 @@ function Products({ children }) {
                               }}
                             ></div>
                           </a>
-                          <div className={`${styles['product-content']} p-3 d-flex`}>
+                          <div className={`${styles['product-content']} p-3 d-flex justify-content-between`}>
                             <a
                               href={`/product/${data[index].MA_SP[0]}`}
                               className={`${styles['product-content-cover']} pb-2`}

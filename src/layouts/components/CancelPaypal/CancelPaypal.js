@@ -20,9 +20,9 @@ function CancelPayPal({ children }) {
     await CancelPayPalApi(data).then((res) => {
       if (res.data.status === 'success') {
         let id = res.data.id.replace(/\D/g, '');
-        linkTo(`/OrdersHistory`);
+        linkTo(`/orders-history`);
       } else {
-        linkTo('/');
+        linkTo('/orders-history');
         toast.error(`${res.data.message}`, {
           position: 'top-right',
           autoClose: 5000,

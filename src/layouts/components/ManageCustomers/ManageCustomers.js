@@ -3,19 +3,25 @@ import React, { useEffect, useState } from 'react';
 import styles from './ManageCustomers.module.scss';
 import { Image } from '~/components/Image';
 import * as ManageCustomersServices from '~/services/ManageCustomersServices';
+import { FormatDate } from '~/utils/FormatDate';
 
 function ManageCustomers({ children }) {
   const [data, setData] = useState();
+  const [coin, setCoin] = useState();
+
   const [indexDetail, setIndexDetail] = useState(0);
   var indexDetail_clone = 0;
   const [elementModalEdit, setElementModalEdit] = useState();
   const [dataEditing, setDataEditing] = useState();
   const [dataedited, setDataEdited] = useState();
+  const [coinIndex, setCoinIndex] = useState();
 
   useEffect(() => {
     const fetchApi = async () => {
       let result = await ManageCustomersServices.GetAllCustomers();
-      setData(result);
+      setData(result[0]);
+      setCoin(result[1]);
+      console.log(result[1][0]);
     };
     fetchApi();
   }, []);
@@ -121,6 +127,7 @@ function ManageCustomers({ children }) {
       </div>
     );
   };
+
   return (
     <>
       <nav className={`${styles['side-menu']} bg-w border`}>
@@ -218,6 +225,7 @@ function ManageCustomers({ children }) {
                                 <th className="text-center">Date of birth</th>
                                 <th className="text-center">Status</th>
                                 <th className="text-center">Membership tiers</th>
+                                <th className="text-center">Coin</th>
                                 <th className="text-center">Actions</th>
                               </tr>
                             </thead>
@@ -272,6 +280,22 @@ function ManageCustomers({ children }) {
                                         </div></>)}
 
                                       </div>
+                                    </td>
+                                    <td className="">
+                                      <button
+                                        className="btn bg-gray p-1 pr-3 pl-3 rounded text-bold-normal btn-edit"
+                                        data-toggle="modal"
+                                        data-target="#showCoin"
+                                        onClick={() => {
+                                          setIndexDetail(index);
+                                          setCoinIndex(data[index].TEN_TK);
+                                          indexDetail_clone = index;
+                                          const newData = data[index];
+                                        }}
+                                        style={{ width: '100%' }}
+                                      >
+                                        {data && Number(data[index].COIN.toFixed(2))}
+                                      </button>
                                     </td>
                                     <td className="">
                                       <div className={`${styles['tier']} d-flex justify-content-center`}>
@@ -456,6 +480,55 @@ function ManageCustomers({ children }) {
               <button type="button" className="btn btn-danger">
                 Delete
               </button>
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="modal fade"
+        id="showCoin"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="showCoinLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="showCoinLabel">
+                Status
+              </h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              {coin !== undefined &&
+                Object.keys(coin).map((index) => {
+                  if (coin[index].MA_KHACH === coinIndex) {
+                    let use = 0;
+                    let total = Number(
+                      (
+                        coin[index].TONGTIEN +
+                        coin[index].PHI_GIAO_HANG -
+                        coin[index].GIAM_GIA -
+                        coin[index].GIAM_GIA_GIAO_HANG
+                      ).toFixed(2),
+                    );
+                    if (coin[index].GIAM_GIA > 0) use = coin[index].GIAM_GIA;
+                    total = Number((total / 100).toFixed(2));
+                    return (
+                      <p>
+                        {FormatDate(coin[index].NGAYTAO)}: RECEIVE: {total}, USE: {use}
+                      </p>
+                    );
+                  }
+                })}
+            </div>
+            <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">
                 Close
               </button>

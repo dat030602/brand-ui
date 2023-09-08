@@ -29,6 +29,8 @@ function Checkout({ setDataModal, handleCloseModal }) {
   const [tax, setTax] = useState(0);
   const [shipping_discount, setShippingDiscount] = useState(0);
   const [discount, setDiscount] = useState(0);
+  const [coinChoose, setCoinChoose] = useState(false);
+
   const [addressShip, setAddressShip] = useState({
     id: -1,
     full_info: '',
@@ -123,7 +125,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
       index_address: addressShip.index,
       shipping_discount_id: idVoucher,
       payment_method: typePayment,
-      is_Use_Coin: false,
+      is_Use_Coin: coinChoose,
     };
     const list_Item_Order = [];
     data.map((product) => {
@@ -139,6 +141,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
       data_User,
       list_Item_Order,
     };
+    console.log(paymentData);
     if (typePayment === 'paypal') {
       await Payment(paymentData).then((res) => {
         if (res.data.status === 'success') {
@@ -153,7 +156,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
             progress: undefined,
             theme: 'light',
           });
-          linkTo('/');
+          linkTo('/orders-history');
           window.open(res.data.linkPayment, '_blank', 'noopener,noreferrer');
         } else {
           toast.error('Error while creating order.\n Please try again', {
@@ -184,7 +187,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
             progress: undefined,
             theme: 'light',
           });
-          linkTo('/');
+          linkTo('/orders-history');
           window.open(res.data.linkVnPay, '_blank', 'noopener,noreferrer');
         } else {
           toast.error('Error while creating order.\n Please try again', {
@@ -275,6 +278,7 @@ function Checkout({ setDataModal, handleCloseModal }) {
                     setShipping={setShipping}
                     setAddressShip={setAddressShip}
                     setIdVoucher={setIdVoucher}
+                    setCoinChoose={setCoinChoose}
                   />
                 )}
                 <ToastContainer
