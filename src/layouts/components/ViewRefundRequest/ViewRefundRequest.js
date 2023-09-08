@@ -27,7 +27,7 @@ function ViewRefundRequest({ children }) {
       console.log(setOrderRefundRequest);
       let result2 = await RefundOrdersServices.GetRefundDetail(orderID);
       setRefundDetail(result2);
-      console.log('begin', result2);
+      console.log('begin', result2, 'end', refunddetail);
     };
     fetchApi();
   }, []);
